@@ -33,11 +33,11 @@ public class AuthenticationController {
             //add cookie
             Cookie cookie =new Cookie("jwt",token);
             cookie.setDomain("localhost");
-            cookie.setHttpOnly(true);
+            cookie.setHttpOnly(false);
             cookie.setPath("/");
-            cookie.setMaxAge(-1);
+            cookie.setMaxAge(24*60*60);
             httpServletResponse.addCookie(cookie);
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok("Login success");
         }catch (UsernameNotFoundException | BadCredentialsException ex){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
         }
