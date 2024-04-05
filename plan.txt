@@ -1,0 +1,45 @@
+
+
+* check lại các kí tự đúng với tên bảng 	[MINH]
+----
+api get 
+* customer 					[Hai]
+	add customer (-id)	
+	edit customer
+	delelte customer
+* seller
+	add seller (-id)
+	edit seller (-update_at,create_at)
+	delelte seller(+id)
+* product
+	add product (-id,create_at,update_at)	[MINH]
+	edit product (-update_at,create_at)
+	delelte product(+id)
+---------
+update: 					[MINH]
+-(customer)
+* debt 
+-(Order)
+*payment
+-----------
+
+
+
+-- tu tu
++ Order 
+	add Order (-id,create_at,update_at)
+	edit Order (-update_at,create_at)
+	delelte Order(+id)
++ OrderDetails
+	add orderDetails (-id)
+	edit orderDetails
+	delelte orderDetails(+id)
+
+api post
++ ProductOrder(
+	ProductOrder(-id,createAt,updateAt,TotalAmount)
+),ProductOrderDetail[](
+	ProductOrderDetails(-id)
+) ~ body bao gồm 2 cái trên
++ 	
+
