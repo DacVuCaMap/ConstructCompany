@@ -5,8 +5,9 @@ import lombok.Data;
 
 import java.util.Date;
 
-@Table(name = "product")
+
 @Entity
+@Table(name = "product")
 @Data
 public class Product {
     @Id

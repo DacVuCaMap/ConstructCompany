@@ -16,12 +16,14 @@ public class Customer {
 
     @Column(name = "companyName")
     private String companyName;
-    @Column(name = "position")
-    private String position;
+
     @Column(name = "address")
     private String address;
     @Column(name = "taxCode")
     private String taxCode;
+
+    @Column(name = "debt")
+    private Double debt;
     @Column(name = "create_at")
     private Date create_at;
 }

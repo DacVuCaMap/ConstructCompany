@@ -15,8 +15,7 @@ public class Seller {
     private Long id;
     @Column(name = "companyName")
     private String companyName;
-    @Column(name = "position")
-    private String position;
+
     @Column(name = "address")
     private String address;
     @Column(name = "taxCode")

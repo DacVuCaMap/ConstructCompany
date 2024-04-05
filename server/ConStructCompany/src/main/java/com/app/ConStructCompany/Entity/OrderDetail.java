@@ -11,12 +11,13 @@ public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "ordId")
-    @ManyToOne
-    @JoinColumn(name = "id")
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ordId")
     private Order order;
 
-    @Column(name = "proId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "proId")
     private Product product;
 
     @Column(name = "materialWeight")

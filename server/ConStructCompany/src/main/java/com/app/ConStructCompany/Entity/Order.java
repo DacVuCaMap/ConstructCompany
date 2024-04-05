@@ -2,16 +2,21 @@ package com.app.ConStructCompany.Entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @Data
 public class Order {
     @Id
-    @Column(name = "id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "ordCode")
+    @UniqueElements
+    private String ordCode;
 
     @Column(name = "representativeCustomer")
     private String representativeCustomer;
@@ -22,14 +27,14 @@ public class Order {
     @Column(name = "positionCustomer")
     private String positionCustomer;
 
-    @Column(name = "cusId")
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "cusId")
     private Customer customer;
 
-    @Column(name = "sellerId")
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "sellerId")
     private Seller seller;
 
     @Column(name="totalCost")
@@ -40,6 +45,9 @@ public class Order {
 
     @Column(name = "totalAmount")
     private Double totalAmount;
+
+    @Column(name = "payment")
+    private Double payment;
 
     @Column(name = "update_at")
     private Date update_at;
