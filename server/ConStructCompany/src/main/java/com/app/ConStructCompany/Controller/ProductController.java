@@ -4,6 +4,7 @@ import com.app.ConStructCompany.Entity.Product;
 import com.app.ConStructCompany.Request.ProductAddRequest;
 import com.app.ConStructCompany.Request.ProductEditRequest;
 import com.app.ConStructCompany.Service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +18,15 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/add-product")
-    public ResponseEntity<?> addProduct(@RequestBody ProductAddRequest productAddRequest){
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addProduct(@RequestBody @Valid ProductAddRequest productAddRequest){
         Product product = productService.addProduct(productAddRequest);
         return ResponseEntity.ok(product);
     }
 
-    @PutMapping("/edit-product")
-    public ResponseEntity<?> editProduct(@RequestBody ProductEditRequest productEditRequest){
+    @PutMapping("/edit")
+    public ResponseEntity<?> editProduct(@RequestBody @Valid ProductEditRequest productEditRequest){
         Product product = productService.editProduct(productEditRequest);
         return ResponseEntity.ok(product);
     }
