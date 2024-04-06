@@ -17,13 +17,13 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add-product")
     public ResponseEntity<?> addProduct(@RequestBody ProductAddRequest productAddRequest){
         Product product = productService.addProduct(productAddRequest);
         return ResponseEntity.ok(product);
     }
 
-    @PutMapping("/edit")
+    @PutMapping("/edit-product")
     public ResponseEntity<?> editProduct(@RequestBody ProductEditRequest productEditRequest){
         Product product = productService.editProduct(productEditRequest);
         return ResponseEntity.ok(product);

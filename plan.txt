@@ -1,9 +1,16 @@
 
-
+* sửa lại create product không ghi create_At		
+* Bổ sung toltalPayment(tổng tiền thanh toán)
 ----
 -get API
-* get 
----------
+* get product (api/product/get/product?filter=&size=&page=)
+	-sắp xếp theo mặc định || mới create || nhiều invetory || nhiều price 
+	- luôn trả thêm totalPage
+
+* get customer (.. nhu tren)
+	-sắp xếp theo mặc định || mới create || nhiều debt || nhiều totalPayment
+	- luôn trả thêm totalPage
+---------------------------------------------------
 
 -----------
 
