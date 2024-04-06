@@ -2,6 +2,8 @@ package com.app.ConStructCompany.Controller;
 
 import com.app.ConStructCompany.Request.AddCustomerRequest;
 import com.app.ConStructCompany.Request.EditCustomerRequest;
+import com.app.ConStructCompany.Request.GetCustomersRequest;
+import com.app.ConStructCompany.Response.GetCustomersResponse;
 import com.app.ConStructCompany.Response.PostCustomerResponse;
 import com.app.ConStructCompany.Service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -26,5 +28,10 @@ public class CustomerController {
     @PostMapping("/delete-customer")
     public PostCustomerResponse deleteCustomer(@RequestParam Long id){
         return customerService.deleteCustomer(id);
+    }
+
+    @GetMapping("/list")
+    public GetCustomersResponse getCustomers(GetCustomersRequest getCustomersRequest){
+        return new GetCustomersResponse(customerService.getCustomers(getCustomersRequest));
     }
 }

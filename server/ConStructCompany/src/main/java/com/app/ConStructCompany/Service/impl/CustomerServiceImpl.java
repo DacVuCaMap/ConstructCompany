@@ -2,15 +2,14 @@ package com.app.ConStructCompany.Service.impl;
 
 import com.app.ConStructCompany.Entity.Customer;
 import com.app.ConStructCompany.Repository.CustomerRepository;
-import com.app.ConStructCompany.Request.AddCustomerRequest;
-import com.app.ConStructCompany.Request.CustomerRequest;
-import com.app.ConStructCompany.Request.DeleteCustomerRequest;
-import com.app.ConStructCompany.Request.EditCustomerRequest;
+import com.app.ConStructCompany.Request.*;
 import com.app.ConStructCompany.Response.PostCustomerResponse;
 import com.app.ConStructCompany.Service.CustomerService;
 import com.app.ConStructCompany.utils.DateTimeUtils;
-import com.app.ConStructCompany.utils.ValidateUtils;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,6 +89,24 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setDeletedAt(DateTimeUtils.getCurrentDate());
         customerRepository.save(customer);
         return new PostCustomerResponse(HttpStatus.OK.value(), "Xóa khách hàng thành công");
+    }
+
+    @Override
+    public Page<Customer> getCustomers(GetCustomersRequest getCustomersRequest) {
+        Sort sort = Sort.unsorted();
+        if (getCustomersRequest.getFilter() != null){
+            sort = Sort.by(getCustomersRequest.getFilter()).descending();
+        }
+
+        PageRequest pageRequest = PageRequest.of(getCustomersRequest.getPageNumber(),
+                getCustomersRequest.getPageSize(),
+                sort);
+        Page<Customer> customers = customerRepository.findAllByIsDeletedFalse(pageRequest);
+        if (!ObjectUtils.isEmpty(getCustomersRequest.getSearch())){
+            customers = customerRepository.findByCompanyNameContainingAndIsDeletedIsFalseOrTaxCodeContainingAndIsDeletedIsFalse(getCustomersRequest.getSearch()
+                    , getCustomersRequest.getSearch(), pageRequest);
+        }
+        return customers;
     }
 
 }

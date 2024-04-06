@@ -20,6 +20,7 @@ public class Customer {
 
     @Column(name = "address")
     private String address;
+
     @Column(name = "taxCode")
     private String taxCode;
 
@@ -38,4 +39,7 @@ public class Customer {
 
     @Column(name = "deleted_at")
     private Date deletedAt;
+
+    @Column(name = "total_payment")
+    private Double totalPayment;
 }
