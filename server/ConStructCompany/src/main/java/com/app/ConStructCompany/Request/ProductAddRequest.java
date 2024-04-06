@@ -12,6 +12,8 @@ public class ProductAddRequest {
     private String unit;
     @NotBlank(message = "Giá sản phẩm không được để trống")
     private double price;
+    @NotBlank(message = "Giá trị tồn kho không được để trống")
+    private double inventory;
 
     private String description;
 
