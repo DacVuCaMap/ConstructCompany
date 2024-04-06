@@ -1,26 +1,10 @@
 
 
-* check lại các kí tự đúng với tên bảng 	[MINH]
 ----
-api get 
-* customer 					[Hai]
-	add customer (-id)	
-	edit customer
-	delelte customer
-* seller
-	add seller (-id)
-	edit seller (-update_at,create_at)
-	delelte seller(+id)
-* product
-	add product (-id,create_at,update_at)	[MINH]
-	edit product (-update_at,create_at)
-	delelte product(+id)
+-get API
+* get 
 ---------
-update: 					[MINH]
--(customer)
-* debt 
--(Order)
-*payment
+
 -----------
 
 
@@ -41,5 +25,7 @@ api post
 ),ProductOrderDetail[](
 	ProductOrderDetails(-id)
 ) ~ body bao gồm 2 cái trên
-+ 	
++ 
+
+post add,edit,delete customer,product (api/customer/add-customer)	
 
