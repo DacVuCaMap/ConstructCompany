@@ -19,13 +19,13 @@ public class ProductController {
     }
 
 
-    @PostMapping("/add")
+    @PostMapping("/add-product")
     public ResponseEntity<?> addProduct(@RequestBody @Valid ProductAddRequest productAddRequest){
         Product product = productService.addProduct(productAddRequest);
         return ResponseEntity.ok(product);
     }
 
-    @PutMapping("/edit")
+    @PutMapping("/edit-product")
     public ResponseEntity<?> editProduct(@RequestBody @Valid ProductEditRequest productEditRequest){
         Product product = productService.editProduct(productEditRequest);
         return ResponseEntity.ok(product);
