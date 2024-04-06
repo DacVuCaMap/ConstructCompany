@@ -1,7 +1,7 @@
 package com.app.ConStructCompany.Entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 
@@ -9,8 +9,11 @@ import java.util.Date;
 @Entity
 @Table(name = "product")
 @Data
+@Getter
+@Setter
 public class Product {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -31,4 +34,6 @@ public class Product {
 
     @Column(name = "create_at")
     private Date create_at;
+
+
 }
