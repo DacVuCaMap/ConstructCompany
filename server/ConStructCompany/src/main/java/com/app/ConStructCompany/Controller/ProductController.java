@@ -50,19 +50,17 @@ public class ProductController {
             Page<Product> productPage = productService.findByDeletedFalse(pageRequest);
             return ResponseEntity.ok(productPage);
         }
-        if(("create").equals(filter)){
-            PageRequest pageRequest = PageRequest.of(page,size, Sort.by("createAt").descending());
-            Page<Product> productPage = productService.findByDeletedFalse(pageRequest);
+        if(filter=="create"){
+            PageRequest pageRequest = PageRequest.of(page,size, Sort.by("create_at").descending());
+            Page<Product> productPage = productService.findAll(pageRequest);
             return ResponseEntity.ok(productPage);
         }
-
-        if(filter.equals("inventory")){
+        if(filter=="inventory"){
             PageRequest pageRequest = PageRequest.of(page,size, Sort.by("inventory").descending());
             Page<Product> productPage = productService.findByDeletedFalse(pageRequest);
             return ResponseEntity.ok(productPage);
         }
-
-        if(filter.equals("price")){
+        if(filter=="price"){
             PageRequest pageRequest = PageRequest.of(page,size, Sort.by("price").descending());
             Page<Product> productPage = productService.findByDeletedFalse(pageRequest);
             return ResponseEntity.ok(productPage);
