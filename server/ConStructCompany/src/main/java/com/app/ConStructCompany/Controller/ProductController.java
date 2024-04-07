@@ -21,7 +21,6 @@ public class ProductController {
         this.productService = productService;
     }
 
-
     @PostMapping("/add-product")
     public ResponseEntity<?> addProduct(@RequestBody @Valid ProductAddRequest productAddRequest){
         Product product = productService.addProduct(productAddRequest);
@@ -48,25 +47,35 @@ public class ProductController {
         ){
         if(filter==null || filter.isEmpty()){
             PageRequest pageRequest = PageRequest.of(page,size);
-            Page<Product> productPage = productService.findAll(pageRequest);
+            Page<Product> productPage = productService.findByDeletedFalse(pageRequest);
             return ResponseEntity.ok(productPage);
         }
-        if(filter.equals("create")){
+        if(filter=="create"){
             PageRequest pageRequest = PageRequest.of(page,size, Sort.by("create_at").descending());
             Page<Product> productPage = productService.findAll(pageRequest);
             return ResponseEntity.ok(productPage);
         }
-        if(filter.equals("inventory")){
+        if(filter=="inventory"){
             PageRequest pageRequest = PageRequest.of(page,size, Sort.by("inventory").descending());
-            Page<Product> productPage = productService.findAll(pageRequest);
+            Page<Product> productPage = productService.findByDeletedFalse(pageRequest);
             return ResponseEntity.ok(productPage);
         }
-        if(filter.equals("price")){
+        if(filter=="price"){
             PageRequest pageRequest = PageRequest.of(page,size, Sort.by("price").descending());
-            Page<Product> productPage = productService.findAll(pageRequest);
+            Page<Product> productPage = productService.findByDeletedFalse(pageRequest);
             return ResponseEntity.ok(productPage);
         }
         return ResponseEntity.badRequest().body("Invalid filter parameter.");
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchProductByName(
+            @RequestParam("name") String name,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size){
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Product> productPage = productService.findByDeletedFalseAndNameContaining(name, pageRequest);
+        return ResponseEntity.ok(productPage);
     }
 }
 

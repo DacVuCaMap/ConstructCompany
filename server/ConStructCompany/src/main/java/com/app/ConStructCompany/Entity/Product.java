@@ -33,10 +33,11 @@ public class Product {
     private String description;
 
     @Column(name = "update_at")
-    private Date update_at;
+    private Date updateAt;
 
     @Column(name = "create_at")
-    private Date create_at;
+    private Date createAt;
 
-
+    @Column(name = "deleted")
+    private boolean deleted;
 }
