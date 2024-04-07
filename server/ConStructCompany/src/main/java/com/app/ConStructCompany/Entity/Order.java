@@ -14,22 +14,22 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ordCode")
+    @Column(name = "order_code")
     @UniqueElements
-    private String ordCode;
+    private String orderCode;
 
-    @Column(name = "representativeCustomer")
+    @Column(name = "representative_customer")
     private String representativeCustomer;
 
-    @Column(name = "representativeSeller")
+    @Column(name = "representative_seller")
     private String representativeSeller;
 
-    @Column(name = "positionCustomer")
+    @Column(name = "position_customer")
     private String positionCustomer;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cusId")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
 
@@ -37,13 +37,13 @@ public class Order {
     @JoinColumn(name = "sellerId")
     private Seller seller;
 
-    @Column(name="totalCost")
+    @Column(name="total_cost")
     private Double totalCost;
 
     @Column(name = "tax")
     private String tax;
 
-    @Column(name = "totalAmount")
+    @Column(name = "total_amount")
     private Double totalAmount;
 
     @Column(name = "payment")

@@ -15,12 +15,13 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "companyName")
+    @Column(name = "company_name")
     private String companyName;
 
     @Column(name = "address")
     private String address;
-    @Column(name = "taxCode")
+
+    @Column(name = "tax_code")
     private String taxCode;
 
     @Column(name = "debt")
@@ -38,4 +39,7 @@ public class Customer {
 
     @Column(name = "deleted_at")
     private Date deletedAt;
+
+    @Column(name = "total_payment")
+    private Double totalPayment;
 }
