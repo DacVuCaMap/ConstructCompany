@@ -40,7 +40,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body("Sản phẩm đã được xóa thành công");
     }
 
-    @GetMapping("/api/product/get")
+    @GetMapping("/get")
     public ResponseEntity<?> getProducts(
            @RequestParam(value = "size", required = false) Integer size,
            @RequestParam(value = "page", required = false) Integer page,
@@ -51,17 +51,17 @@ public class ProductController {
             Page<Product> productPage = productService.findAll(pageRequest);
             return ResponseEntity.ok(productPage);
         }
-        if(filter=="create"){
+        if(filter.equals("create")){
             PageRequest pageRequest = PageRequest.of(page,size, Sort.by("create_at").descending());
             Page<Product> productPage = productService.findAll(pageRequest);
             return ResponseEntity.ok(productPage);
         }
-        if(filter=="inventory"){
+        if(filter.equals("inventory")){
             PageRequest pageRequest = PageRequest.of(page,size, Sort.by("inventory").descending());
             Page<Product> productPage = productService.findAll(pageRequest);
             return ResponseEntity.ok(productPage);
         }
-        if(filter=="price"){
+        if(filter.equals("price")){
             PageRequest pageRequest = PageRequest.of(page,size, Sort.by("price").descending());
             Page<Product> productPage = productService.findAll(pageRequest);
             return ResponseEntity.ok(productPage);
