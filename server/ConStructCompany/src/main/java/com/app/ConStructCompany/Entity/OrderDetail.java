@@ -13,14 +13,14 @@ public class OrderDetail {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ordId")
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "proId")
+    @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name = "materialWeight")
+    @Column(name = "material_weight")
     private Double materialWeight;
 
     @Column(name = "price")
