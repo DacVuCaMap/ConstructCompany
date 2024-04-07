@@ -30,7 +30,7 @@ public class CustomerController {
         return customerService.deleteCustomer(id);
     }
 
-    @GetMapping("/list")
+    @GetMapping("/get")
     public GetCustomersResponse getCustomers(GetCustomersRequest getCustomersRequest){
         return new GetCustomersResponse(customerService.getCustomers(getCustomersRequest));
     }
