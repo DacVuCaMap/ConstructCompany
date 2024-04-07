@@ -27,8 +27,8 @@ public class ProductService {
         product.setUnit(productAddRequest.getUnit());
         product.setPrice(productAddRequest.getPrice());
         product.setDescription(productAddRequest.getDescription());
-        product.setCreate_at(new Date());
-
+        product.setCreateAt(new Date());
+        product.setDeleted(false);
         Product saveProduct = productRepository.save(product);
         return saveProduct;
     }
@@ -40,7 +40,7 @@ public class ProductService {
         product.setUnit(productEditRequest.getUnit());
         product.setPrice(productEditRequest.getPrice());
         product.setDescription(productEditRequest.getDescription());
-        product.setUpdate_at(new Date());
+        product.setUpdateAt(new Date());
         Product productSaved = productRepository.save(product);
         return productSaved;
     }
@@ -49,14 +49,20 @@ public class ProductService {
         // Kiểm tra xem sản phẩm có tồn tại trong cơ sở dữ liệu không
         if (productRepository.existsById(id)) {
             // Nếu sản phẩm tồn tại, thì xóa sản phẩm
-            productRepository.deleteById(id);
+            Product product = productRepository.findById(id).get();
+            product.setDeleted(true);
         } else {
             // Nếu sản phẩm không tồn tại
             throw new RuntimeException("Sản phẩm không tồn tại");
         }
     }
 
-    public Page<Product> findAll(Pageable pageable){
-        return productRepository.findAllBy(pageable);
+    public Page<Product> findByDeletedFalse(Pageable pageable){
+        return productRepository.findByDeletedFalse(pageable);
     }
+
+    public Page<Product> findByDeletedFalseAndNameContaining(String name, Pageable pageable){
+        return productRepository.findByProNameContainingAndDeletedFalse(name, pageable);
+    }
+
 }
