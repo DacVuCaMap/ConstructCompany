@@ -5,6 +5,8 @@ import com.app.ConStructCompany.Repository.ProductRepository;
 import com.app.ConStructCompany.Request.ProductAddRequest;
 import com.app.ConStructCompany.Request.ProductEditRequest;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -26,7 +28,6 @@ public class ProductService {
         product.setPrice(productAddRequest.getPrice());
         product.setDescription(productAddRequest.getDescription());
         product.setCreate_at(new Date());
-        product.setCreate_at(null);
 
         Product saveProduct = productRepository.save(product);
         return saveProduct;
@@ -53,5 +54,9 @@ public class ProductService {
             // Nếu sản phẩm không tồn tại
             throw new RuntimeException("Sản phẩm không tồn tại");
         }
+    }
+
+    public Page<Product> findAll(Pageable pageable){
+        return productRepository.findAllBy(pageable);
     }
 }

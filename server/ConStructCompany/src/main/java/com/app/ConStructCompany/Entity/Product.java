@@ -23,6 +23,9 @@ public class Product {
     @Column(name = "unit")
     private String unit;
 
+    @Column(name = "inventory")
+    private Double inventory;
+
     @Column(name = "price")
     private Double price;
 
