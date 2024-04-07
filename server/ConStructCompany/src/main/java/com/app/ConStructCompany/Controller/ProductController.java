@@ -52,7 +52,7 @@ public class ProductController {
         }
         if(filter=="create"){
             PageRequest pageRequest = PageRequest.of(page,size, Sort.by("create_at").descending());
-            Page<Product> productPage = productService.findAll(pageRequest);
+            Page<Product> productPage = productService.findByDeletedFalse(pageRequest);
             return ResponseEntity.ok(productPage);
         }
         if(filter=="inventory"){
