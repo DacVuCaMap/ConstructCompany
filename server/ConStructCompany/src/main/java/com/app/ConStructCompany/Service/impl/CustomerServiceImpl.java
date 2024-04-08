@@ -103,8 +103,8 @@ public class CustomerServiceImpl implements CustomerService {
                 sort);
         Page<Customer> customers = customerRepository.findAllByIsDeletedFalse(pageRequest);
         if (!ObjectUtils.isEmpty(getCustomersRequest.getSearch())){
-            customers = customerRepository.findByCompanyNameContainingAndIsDeletedIsFalseOrTaxCodeContainingAndIsDeletedIsFalse(getCustomersRequest.getSearch()
-                    , getCustomersRequest.getSearch(), pageRequest);
+            customers = customerRepository.findByCompanyNameContainingAndIsDeletedIsFalseOrTaxCodeContainingAndIsDeletedIsFalse(getCustomersRequest.getSearch().toLowerCase()
+                    , getCustomersRequest.getSearch().toLowerCase(), pageRequest);
         }
         return customers;
     }
