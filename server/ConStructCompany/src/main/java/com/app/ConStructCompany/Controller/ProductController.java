@@ -3,8 +3,10 @@ package com.app.ConStructCompany.Controller;
 import com.app.ConStructCompany.Entity.Product;
 import com.app.ConStructCompany.Request.ProductAddRequest;
 import com.app.ConStructCompany.Request.ProductEditRequest;
+import com.app.ConStructCompany.Response.GetProductResponse;
 import com.app.ConStructCompany.Service.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/product")
 public class ProductController {
     private ProductService productService;
+
+
 
     public ProductController(ProductService productService) {
         this.productService = productService;
@@ -45,25 +49,30 @@ public class ProductController {
            @RequestParam(value = "page", required = false) Integer page,
            @RequestParam(value = "filter", required = false) String filter
         ){
+        GetProductResponse getProductResponse = new GetProductResponse();
         if(filter==null || filter.isEmpty()){
             PageRequest pageRequest = PageRequest.of(page,size);
             Page<Product> productPage = productService.findByDeletedFalse(pageRequest);
-            return ResponseEntity.ok(productPage);
+            getProductResponse.setProductPage(productPage);
+            return ResponseEntity.ok(getProductResponse);
         }
         if(filter=="create"){
             PageRequest pageRequest = PageRequest.of(page,size, Sort.by("create_at").descending());
             Page<Product> productPage = productService.findByDeletedFalse(pageRequest);
-            return ResponseEntity.ok(productPage);
+            getProductResponse.setProductPage(productPage);
+            return ResponseEntity.ok(getProductResponse);
         }
         if(filter=="inventory"){
             PageRequest pageRequest = PageRequest.of(page,size, Sort.by("inventory").descending());
             Page<Product> productPage = productService.findByDeletedFalse(pageRequest);
-            return ResponseEntity.ok(productPage);
+            getProductResponse.setProductPage(productPage);
+            return ResponseEntity.ok(getProductResponse);
         }
         if(filter=="price"){
             PageRequest pageRequest = PageRequest.of(page,size, Sort.by("price").descending());
             Page<Product> productPage = productService.findByDeletedFalse(pageRequest);
-            return ResponseEntity.ok(productPage);
+            getProductResponse.setProductPage(productPage);
+            return ResponseEntity.ok(getProductResponse);
         }
         return ResponseEntity.badRequest().body("Invalid filter parameter.");
     }
@@ -73,9 +82,11 @@ public class ProductController {
             @RequestParam("name") String name,
             @RequestParam("page") int page,
             @RequestParam("size") int size){
+        GetProductResponse getProductResponse = new GetProductResponse();
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Product> productPage = productService.findByDeletedFalseAndNameContaining(name, pageRequest);
-        return ResponseEntity.ok(productPage);
+        getProductResponse.setProductPage(productPage);
+        return ResponseEntity.ok(getProductResponse);
     }
 }
 

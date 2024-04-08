@@ -1,0 +1,1 @@
+export const flexResponsive = "lg:flex-row flex-wrap flex-col"
