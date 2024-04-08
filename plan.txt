@@ -1,13 +1,7 @@
 
-update
-	*bổ sung product (private boolean deleted;) , sửa add product bổ sung set deleted false;
----------------------------------------------------
-api search
-	* customer (api/customer/search) (+ taxCode || companyName)
-	* product (api/product/search) (+ productName)
------------
-create table
-	* tạo bảng thống kê 
+fix:
+*sửa đồng nhất về response.data trong getlist [a minh]
+* search lowercase,uppercase các characters [Hai]
 ------------------------
 api post
 *Order

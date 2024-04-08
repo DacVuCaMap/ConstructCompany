@@ -26,11 +26,11 @@ public class ProductService {
         product.setProName(productAddRequest.getProName());
         product.setUnit(productAddRequest.getUnit());
         product.setPrice(productAddRequest.getPrice());
+        product.setInventory(productAddRequest.getInventory());
         product.setDescription(productAddRequest.getDescription());
         product.setCreateAt(new Date());
         product.setDeleted(false);
-        Product saveProduct = productRepository.save(product);
-        return saveProduct;
+        return productRepository.save(product);
     }
 
     public Product editProduct(ProductEditRequest productEditRequest){
