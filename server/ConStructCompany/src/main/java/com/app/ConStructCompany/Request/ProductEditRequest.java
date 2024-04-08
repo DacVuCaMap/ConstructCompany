@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.Date;
@@ -13,13 +14,13 @@ public class ProductEditRequest {
     @NotBlank(message = "ID sản phẩm không được để trống")
     private Long id;
 
-    @NotBlank(message = "Tên sản phẩm không được để trống")
+    @NotNull(message = "Tên sản phẩm không được để trống")
     private String proName;
 
-    @NotBlank(message = "Unit không được để trống")
+    @NotNull(message = "Unit không được để trống")
     private String unit;
 
-    @NotBlank(message = "Giá sản phẩm không được để trống")
+    @NotNull(message = "Giá sản phẩm không được để trống")
     private Double price;
 
 

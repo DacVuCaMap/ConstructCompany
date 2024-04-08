@@ -50,9 +50,9 @@ public class Order {
     private Double payment;
 
     @Column(name = "update_at")
-    private Date update_at;
+    private Date updateAt;
 
     @Column(name = "create_at")
-    private Date create_at;
+    private Date createAt;
 
 }
