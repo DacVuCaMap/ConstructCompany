@@ -13,6 +13,6 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findByDeletedFalse(Pageable pageable);
 
-    Page<Product> findByProNameContainingAndDeletedFalse(String proName, Pageable pageable);
+    Page<Product> findByProNameContainingIgnoreCaseAndDeletedFalse(String proName, Pageable pageable);
 
 }

@@ -62,7 +62,7 @@ public class ProductService {
     }
 
     public Page<Product> findByDeletedFalseAndNameContaining(String name, Pageable pageable){
-        return productRepository.findByProNameContainingAndDeletedFalse(name, pageable);
+        return productRepository.findByProNameContainingIgnoreCaseAndDeletedFalse(name, pageable);
     }
 
 }
