@@ -27,6 +27,9 @@ public class Order {
     @Column(name = "position_customer")
     private String positionCustomer;
 
+    @Column(name = "position_seller")
+    private String positionSeller;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;

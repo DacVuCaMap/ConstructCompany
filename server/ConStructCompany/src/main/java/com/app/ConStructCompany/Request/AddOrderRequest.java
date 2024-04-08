@@ -16,6 +16,8 @@ public class AddOrderRequest {
                 Double.isNaN(order.getTotalAmount()) || order.getTotalAmount() <= 0 ||
                         Double.isNaN(order.getTotalCost()) || order.getTotalCost() <= 0 ||
                         Double.isNaN(order.getTax()) || order.getTax() <= 0 ||
+                        order.getPositionCustomer().isEmpty() ||
+                        order.getPositionSeller().isEmpty() ||
                         order.getRepresentativeCustomer().isEmpty() ||
                         order.getRepresentativeSeller().isEmpty() ||
                         order.getCustomerId() == null ||

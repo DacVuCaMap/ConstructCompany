@@ -54,6 +54,7 @@ public class OrderServiceImpl implements OrderService {
 
             Order order = new Order();
             order.setPositionCustomer(addOrderRequest.getOrder().getPositionCustomer());
+            order.setPositionSeller(addOrderRequest.getOrder().getPositionSeller());
             order.setRepresentativeCustomer(addOrderRequest.getOrder().getRepresentativeCustomer());
             order.setRepresentativeSeller(addOrderRequest.getOrder().getRepresentativeSeller());
             order.setTax(addOrderRequest.getOrder().getTax());

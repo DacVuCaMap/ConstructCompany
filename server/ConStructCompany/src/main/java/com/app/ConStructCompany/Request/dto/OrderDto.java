@@ -7,6 +7,7 @@ public class OrderDto {
     private String representativeCustomer;
     private String representativeSeller;
     private String positionCustomer;
+    private String positionSeller;
     private Double totalCost;
     private Double tax;
     private Double totalAmount;
