@@ -15,7 +15,6 @@ public class Order {
     private Long id;
 
     @Column(name = "order_code")
-    @UniqueElements
     private String orderCode;
 
     @Column(name = "representative_customer")

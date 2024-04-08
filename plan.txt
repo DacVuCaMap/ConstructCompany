@@ -1,29 +1,19 @@
 
+id
+orderCode
+
 fix:
-*sửa đồng nhất về response.data trong getlist [a minh]
 * search lowercase,uppercase các characters [Hai]
+* order post thiếu positionSeller [H]
 ------------------------
-api post
-*Order
-	add (api/order/add-order) 
-		postjson { 
-			order{
-				(-id,orderCode,createAt,updateAt)
-				...
-				cusId(+id),sellerId(+id),
-				...
-				orderDetails[]{
-					(-id,orderId),
-					...
-					proId(+id),
-				}
-			}
+api get
+* order get List(api/order/get?page=&size&filter)
+	-filter mặc định || mới create || !isPayment || isPayment || nhiều toltalAmount 
+	(gửi thêm customer Name luôn)
 
-			}
-
-
-
-
+apit get
+* order get details (api/order/getdetails?id=)
+	
 
 
 

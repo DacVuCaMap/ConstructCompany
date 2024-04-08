@@ -32,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public PostOrderResponse addOrder(AddOrderRequest addOrderRequest) {
+        System.out.println(addOrderRequest);
         try {
             if (!addOrderRequest.isValidRequest()){
                 throw new IllegalArgumentException("Các trường nhập là bắt buộc và nhập giá hoặc thuế phải là số");
@@ -51,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
 
             String latestOrderCode = getLatesOrderCode();
             String newOrderCode = GenerateUtils.generateOrderCode(latestOrderCode);
-
+            System.out.println(newOrderCode);
             Order order = new Order();
             order.setPositionCustomer(addOrderRequest.getOrder().getPositionCustomer());
             order.setPositionSeller(addOrderRequest.getOrder().getPositionSeller());
@@ -88,14 +89,15 @@ public class OrderServiceImpl implements OrderService {
             }
 
             orderDetailRepository.saveAll(orderDetails);
-
-            customer.setDebt(customer.getDebt() + addOrderRequest.getOrder().getTotalAmount());
+            Double debt = customer.getDebt()==null ? 0 : customer.getDebt();
+            customer.setDebt(debt + addOrderRequest.getOrder().getTotalAmount());
             customerRepository.save(customer);
 
             return new PostOrderResponse(HttpStatus.OK.value(), "Thêm đơn hàng thành công");
         }catch (IllegalArgumentException ex) {
             return new PostOrderResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
         } catch (Exception ex) {
+            ex.printStackTrace();
             return new PostOrderResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Đã xảy ra lỗi khi thêm đơn hàng");
         }
     }
