@@ -27,11 +27,9 @@ public class Order {
     @Column(name = "position_customer")
     private String positionCustomer;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sellerId")
@@ -41,13 +39,13 @@ public class Order {
     private Double totalCost;
 
     @Column(name = "tax")
-    private String tax;
+    private Double tax;
 
     @Column(name = "total_amount")
     private Double totalAmount;
 
-    @Column(name = "payment")
-    private Double payment;
+    @Column(name = "is_paymented")
+    private Boolean isPaymented;
 
     @Column(name = "update_at")
     private Date updateAt;
