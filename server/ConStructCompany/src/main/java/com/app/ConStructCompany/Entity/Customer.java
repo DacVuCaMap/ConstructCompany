@@ -42,4 +42,13 @@ public class Customer {
 
     @Column(name = "total_payment")
     private Double totalPayment;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "position_customer")
+    private String positionCustomer;
+
+    @Column(name = "representative_customer")
+    private String representativeCustomer;
 }

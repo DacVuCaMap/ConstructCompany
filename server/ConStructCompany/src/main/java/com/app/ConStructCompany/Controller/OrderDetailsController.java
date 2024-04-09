@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrderDetailsController {
     private final OrderDetailsService orderDetailsService;
     @GetMapping("/{id}")
-    public GetOrderDetailsResponse getOrderDetails(@PathVariable Long orderId){
-        return orderDetailsService.getOrderDetails(orderId);
+    public GetOrderDetailsResponse getOrderDetails(@PathVariable Long id){
+        return orderDetailsService.getOrderDetails(id);
     }
 }
