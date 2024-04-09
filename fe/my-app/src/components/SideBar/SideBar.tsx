@@ -5,12 +5,10 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 
 export default function SideBar() {
-  const [activeLink, setActiveLink] = useState(null);
-
-  const handleClick = (index:any) => {
-    setActiveLink(index);
+  const [activeLink,setActiveLink] = useState(0);
+  const handleClick = (id: number) => {
+    setActiveLink(id);
   };
-
   return (
     <div className="bg-green-900 text-white w-64 fixed h-screen py-4 px-6 flex flex-col overflow-auto">
       <div className="flex items-center mb-6">
@@ -24,9 +22,7 @@ export default function SideBar() {
             <Link
               key={listItem.id}
               href={listItem.url}
-              className={`block py-2 hover:text-green-300 ${
-                activeLink === listItem.id ? 'bg-black' : ''
-              }`}
+              className={`block py-2 hover:text-green-300 ${activeLink === listItem.id ? 'bg-black' : ''}`}
               onClick={() => handleClick(listItem.id)}
             >
               {listItem.title}

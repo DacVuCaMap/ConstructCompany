@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid"
 import "./dataTable.scss"
-import { useState } from "react";
+import Image from "next/image";
 type Props = {
   columns: GridColDef[],
   rows: object[],
@@ -25,10 +25,10 @@ function DataTable(props: Props) {
       return (
         <div className="action h-full flex justify-center items-center">
           <div className="edit" onClick={() => handleEdit(params.row.userId)}>
-            <img src="/view.svg" alt="" />
+            <Image src="/view.svg" width={10} height={10} alt="" />
           </div>
           <div className="delete" onClick={() => handleDelete(params.row.userId)}>
-            <img src="/delete.svg" alt="" />
+            <Image src="/delete.svg" width={10} height={10} alt="" />
           </div>
         </div>
       );

@@ -4,7 +4,9 @@ import LoadingScene from '@/components/LoadingScene';
 import React, { useState } from 'react'
 type FacultyState={
     id: number,
-    companyName: string
+    companyName: string,
+    representativeCustomer:string,
+    positionCustomer:string
 }
 type Props = {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>,
@@ -19,9 +21,12 @@ export default function OpenWindowSearchCus(props: Props) {
         document.body.style.overflow = 'unset';
         props.setOpen(false);
     }
-    const handleSetCus = (itemId:number,itemCompanyName:string) => {
+    const handleSetCus = (item:any) => {
         props.setCustomer({
-            id:itemId,companyName:itemCompanyName
+            id:item.id,
+            companyName:item.companyName,
+            representativeCustomer:item.reprentativeCustomer,
+            positionCustomer:item.positionCustomer
         });
         handleCancel();
     }
@@ -62,15 +67,19 @@ export default function OpenWindowSearchCus(props: Props) {
                                     <th style={{ width: '10%' }}>ID</th>
                                     <th>Tên Công Ty</th>
                                     <th>Mã số Thuế</th>
+                                    <th>Người đại diện</th>
+                                    <th>Chức vụ</th>
                                 </tr>
                             </thead>
                             <tbody>
 
                                 {cusItem.map((item: any) => (
-                                    <tr onClick={() => handleSetCus(item.id,item.companyName )} className="h-10 cursor-pointer hover:bg-gray-400 border-b border-gray-200" key={item.id}>
+                                    <tr onClick={() => handleSetCus(item)} className="h-10 cursor-pointer hover:bg-gray-400 border-b border-gray-200" key={item.id}>
                                         <td>{item.id}</td>
                                         <td>{item.companyName}</td>
                                         <td>{item.taxCode}</td>
+                                        <td>{item.representativeCustomer}</td>
+                                        <td>{item.positionCustomer}</td>
                                     </tr>
                                 ))}
                             </tbody>

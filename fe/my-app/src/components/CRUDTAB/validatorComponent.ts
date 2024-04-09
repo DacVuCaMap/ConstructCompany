@@ -5,6 +5,7 @@ export const productSchema = yup.object().shape({
   unit: yup.string().required("Không để trống"),
   inventory: yup.number().required("Không để trống"),
   price: yup.number().required("Không để trống"),
+  importPrice:yup.number().required("Không để trống"),
   description: yup.string(),
 });
 

@@ -8,7 +8,7 @@ import TableOrder from '../TableOrder/TableOrder';
 import OpenWindowSearchCus from '../OpenWindowSearchCus/OpenWindowSearchCus';
 import { sellerData } from '@/data/data';
 import postData from '@/ApiPattern/PostPattern';
-
+type Cost = { totalCost: number, tax: number, totalAmount: number }
 // Định nghĩa schema validation bằng Yup
 const schema = yup.object().shape({
     customerId: yup.string().required("Không để trống customer"),
@@ -34,9 +34,7 @@ export default function AddOrderProduct() {
     const [customer,setCustomer] = useState<any>();
     const [showWindow, setShowWindow] = useState(false);
     const [orderDetail,setOrderDetail] = useState<any>();
-    const [costItem, setCostItem] = useState<any>({ totalCost: 0, tax: '', totalAmount: 0 });
-    const [checkSubmit,setCheckSubmit] = useState(false);
-    // const [cost,setCost] = useState<any>();
+    const [cost,setCost] = useState<Cost>({totalCost:0,tax:0.1,totalAmount:0});
     const inpRef = useRef(null);
     useEffect(() => {
         if (customer && customer.id) {
@@ -47,16 +45,12 @@ export default function AddOrderProduct() {
         setShowWindow(true);
     }
     // update cost
-    const updateCost = (newCostItem:any)=>{
-        setCostItem(newCostItem);
-    }
     const onSubmit = async (data: any) => {
-        setCheckSubmit(!checkSubmit);
-        console.log(checkSubmit);
+
         let urlPost = process.env.NEXT_PUBLIC_API_URL+'/api/order/add-order'
         console.log(urlPost);
 
-        const dataPost = {order:{...data,...costItem},orderDetails:orderDetail}
+        const dataPost = {order:{...data,...cost},orderDetails:orderDetail}
         console.log("dataPost",dataPost)
 
         const post = await postData(urlPost,dataPost,{});
@@ -105,6 +99,7 @@ export default function AddOrderProduct() {
                                     id="2"
                                     type="text"
                                     placeholder='Người đại diện'
+                                    value={customer?.representativeCustomer}
                                     {...register('representativeCustomer')} />
                                 {errors.representativeCustomer && (
                                     <p className="text-red-500 text-xs italic">{errors.representativeCustomer.message}</p>
@@ -120,6 +115,7 @@ export default function AddOrderProduct() {
                                     id="3"
                                     type="text"
                                     placeholder='Chức vụ người đại diện'
+                                    value={customer?.positionCustomer}
                                     {...register('positionCustomer')} />
                                 {errors.positionCustomer && (
                                     <p className="text-red-500 text-xs italic">{errors.positionCustomer.message}</p>
@@ -154,6 +150,7 @@ export default function AddOrderProduct() {
                                     className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.representativeSeller ? 'border-red-500' : ''}`}
                                     id="1"
                                     type="text"
+                                    value={sellerData.representativeSeller}
                                     placeholder='Người đại diện'
                                     {...register('representativeSeller')} />
                                 {errors.representativeSeller && (
@@ -170,6 +167,7 @@ export default function AddOrderProduct() {
                                     id="1"
                                     type="text"
                                     placeholder='Chức vụ'
+                                    value={sellerData.positionSeller}
                                     {...register('positionSeller')} />
                                 {errors.positionSeller && (
                                     <p className="text-red-500 text-xs italic">{errors.positionSeller.message}</p>
@@ -179,7 +177,7 @@ export default function AddOrderProduct() {
                     </div>
                 </div>
                 <div className='mt-2 mb-2 '>
-                    <TableOrder checkSubmit={checkSubmit} updateCost={updateCost} setOrderDetail={setOrderDetail} />
+                    <TableOrder setCost={setCost} setOrderDetail={setOrderDetail} cost={cost} />
                 </div>
 
 

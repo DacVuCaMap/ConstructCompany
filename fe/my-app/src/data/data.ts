@@ -3,12 +3,12 @@ import { GridColDef } from "@mui/x-data-grid";
 export const sideBarAdmin = [
     {
         id: 1,
-        title: "Chính",
+        title: "Biên Bản",
         listItems: [
             {
                 id: 11,
-                title: "Home",
-                url: "/",
+                title: "Nghiệm thu và xác nhận khối lượng",
+                url: "/invoice",
             },
             {
                 id: 12,
@@ -87,5 +87,7 @@ export const sellerData = {
     id:1
     ,companyName:"CÔNG TY TNHH XÂY DỰNG VÀ THƯƠNG MẠI TIẾN ĐÔNG",
     address:"Thôn Thuận An 1, xã Hữu Văn, Huyện Chương Mỹ, TP Hà Nội",
-    taxCode:"0110128690"
+    taxCode:"0110128690",
+    representativeSeller:"Nguyễn Văn Tiến",
+    positionSeller:"Giám đốc"
 }

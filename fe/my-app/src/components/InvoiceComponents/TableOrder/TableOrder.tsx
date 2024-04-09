@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react'
 import OpenWindowPro from '../OpenWindowSearchCus/OpenWindowPro'
 type Detail = { id: number, productId: number, proName: string, unit: string, materialWeight: number, price: number, isOpen: boolean }
-type Cost = { totalCost: number, tax: string, totalAmount: number }
+type Cost = { totalCost: number, tax: number, totalAmount: number }
 type Props = {
     setOrderDetail: React.Dispatch<React.SetStateAction<Detail[]>>,
-    checkSubmit: boolean,
-    updateCost: (costItem: any) => void
+    setCost : React.Dispatch<React.SetStateAction<Cost>>,
+    cost:Cost
 }
 
 export default function TableOrder(props: Props) {
@@ -15,8 +15,6 @@ export default function TableOrder(props: Props) {
     ]);
     const [product, setProduct] = useState<any>(null);
     let count = 1;
-    var tax = 10;
-    var totalCost = 0;
     const [countItemId, setCountItemId] = useState<number>(2);
     // Hàm thêm hàng mới
     const handleAddRow = () => {
@@ -54,37 +52,37 @@ export default function TableOrder(props: Props) {
         setItems(updatedItems);
     };
     const calculateCost = () => {
-        totalCost = items.reduce((total, item) => {
+        props.cost.totalCost = items.reduce((total, item) => {
             return total + item.materialWeight * item.price;
         }, 0);
-        return totalCost;
+        console.log(numberWithDots(props.cost.totalCost,2))
+        return numberWithDots(props.cost.totalCost,2);
     };
-    const calculateAmount = () => { return totalCost * (100 - tax) / 100 }
     const handleCloseWindow = () => {
         const closeWindowItem = items.map((item) => ({ ...item, isOpen: false }));
         setItems(closeWindowItem);
     }
     useEffect(() => (
         props.setOrderDetail(items)
-    ), [items])
+    ), [items, props])
+    //set product
     useEffect(() => {
         if (product) {
-            console.log(product)
             const updatedItems = items.map(item =>
-                item.id === product.itemId ? { ...item, productId: product.productId, proName: product.proName, isOpen: false } : item
+                item.id === product.itemId ? { ...item,unit:product.unit,price:product.price ,productId: product.productId, proName: product.proName, isOpen: false } : item
             );
             setItems(updatedItems)
         }
-    }, [product])
+    }, [product, items])
     const numberWithDots = (number: number, fixed: number) => {
         let num = parseInt(number.toFixed(fixed));
         return num.toLocaleString('de-DE');
     };
     useEffect(() => {
-        console.log("vao day")
-        props.updateCost({ totalCost: totalCost, tax: tax/100, totalAmount: totalCost * (100 - tax) / 100 })
+        console.log("chay useEffec")
+        props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost * (100 - props.cost.tax) / 100 })
     }
-        , [props.checkSubmit])
+        , [items])
     return (
         <div>
             <h2 className='block text-gray-700 font-bold mb-2'>Bảng số liệu</h2>
@@ -131,15 +129,15 @@ export default function TableOrder(props: Props) {
                     </tr>
                     <tr>
                         <td colSpan={5}>Tổng tiền hàng:</td>
-                        <td className='text-center font-bold'>{numberWithDots(calculateCost(), 2)}</td>
+                        <td className='text-center font-bold'>{calculateCost()}</td>
                     </tr>
                     <tr>
-                        <td colSpan={5}>Thuế GTGT {10} %</td>
+                        <td colSpan={5}>Thuế GTGT {props.cost.tax*10} %</td>
                         <td className='text-center font-bold'></td>
                     </tr>
                     <tr>
                         <td colSpan={5}>Tổng Thành Tiền:</td>
-                        <td className='text-center font-bold'> {numberWithDots(calculateAmount(), 2)}</td>
+                        <td className='text-center font-bold'> {numberWithDots(props.cost.totalAmount,2)}</td>
                     </tr>
                 </tfoot>
             </table>

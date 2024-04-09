@@ -25,6 +25,12 @@ export const AddProductField = [
     },
     {   
         id:5,
+        field:"importPrice",
+        title:"Description",
+        type:"number",
+    },
+    {   
+        id:6,
         field:"description",
         title:"Description",
         type:"text",
