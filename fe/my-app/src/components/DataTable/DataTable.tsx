@@ -10,11 +10,11 @@ type Props = {
 
 
 function DataTable(props: Props) {
-  
+
   const handleDelete = async (id: string) => {
     //delete the item
   };
-  const handleEdit = (id:string)=>{
+  const handleEdit = (id: string) => {
 
   }
 
@@ -23,11 +23,7 @@ function DataTable(props: Props) {
     headerName: "Action",
     renderCell: (params) => {
       return (
-        <div className="action bg-black">
-          
-          {/* <Link to={`/${props.slug}/${params.row.id}`}>
-            
-          </Link> */}
+        <div className="action h-full flex justify-center items-center">
           <div className="edit" onClick={() => handleEdit(params.row.userId)}>
             <img src="/view.svg" alt="" />
           </div>
@@ -48,7 +44,7 @@ function DataTable(props: Props) {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 10,
             },
           },
         }}
@@ -58,6 +54,7 @@ function DataTable(props: Props) {
             quickFilterProps: { debounceMs: 500 },
           }
         }}
+        
         slots={{ toolbar: GridToolbar }}
         pageSizeOptions={[5]}
         disableRowSelectionOnClick
@@ -65,9 +62,7 @@ function DataTable(props: Props) {
         disableColumnSelector
         disableDensitySelector
         disableEval
-        columnVisibilityModel={{
-          id: false,
-        }}
+        columnVisibilityModel={{}}
       />
     </div>
   )

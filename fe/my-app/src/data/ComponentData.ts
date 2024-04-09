@@ -35,3 +35,11 @@ export const AddCustomerField=[
     {id:2,field:"address",title:"Address",type:"text"},
     {id:3,field:"taxCode",title:"Tax Code",type:"text"},
 ]
+
+export const typeCustomerData = ["id","companyName","address","taxCode","debt","createAt","updateAt"]
+    //       companyName: item.companyName,
+    //       address: item.address,
+    //       taxCode: item.taxCode,
+    //       debt: item.debt,
+    //       createAt: item.createAt,
+    //       updateAt: item.updateAt

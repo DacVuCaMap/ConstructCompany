@@ -3,7 +3,7 @@ id
 orderCode
 
 fix:
-* search lowercase,uppercase các characters [Hai]
+* search lowercase,uppercase các characters [Hai] []
 * order post thiếu positionSeller [H]
 ------------------------
 api get
@@ -12,11 +12,11 @@ api get
 	(gửi thêm customer Name luôn)
 
 apit get
-* order get details (api/order/getdetails?id=)
-	
+* order get details (api/order/details/{id})
+-----
 
-
-
+customer
+phoneNumber
 
 
 

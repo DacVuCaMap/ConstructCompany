@@ -1,14 +1,10 @@
 "use client"
-import { notFound, useSearchParams } from 'next/navigation';
-import AddComponent from '@/components/CRUDTAB/AddComponent'
-import { customerSchema, productSchema } from '@/components/CRUDTAB/validatorComponent'
-import DataTable from '@/components/DataTable/DataTable'
-import { AddCustomerField } from '@/data/ComponentData'
-import { apiAddCustomer } from '@/data/apiUrl'
-import { useEffect, useState } from 'react';
-import { columnCus } from '@/data/listData';
+import DataTable from '@/components/DataTable/DataTable';
 import getData from '@/components/List/getData';
 import LoadingScene from '@/components/LoadingScene';
+import { columnOrder } from '@/data/listData';
+import { useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
 
 
 export default function page({ params }: { params: { slug: string } }) {
@@ -41,12 +37,10 @@ export default function page({ params }: { params: { slug: string } }) {
           Add Customer
         </button>
       </div>
-      {loading ? <LoadingScene /> : <DataTable columns={columnCus} rows={data} slug={'customer'} />}
-      <div>
-        {openAdd && <AddComponent componentData={AddCustomerField} validValueSchema={customerSchema} slug={'Cutomer'} setOpen={setOpenAdd} apiUrl={apiAddCustomer} />}
-      </div>
+      {loading ? <LoadingScene /> : <DataTable columns={columnOrder} rows={data} slug={'customer'} />}
     </div>
   )
 
 
 }
+

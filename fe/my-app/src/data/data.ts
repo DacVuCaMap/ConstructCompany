@@ -3,7 +3,7 @@ import { GridColDef } from "@mui/x-data-grid";
 export const sideBarAdmin = [
     {
         id: 1,
-        title: "Main",
+        title: "Chính",
         listItems: [
             {
                 id: 11,
@@ -12,30 +12,25 @@ export const sideBarAdmin = [
             },
             {
                 id: 12,
-                title: "Quản Lý Hóa Đơn",
+                title: "Biên Bản NT và xác nhận KL",
                 url: "/invoice",
             },
         ],
     },
     {
         id: 2,
-        title: "Management",
+        title: "Quản Lí Chung",
         listItems: [
 
             {
                 id: 21,
-                title: "Product",
-                url: "/product/page=0",
+                title: "Sản Phẩm",
+                url: "/product/get?size=10&page=0",
             },
             {
                 id: 22,
-                title: "Customer",
-                url: "/customer/get?size=10&page=0/",
-            },
-            {
-                id: 23,
-                title: "Product Order",
-                url: "/posts",
+                title: "Khách Hàng",
+                url: "/customer/get?size=10&page=0",
             },
             {
                 id: 24,

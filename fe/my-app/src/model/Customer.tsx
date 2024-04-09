@@ -1,12 +1,12 @@
-class Product {
+class Customer {
     id:string;
     name:string;
     unit:string;
     inventory:number;
     price:number;
     description:string;
-    createAt:Date;
-    updateAt:Date;
+    create_At:Date;
+    update_At:Date;
     constructor(id:string, name:string, unit:string, inventory:number, price:number, description:string, createdAt:Date, updatedAt:Date) {
         this.id = id;
         this.name = name;
@@ -14,8 +14,8 @@ class Product {
         this.inventory = inventory;
         this.price = price;
         this.description = description;
-        this.createAt = createdAt;
-        this.updateAt = updatedAt;
+        this.create_At = createdAt;
+        this.update_At = updatedAt;
       }
 }
-export default Product;
+export default Customer;

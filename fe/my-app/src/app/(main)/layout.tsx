@@ -12,9 +12,9 @@ export default function RootLayout({
             <div className="lg:block hidden">
                 <SideBar />
             </div>
-            <div className="lg:pl-64 pl-0 flex w-full h-screen flex-col  bg-slate-300">
+            <div className="lg:pl-64 pl-0 flex w-full h-full min-h-screen flex-col  bg-slate-300">
                 <Header />
-                <div className="flex-1 text-black p-1">
+                <div className="flex-1 text-black p-1 ">
                     {children}
                 </div>
             </div>

@@ -11,12 +11,6 @@ export default function Page() {
       <div className='m-2 flex-auto'>
         <AddOrderProduct />
       </div>
-      <div className='m-2 flex-auto'>
-        <AddOrderProduct />
-      </div>
-      <div className='m-2 flex-auto'>
-        <AddOrderProduct />
-      </div>
     </div>
 
   );
