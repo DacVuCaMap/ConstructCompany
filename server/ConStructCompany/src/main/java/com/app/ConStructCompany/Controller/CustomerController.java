@@ -6,6 +6,7 @@ import com.app.ConStructCompany.Request.GetCustomersRequest;
 import com.app.ConStructCompany.Response.GetCustomersResponse;
 import com.app.ConStructCompany.Response.PostCustomerResponse;
 import com.app.ConStructCompany.Service.CustomerService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,12 +17,12 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping("/add-customer")
-    public PostCustomerResponse addCustomer(@RequestBody AddCustomerRequest addCustomerRequest){
+    public PostCustomerResponse addCustomer(@RequestBody @Valid AddCustomerRequest addCustomerRequest){
         return customerService.addCustomer(addCustomerRequest);
     }
 
     @PostMapping("/edit-customer")
-    public PostCustomerResponse editCustomer(@RequestBody EditCustomerRequest editCustomerRequest){
+    public PostCustomerResponse editCustomer(@RequestBody @Valid EditCustomerRequest editCustomerRequest){
         return customerService.editCustomer(editCustomerRequest);
     }
 

@@ -39,12 +39,20 @@ public class CustomerServiceImpl implements CustomerService {
             return new PostCustomerResponse(HttpStatus.BAD_REQUEST.value(), "Mã số thuế đã bị trùng");
         }
 
+        Customer checkPhoneNumber = customerRepository.findByPhoneNumber(addCustomerRequest.getPhoneNumber());
+        if (!ObjectUtils.isEmpty(checkPhoneNumber)){
+            return new PostCustomerResponse(HttpStatus.BAD_REQUEST.value(), "Số điện thoại bị trùng");
+        }
+
         Customer customer = new Customer();
         customer.setAddress(addCustomerRequest.getAddress());
         customer.setCompanyName(addCustomerRequest.getCompanyName());
         customer.setTaxCode(addCustomerRequest.getTaxCode());
         customer.setCreateAt(DateTimeUtils.getCurrentDate());
+        customer.setPositionCustomer(addCustomerRequest.getPositionCustomer());
+        customer.setRepresentativeCustomer(addCustomerRequest.getRepresentativeCustomer());
         customer.setIsDeleted(false);
+        customer.setPhoneNumber(addCustomerRequest.getPhoneNumber());
         customerRepository.save(customer);
 
         return new PostCustomerResponse(HttpStatus.OK.value(), "Tạo khách hàng mới thành công");
@@ -65,6 +73,11 @@ public class CustomerServiceImpl implements CustomerService {
             return new PostCustomerResponse(HttpStatus.BAD_REQUEST.value(), "Mã số thuế đã bị trùng");
         }
 
+        Customer checkPhoneNumber = customerRepository.findByPhoneNumber(editCustomerRequest.getPhoneNumber());
+        if (!ObjectUtils.isEmpty(checkPhoneNumber)){
+            return new PostCustomerResponse(HttpStatus.BAD_REQUEST.value(), "Số điện thoại bị trùng");
+        }
+
         Optional<Customer> checkCustomer = customerRepository.findById(editCustomerRequest.getId());
         if (!checkCustomer.isPresent()){
             return new PostCustomerResponse(HttpStatus.BAD_REQUEST.value(), "Không tồn tại khách hàng");
@@ -74,6 +87,9 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setCompanyName(editCustomerRequest.getCompanyName());
         customer.setDebt(editCustomerRequest.getDebt());
         customer.setUpdateAt(DateTimeUtils.getCurrentDate());
+        customer.setPhoneNumber(editCustomerRequest.getPhoneNumber());
+        customer.setPositionCustomer(editCustomerRequest.getPositionCustomer());
+        customer.setRepresentativeCustomer(editCustomerRequest.getRepresentativeCustomer());
         customerRepository.save(customer);
         return new PostCustomerResponse(HttpStatus.OK.value(), "Thay đổi thông tin khách hàng thành công");
     }
