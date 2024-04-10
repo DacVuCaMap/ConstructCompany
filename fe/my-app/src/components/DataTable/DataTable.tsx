@@ -12,7 +12,6 @@ type Props = {
   columns: GridColDef[],
   rows: object[],
   slug: string,
-  componentData:any,
   validValueSchema:any,
   componentEditData:any
 }
