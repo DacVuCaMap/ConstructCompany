@@ -10,10 +10,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -116,18 +118,24 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Page<Customer> getCustomers(GetCustomersRequest getCustomersRequest) {
         Sort sort = Sort.unsorted();
-        if (getCustomersRequest.getFilter() != null){
+        if (getCustomersRequest.getFilter() != null) {
             sort = Sort.by(getCustomersRequest.getFilter()).descending();
         }
 
         PageRequest pageRequest = PageRequest.of(getCustomersRequest.getPageNumber(),
                 getCustomersRequest.getPageSize(),
                 sort);
+
         Page<Customer> customers = customerRepository.findAllByIsDeletedFalse(pageRequest);
-        if (!ObjectUtils.isEmpty(getCustomersRequest.getSearch())){
-            customers = customerRepository.findAllByCompanyNameContainingAndIsDeletedIsFalseOrTaxCodeContainingAndIsDeletedIsFalse(getCustomersRequest.getSearch().toLowerCase()
-                    , getCustomersRequest.getSearch().toLowerCase(), pageRequest);
+
+        String searchQuery = getCustomersRequest.getSearch();
+        if (!StringUtils.isEmpty(searchQuery)) {
+            searchQuery = "%" + searchQuery.toLowerCase() + "%";
+            customers = customerRepository.findAllByCompanyNameLikeIgnoreCaseAndIsDeletedFalseOrTaxCodeLikeIgnoreCaseAndIsDeletedFalse(
+                    searchQuery, searchQuery, pageRequest
+            );
         }
+
         return customers;
     }
 
