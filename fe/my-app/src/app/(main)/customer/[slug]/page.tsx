@@ -1,6 +1,6 @@
 "use client"
 import { customerSchema } from '@/components/CRUDTAB/validatorComponent'
-import { AddCustomerField } from '@/data/ComponentData'
+import { AddCustomerField, EditCustomerField } from '@/data/ComponentData'
 import { columnCus } from '@/data/listData';
 import GetListComponent from '@/components/List/GetListComponent';
 import { apiAddCustomer } from '@/data/apiUrl';
@@ -11,12 +11,13 @@ export default function page({ params }: { params: { slug: string } }) {
     <div>
 
       <GetListComponent
-        slug={'customers'}
+        slug={'customer'}
         querySlug={'get'}
         columnData={columnCus}
         AddDataField={AddCustomerField}
         dataSchema={customerSchema}
-        apiAddData={apiAddCustomer} />
+        apiAddData={apiAddCustomer}
+        EditDataField={EditCustomerField} />
     </div>
   )
 

@@ -2,7 +2,7 @@
 import GetPattern from '@/ApiPattern/GetPattern';
 import LoadingScene from '@/components/LoadingScene';
 import React, { useState } from 'react'
-type FacultyState={
+type Customer={
     id: number,
     companyName: string,
     representativeCustomer:string,
@@ -10,7 +10,7 @@ type FacultyState={
 }
 type Props = {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    setCustomer: React.Dispatch<React.SetStateAction<FacultyState>>
+    setCustomer: React.Dispatch<React.SetStateAction<Customer>>
 }
 export default function OpenWindowSearchCus(props: Props) {
     document.body.style.overflow = 'hidden';

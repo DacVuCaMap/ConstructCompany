@@ -5,8 +5,8 @@ type Detail = { id: number, productId: number, proName: string, unit: string, ma
 type Cost = { totalCost: number, tax: number, totalAmount: number }
 type Props = {
     setOrderDetail: React.Dispatch<React.SetStateAction<Detail[]>>,
-    setCost : React.Dispatch<React.SetStateAction<Cost>>,
-    cost:Cost
+    setCost: React.Dispatch<React.SetStateAction<Cost>>,
+    cost: Cost
 }
 
 export default function TableOrder(props: Props) {
@@ -55,34 +55,41 @@ export default function TableOrder(props: Props) {
         props.cost.totalCost = items.reduce((total, item) => {
             return total + item.materialWeight * item.price;
         }, 0);
-        console.log(numberWithDots(props.cost.totalCost,2))
-        return numberWithDots(props.cost.totalCost,2);
+        return numberWithDots(props.cost.totalCost, 0);
     };
+    const changeTax = (value: any) => {
+        let val: number = parseFloat(value) / 100;
+        if (val > 1) {
+            return;
+        }
+        props.setCost({ ...props.cost, tax: val });
+    }
     const handleCloseWindow = () => {
         const closeWindowItem = items.map((item) => ({ ...item, isOpen: false }));
         setItems(closeWindowItem);
     }
-    useEffect(() => (
-        props.setOrderDetail(items)
-    ), [items, props])
+    useEffect(() => {
+        console.log('eff1');
+        props.setOrderDetail(items);
+    }, [items])
     //set product
     useEffect(() => {
+        console.log('eff2')
         if (product) {
             const updatedItems = items.map(item =>
-                item.id === product.itemId ? { ...item,unit:product.unit,price:product.price ,productId: product.productId, proName: product.proName, isOpen: false } : item
+                item.id === product.itemId ? { ...item, unit: product.unit, price: product.price, productId: product.productId, proName: product.proName, isOpen: false } : item
             );
             setItems(updatedItems)
         }
-    }, [product, items])
+    }, [product])
     const numberWithDots = (number: number, fixed: number) => {
-        let num = parseInt(number.toFixed(fixed));
+        let num = parseFloat(number.toFixed(fixed));
         return num.toLocaleString('de-DE');
     };
     useEffect(() => {
-        console.log("chay useEffec")
-        props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost * (100 - props.cost.tax) / 100 })
-    }
-        , [items])
+        console.log('eff3')
+        props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost * (1 - props.cost.tax) })
+    }, [items])
     return (
         <div>
             <h2 className='block text-gray-700 font-bold mb-2'>Bảng số liệu</h2>
@@ -132,12 +139,21 @@ export default function TableOrder(props: Props) {
                         <td className='text-center font-bold'>{calculateCost()}</td>
                     </tr>
                     <tr>
-                        <td colSpan={5}>Thuế GTGT {props.cost.tax*10} %</td>
+                        <td colSpan={5}>
+                            Thuế GTGT{" "}
+                            <input
+                                className="inline-block w-12 py-1 px-2 border border-gray-300 appearance-none"
+                                type="number"
+                                value={props.cost.tax * 100}
+                                onChange={(e) => changeTax(e.target.value)}
+                            />
+                            %
+                        </td>
                         <td className='text-center font-bold'></td>
                     </tr>
                     <tr>
                         <td colSpan={5}>Tổng Thành Tiền:</td>
-                        <td className='text-center font-bold'> {numberWithDots(props.cost.totalAmount,2)}</td>
+                        <td className='text-center font-bold'> {numberWithDots(props.cost.totalAmount, 2)}</td>
                     </tr>
                 </tfoot>
             </table>

@@ -11,7 +11,8 @@ type Props = {
   columnData:any,
   AddDataField:any,
   dataSchema:any,
-  apiAddData:string
+  apiAddData:string,
+  EditDataField:any
 }
 
 export default function GetListComponent(props: Props) {
@@ -20,10 +21,11 @@ export default function GetListComponent(props: Props) {
   const page = searchParams.get('page');
   const [data, setData] = useState<object[]>([])
   const [loading,setLoading] = useState(true);
+  let firstParams = props.slug==="product" ? props.slug : 'customers';
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getData(props.slug,props.querySlug, size, page);
+        const result = await getData(firstParams,props.querySlug, size, page);
         console.log("result",result)
         setData(result);
       } catch (error) {
@@ -43,7 +45,7 @@ export default function GetListComponent(props: Props) {
           Add Customer
         </button>
       </div>
-      {loading ? <LoadingScene /> : <DataTable columns={props.columnData} rows={data} slug={props.slug} />}
+      {loading ? <LoadingScene /> : <DataTable componentEditData={props.EditDataField} validValueSchema={props.dataSchema} columns={props.columnData} rows={data} slug={props.slug} />}
       <div>
         {openAdd && <AddComponent componentData={props.AddDataField} validValueSchema={props.dataSchema} slug={'Cutomer'} setOpen={setOpenAdd} apiUrl={props.apiAddData} />}
       </div>

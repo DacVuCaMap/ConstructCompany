@@ -9,9 +9,8 @@ import OpenWindowSearchCus from '../OpenWindowSearchCus/OpenWindowSearchCus';
 import { sellerData } from '@/data/data';
 import postData from '@/ApiPattern/PostPattern';
 type Cost = { totalCost: number, tax: number, totalAmount: number }
-// Định nghĩa schema validation bằng Yup
 const schema = yup.object().shape({
-    customerId: yup.string().required("Không để trống customer"),
+    customerId: yup.number().notOneOf([-1],"Không để trống").required("Không để trống customer"),
     representativeSeller: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
     positionCustomer: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
     positionSeller: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
@@ -31,29 +30,42 @@ export default function AddOrderProduct() {
     } = useForm({
         resolver: yupResolver(schema),
     });
-    const [customer,setCustomer] = useState<any>();
+    const [customer, setCustomer] = useState<{
+        id: number,
+        companyName: string,
+        representativeCustomer: string,
+        positionCustomer: string
+    }>({
+        id: -1,
+        companyName: '',
+        representativeCustomer: '',
+        positionCustomer: ''
+    });
     const [showWindow, setShowWindow] = useState(false);
-    const [orderDetail,setOrderDetail] = useState<any>();
-    const [cost,setCost] = useState<Cost>({totalCost:0,tax:0.1,totalAmount:0});
+    const [orderDetail, setOrderDetail] = useState<any>();
+    const [cost, setCost] = useState<Cost>({ totalCost: 0, tax: 0.1, totalAmount: 0 });
     const inpRef = useRef(null);
     useEffect(() => {
         if (customer && customer.id) {
-          setValue('customerId', customer.id);
+            console.log(customer)
+            setValue('customerId', customer.id);
+            setValue('representativeCustomer', customer.representativeCustomer)
+            setValue('positionCustomer', customer.positionCustomer)
         }
-      }, [customer, setValue]);
-    const handleOpenWindow=()=>{
+    }, [customer]);
+    const handleOpenWindow = () => {
         setShowWindow(true);
     }
     // update cost
     const onSubmit = async (data: any) => {
 
-        let urlPost = process.env.NEXT_PUBLIC_API_URL+'/api/order/add-order'
+        let urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/order/add-order'
         console.log(urlPost);
 
-        const dataPost = {order:{...data,...cost},orderDetails:orderDetail}
-        console.log("dataPost",dataPost)
+        const dataPost = { order: { ...data, ...cost }, orderDetails: orderDetail }
+        console.log("dataPost", dataPost)
 
-        const post = await postData(urlPost,dataPost,{});
+        const post = await postData(urlPost, dataPost, {});
         console.log(post)
     };
 
@@ -80,13 +92,13 @@ export default function AddOrderProduct() {
                                 type="text"
                                 readOnly
                                 placeholder='Nhấn để chọn Công Ty'
-                                onClick={()=>handleOpenWindow()}
-                                value={customer?.companyName}   />
-                                <input type="hidden" value={customer?.id} {...register('customerId')} />
+                                onClick={() => handleOpenWindow()}
+                                value={customer?.companyName} />
+                            <input type="hidden" value={customer?.id} {...register('customerId')} />
                             {errors.customerId && (
                                 <p className="text-red-500 text-xs italic">{errors.customerId.message}</p>
                             )}
-                            {showWindow && <OpenWindowSearchCus setOpen={setShowWindow} setCustomer={setCustomer}/>}
+                            {showWindow && <OpenWindowSearchCus setOpen={setShowWindow} setCustomer={setCustomer} />}
                         </div>
                         <div className='flex pb-4 mb-4 border-b border-neutral-400'>
                             <div className='mr-1'>
@@ -135,7 +147,7 @@ export default function AddOrderProduct() {
                                 id="4"
                                 type="text"
                                 value={sellerDt.companyName} />
-                                <input type="hidden" id="5" value={sellerDt.id} {...register('sellerId')} />
+                            <input type="hidden" id="5" value={sellerDt.id} {...register('sellerId')} />
                             {errors.sellerId && (
                                 <p className="text-red-500 text-xs italic">{errors.sellerId.message}</p>
                             )}

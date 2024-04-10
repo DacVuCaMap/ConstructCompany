@@ -1,6 +1,6 @@
 "use client"
 import { productSchema } from '@/components/CRUDTAB/validatorComponent'
-import {AddProductField } from '@/data/ComponentData'
+import {AddProductField, EditProductField } from '@/data/ComponentData'
 import {apiAddProduct } from '@/data/apiUrl'
 import { columnProduct } from '@/data/listData';
 import GetListComponent from '@/components/List/GetListComponent';
@@ -15,7 +15,8 @@ export default function page({ params }: { params: { slug: string } }) {
         columnData={columnProduct}
         AddDataField={AddProductField}
         dataSchema={productSchema}
-        apiAddData={apiAddProduct} />
+        apiAddData={apiAddProduct}
+        EditDataField={EditProductField} />
     </div>
   )
 
