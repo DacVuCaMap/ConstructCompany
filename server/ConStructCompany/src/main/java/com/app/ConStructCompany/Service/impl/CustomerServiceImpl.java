@@ -68,21 +68,27 @@ public class CustomerServiceImpl implements CustomerService {
             return new PostCustomerResponse(HttpStatus.BAD_REQUEST.value(), "Mã số thuế phải là chuỗi số");
         }
 
-        Customer checkTaxCode = customerRepository.findByTaxCode(editCustomerRequest.getTaxCode());
-        if (!ObjectUtils.isEmpty(checkTaxCode)){
-            return new PostCustomerResponse(HttpStatus.BAD_REQUEST.value(), "Mã số thuế đã bị trùng");
-        }
-
-        Customer checkPhoneNumber = customerRepository.findByPhoneNumber(editCustomerRequest.getPhoneNumber());
-        if (!ObjectUtils.isEmpty(checkPhoneNumber)){
-            return new PostCustomerResponse(HttpStatus.BAD_REQUEST.value(), "Số điện thoại bị trùng");
-        }
-
         Optional<Customer> checkCustomer = customerRepository.findById(editCustomerRequest.getId());
         if (!checkCustomer.isPresent()){
             return new PostCustomerResponse(HttpStatus.BAD_REQUEST.value(), "Không tồn tại khách hàng");
         }
         Customer customer = checkCustomer.get();
+
+        if (!customer.getTaxCode().equals(editCustomerRequest.getTaxCode())){
+            Customer checkTaxCode = customerRepository.findByTaxCode(editCustomerRequest.getTaxCode());
+            if (!ObjectUtils.isEmpty(checkTaxCode)){
+                return new PostCustomerResponse(HttpStatus.BAD_REQUEST.value(), "Mã số thuế đã bị trùng");
+            }
+        }
+
+        if (!customer.getPhoneNumber().equals(editCustomerRequest.getPhoneNumber())){
+            Customer checkPhoneNumber = customerRepository.findByPhoneNumber(editCustomerRequest.getPhoneNumber());
+            if (!ObjectUtils.isEmpty(checkPhoneNumber)){
+                return new PostCustomerResponse(HttpStatus.BAD_REQUEST.value(), "Số điện thoại bị trùng");
+            }
+        }
+
+        customer.setTaxCode(editCustomerRequest.getTaxCode());
         customer.setAddress(editCustomerRequest.getAddress());
         customer.setCompanyName(editCustomerRequest.getCompanyName());
         customer.setDebt(editCustomerRequest.getDebt());
@@ -119,7 +125,7 @@ public class CustomerServiceImpl implements CustomerService {
                 sort);
         Page<Customer> customers = customerRepository.findAllByIsDeletedFalse(pageRequest);
         if (!ObjectUtils.isEmpty(getCustomersRequest.getSearch())){
-            customers = customerRepository.findByCompanyNameContainingAndIsDeletedIsFalseOrTaxCodeContainingAndIsDeletedIsFalse(getCustomersRequest.getSearch().toLowerCase()
+            customers = customerRepository.findAllByCompanyNameContainingAndIsDeletedIsFalseOrTaxCodeContainingAndIsDeletedIsFalse(getCustomersRequest.getSearch().toLowerCase()
                     , getCustomersRequest.getSearch().toLowerCase(), pageRequest);
         }
         return customers;

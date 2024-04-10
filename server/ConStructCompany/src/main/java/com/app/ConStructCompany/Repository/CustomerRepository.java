@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer,Long> {
     Customer findByTaxCode(String taxCode);
-    Page<Customer> findByCompanyNameContainingAndIsDeletedIsFalseOrTaxCodeContainingAndIsDeletedIsFalse(String search, String d, PageRequest pageRequest);
+    Page<Customer> findAllByCompanyNameContainingAndIsDeletedIsFalseOrTaxCodeContainingAndIsDeletedIsFalse(String search, String d, PageRequest pageRequest);
     Page<Customer> findAllByIsDeletedFalse(Pageable pageable);
 
     Customer findByPhoneNumber(String phoneNumber);
