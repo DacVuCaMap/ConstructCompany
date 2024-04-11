@@ -1,13 +1,12 @@
 package com.app.ConStructCompany.Controller;
 
 import com.app.ConStructCompany.Request.AddOrderRequest;
+import com.app.ConStructCompany.Request.GetOrdersRequest;
 import com.app.ConStructCompany.Response.PostOrderResponse;
 import com.app.ConStructCompany.Service.OrderService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/order/")
@@ -17,5 +16,10 @@ public class OrderController {
     @PostMapping("/add-order")
     public PostOrderResponse addOrder(@RequestBody AddOrderRequest addOrderRequest){
         return orderService.addOrder(addOrderRequest);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity getOrders(GetOrdersRequest getOrdersRequest){
+        return orderService.getOrders(getOrdersRequest);
     }
 }

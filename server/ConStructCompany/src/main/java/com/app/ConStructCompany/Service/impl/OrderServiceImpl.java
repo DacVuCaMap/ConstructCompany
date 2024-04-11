@@ -3,21 +3,24 @@ package com.app.ConStructCompany.Service.impl;
 import com.app.ConStructCompany.Entity.*;
 import com.app.ConStructCompany.Repository.*;
 import com.app.ConStructCompany.Request.AddOrderRequest;
+import com.app.ConStructCompany.Request.GetOrdersRequest;
 import com.app.ConStructCompany.Request.dto.OrderDetailDto;
 import com.app.ConStructCompany.Response.PostOrderResponse;
 import com.app.ConStructCompany.Service.OrderService;
 import com.app.ConStructCompany.utils.DateTimeUtils;
 import com.app.ConStructCompany.utils.GenerateUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -100,6 +103,20 @@ public class OrderServiceImpl implements OrderService {
             ex.printStackTrace();
             return new PostOrderResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Đã xảy ra lỗi khi thêm đơn hàng");
         }
+    }
+
+    @Override
+    public ResponseEntity getOrders(GetOrdersRequest getOrdersRequest) {
+        PageRequest pageRequest = PageRequest.of(getOrdersRequest.getPageNumber(),
+                getOrdersRequest.getPageSize());
+
+        Page<Order> orders = orderRepository.findAll(pageRequest);
+        if (!ObjectUtils.isEmpty(getOrdersRequest.getSearch())){
+            String searchQuery = "%" + getOrdersRequest.getSearch() + "%";
+            orders = orderRepository.findAllByOrderCodeLikeIgnoreCase(searchQuery, pageRequest);
+        }
+
+        return ResponseEntity.ok(orders);
     }
 
     private String getLatesOrderCode() {
