@@ -23,6 +23,8 @@ public class ProductEditRequest {
     @NotNull(message = "Giá sản phẩm không được để trống")
     private Double price;
 
+    @NotNull(message = "Giá nhập không được để trống")
+    private Double importProduct;
 
     private String description;
 

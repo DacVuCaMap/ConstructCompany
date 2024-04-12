@@ -28,6 +28,7 @@ public class ProductService {
         product.setPrice(productAddRequest.getPrice());
         product.setInventory(productAddRequest.getInventory());
         product.setDescription(productAddRequest.getDescription());
+        product.setImportPrice(product.getImportPrice());
         product.setCreateAt(new Date());
         product.setDeleted(false);
         return productRepository.save(product);
@@ -41,6 +42,7 @@ public class ProductService {
         product.setPrice(productEditRequest.getPrice());
         product.setDescription(productEditRequest.getDescription());
         product.setUpdateAt(new Date());
+        product.setImportPrice(productEditRequest.getImportProduct());
         Product productSaved = productRepository.save(product);
         return productSaved;
     }
