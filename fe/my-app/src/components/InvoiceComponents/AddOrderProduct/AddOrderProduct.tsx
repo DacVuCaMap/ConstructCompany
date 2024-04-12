@@ -51,6 +51,7 @@ export default function AddOrderProduct() {
             setValue('customerId', customer.id);
             setValue('representativeCustomer', customer.representativeCustomer)
             setValue('positionCustomer', customer.positionCustomer)
+            console.log(customer)
         }
     }, [customer]);
     const handleOpenWindow = () => {

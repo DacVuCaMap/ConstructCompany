@@ -91,3 +91,6 @@ export const sellerData = {
     representativeSeller:"Nguyễn Văn Tiến",
     positionSeller:"Giám đốc"
 }
+export const toltalPageGlobal = {
+    value: 0,
+}
