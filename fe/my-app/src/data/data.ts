@@ -12,8 +12,8 @@ export const sideBarAdmin = [
             },
             {
                 id: 12,
-                title: "Biên Bản NT và xác nhận KL",
-                url: "/invoice",
+                title: "Nghiệm thu khối lượng và giá trị",
+                url: "/statistic",
             },
         ],
     },

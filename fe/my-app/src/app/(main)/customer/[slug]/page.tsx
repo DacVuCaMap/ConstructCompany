@@ -7,9 +7,11 @@ import { apiAddCustomer } from '@/data/apiUrl';
 
 
 export default function page({ params }: { params: { slug: string } }) {
+
   return (
     <div>
       <GetListComponent
+        nameSlug={'Khách Hàng'}
         slug={'customer'}
         querySlug={'get'}
         columnData={columnCus}

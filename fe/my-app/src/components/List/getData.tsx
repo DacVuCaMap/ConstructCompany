@@ -13,22 +13,13 @@ export default async function getData(component:string,slug:string,size:any,page
       toltalPageGlobal.value=data.productPage.totalPages;
       arrRs = data.productPage.content; 
     }
-    else{
+    else if(component ==="customers"){
       toltalPageGlobal.value=data.customerPage.totalPages;
       arrRs=data.customerPage.content;
     }
-    console.log("arrRs",arrRs)
-    // if (arrCustomer != null) {
-    //   arrCustomer.map((item: any) => (
-    //     arrRs.push({
-    //       id: item.id,
-    //       companyName: item.companyName,
-    //       address: item.address,
-    //       taxCode: item.taxCode,
-    //       debt: item.debt,
-    //       createAt: item.createAt,
-    //       updateAt: item.updateAt
-    //     })))
-    // }
+    else{
+      toltalPageGlobal.value=data.totalPages;
+      arrRs = data.content;
+    }
     return arrRs;
 }

@@ -33,6 +33,7 @@ const DataTable = (props: Props) => {
   const actionColumn: GridColDef = {
     field: "action",
     headerName: "Action",
+    flex:0.2,
     renderCell: (params: any) => {
       return (
         <div className="action h-full flex justify-center items-center">

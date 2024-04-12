@@ -1,6 +1,6 @@
 new
-* customer edit fix lỗi phoneNumber is not null 
 * product list gửi thêm importPrice
+* bổ sung số hợp đồng,ngày kí order
 ------------------------
 * fe: truy cập link ví dụ cusomters/asdjaskl -> trả về notFound()
  	

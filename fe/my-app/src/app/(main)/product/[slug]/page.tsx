@@ -11,6 +11,7 @@ export default function page({ params }: { params: { slug: string } }) {
     <div>
       <GetListComponent
         slug={'product'}
+        nameSlug={'Sản Phẩm'}
         querySlug={'get'}
         columnData={columnProduct}
         AddDataField={AddProductField}
