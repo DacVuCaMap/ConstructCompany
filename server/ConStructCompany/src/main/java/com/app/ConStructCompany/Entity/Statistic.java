@@ -1,11 +1,13 @@
 package com.app.ConStructCompany.Entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "statistic")
+@Data
 public class Statistic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +32,9 @@ public class Statistic {
 
     @Column(name = "positionSell")
     private String positionSell;
+
+    @Column(name = "genderSell")
+    private String genderSell;
 
     @Column(name = "totalAmount")
     private Double totalAmount;
