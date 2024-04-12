@@ -6,6 +6,8 @@ import DeletePattern from "@/ApiPattern/DeletePattern";
 import postData from "@/ApiPattern/PostPattern";
 import { useState } from "react";
 import PaginationComponent from "../List/PaginationComponent/PaginationComponent";
+import { redirect } from "next/dist/server/api-utils";
+import { useRouter } from "next/navigation";
 type Props = {
   columns: GridColDef[],
   rows: object[],
@@ -15,6 +17,7 @@ type Props = {
 }
 
 const DataTable = (props: Props) => {
+  const router = useRouter();
   const handleDelete = async (id: string) => {
     console.log(id);
     console.log(props.rows, props.slug)
@@ -44,13 +47,14 @@ const DataTable = (props: Props) => {
       );
     }
   }
-  const handleRowClick = () => {
-
+  const handleRowClick = (params:any) => {
+    console.log(params)
+    router.push(`/invoice/get/${params.row.id}`)
   }
   return (
-    <div className="dataTable flex-1 m-2">
+    <div className="dataTable flex-1 m-2 ">
       <DataGrid
-        className="dataGrid"
+        className="dataGrid hover:cursor-pointer"
         rows={props.rows}
         columns={[...props.columns, actionColumn]}
         initialState={{

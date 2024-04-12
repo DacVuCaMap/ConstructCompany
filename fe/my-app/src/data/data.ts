@@ -8,7 +8,7 @@ export const sideBarAdmin = [
             {
                 id: 11,
                 title: "Nghiệm thu và xác nhận khối lượng",
-                url: "/invoice",
+                url: "/invoice/list?size=10&page=0",
             },
             {
                 id: 12,

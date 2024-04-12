@@ -13,8 +13,6 @@ export default function page() {
   const searchParams = useSearchParams();
   let size = searchParams.get('size');
   let page = searchParams.get('page');
-  size = !size ? '10' : size;
-  page = !page ? '0' : page;
   const [data, setData] = useState<object[]>([])
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -27,7 +25,6 @@ export default function page() {
         setData([]);
       }
     };
-
     fetchData();
     setLoading(false);
   }, []);

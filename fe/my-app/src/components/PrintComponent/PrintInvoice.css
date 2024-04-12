@@ -4,10 +4,9 @@
     background-color: white;
     margin: 20px auto;
     box-sizing: border-box;
-    box-sizing: border-box;
     position: relative;
-
-}
+  }
+  
 
 .card-child {
     position: absolute;

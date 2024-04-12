@@ -8,7 +8,7 @@ const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
   ({ content }, ref) => {
     return (
       <div ref={ref}>
-        <div className="a4-sheet">
+        <div className="a4-sheet lg:block ">
           <div className="card-child card-1"><span>CTY TNHH XÂY DỰNG <br /> VÀ THƯƠNG MẠI TIẾN ĐÔNG</span></div>
           <div className="card-child card-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM  <br />Độc lập - Tự do - Hạnh phúc</span></div>
           <div className="card-child card-3"><span>BIÊN BẢN NGHIỆM THU VÀ XÁC NHẬN KHỐI LƯỢNG</span> </div>
@@ -43,7 +43,7 @@ const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
                   <td></td>
                 </tr>
               </tbody>
-              <tfoot>
+              <tfoot className='font-bold'>
                 <tr>
                   <td></td>
                   <td>Tổng tiền hàng</td>
@@ -74,10 +74,10 @@ const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
             <br />
             <span>- Bên mua có trách nhiệm thanh toán toàn bộ số tiền trên cho Bên bán theo đúng điều khoản trong hợp đồng. <br />
               - Biên bản được lập thành 02 (hai) bản có giá trị pháp lý như nhau, mỗi bên giữ 01 (một) bản.</span><br />
-            <span>ĐẠI DIỆN BÊN MUA</span> <span>ĐẠI DIỆN BÊN MUA</span>
+            <span className='font-bold mr-64 ml-20'>ĐẠI DIỆN BÊN MUA</span>
+            <span className='font-bold'>ĐẠI DIỆN BÊN MUA</span>
           </div>
         </div>
-        <p>{content}</p>
       </div>
 
     );

@@ -61,4 +61,7 @@ public class Order {
     @Column(name = "signing_date")
     private Date signingDate;
 
+    @Column(name = "price")
+    private Double price;
+
 }
