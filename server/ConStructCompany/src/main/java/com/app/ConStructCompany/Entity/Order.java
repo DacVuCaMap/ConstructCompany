@@ -55,4 +55,10 @@ public class Order {
     @Column(name = "create_at")
     private Date createAt;
 
+    @Column(name="contract_code")
+    private String contractCode;
+
+    @Column(name = "signing_date")
+    private Date signingDate;
+
 }
