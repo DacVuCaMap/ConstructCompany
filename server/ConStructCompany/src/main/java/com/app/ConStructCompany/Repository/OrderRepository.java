@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
     Order findFirstByOrderByOrderCodeDesc();
-    Page<Order> findAllByOrderCodeLikeIgnoreCase(String orderCode, Pageable pageable);
-    Page<Order> findAll(Pageable pageable);
+    Page<Order> findAllByOrderCodeLikeIgnoreCaseAndIsDeletedFalse(String orderCode, Pageable pageable);
+    Page<Order> findAllByIsDeletedFalse(Pageable pageable);
 
 }

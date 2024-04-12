@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import './AddOrderProduct.scss';
-import TableOrder from '../TableOrder/TableOrder';
-import OpenWindowSearchCus from '../OpenWindowSearchCus/OpenWindowSearchCus';
 import { sellerData } from '@/data/data';
 import postData from '@/ApiPattern/PostPattern';
+import OpenWindowSearchCus from '@/components/InvoiceComponents/OpenWindowSearchCus/OpenWindowSearchCus';
+import TableOrder from '@/components/InvoiceComponents/TableOrder/TableOrder';
 type Cost = { totalCost: number, tax: number, totalAmount: number }
 const schema = yup.object().shape({
     customerId: yup.number().notOneOf([-1],"Không để trống").required("Không để trống customer"),
@@ -79,7 +79,7 @@ export default function AddOrderProduct() {
                 onSubmit={handleSubmit(onSubmit)}
                 className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full lg:max-w-5xl  "
             >
-                <h2 className='block text-3xl text-gray-900 font-bold mb-4'>Biên bản nghiệm thu và xác nhận khối lượng</h2>
+                <h2 className='block text-3xl text-gray-900 font-bold mb-4'>Tạo biên bản nghiệm thu khối lượng và giá trị</h2>
                 <div className={`flex lg:flex-row flex-col`}>
                     <div className='flex-auto m-1'>
                         <div className='mb-2'>

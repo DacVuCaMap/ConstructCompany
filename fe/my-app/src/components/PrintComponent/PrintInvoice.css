@@ -1,0 +1,62 @@
+.a4-sheet {
+    width: 210mm;
+    height: 297mm;
+    background-color: white;
+    margin: 20px auto;
+    box-sizing: border-box;
+    box-sizing: border-box;
+    position: relative;
+
+}
+
+.card-child {
+    position: absolute;
+    display: inline-block;
+}
+
+.card-1 {
+    top: 50px;
+    left: 70px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.card-2 {
+    top: 50px;
+    right: 70px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.card-3 {
+    top: 130px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+.card-4 {
+    top: 170px;
+    left: 0;
+    width: 100%;
+    padding-left: 40px;
+}
+
+.span-card1 {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.custom-table {
+    width: 90%;
+    border-collapse: collapse;
+}
+
+.custom-table th {
+    border: 1px solid black;
+    font-weight: bold;
+}
+
+.custom-table td {
+    border: 1px solid black;
+}

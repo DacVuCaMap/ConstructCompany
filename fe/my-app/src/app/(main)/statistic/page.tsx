@@ -33,8 +33,8 @@ export default function page() {
   }, []);
   return (
     <div className="flex flex-col">
-      <h2 className='text-gray-700 font-bold text-4xl mb-4'>Danh sách biên bản Nghiệm thu và xác nhận khối lượng</h2>
-      <Link className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' href={"/invoice/add-order-product"}>Tạo Biên Bản Nghiệm Thu và Xác Nhận Khối Lượng</Link>
+      <h2 className='text-gray-700 font-bold text-4xl mb-4'>Danh sách biên bản Nghiệm thu khối lượng và giá trị</h2>
+      <Link className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' href={"/statistic/add-statistic"}>Tạo Biên Bản Nghiệm Thu và Xác Nhận Khối Lượng</Link>
       <DataTableInvoice columns={columnOrder} rows={data} slug={'order'} validValueSchema={undefined} componentEditData={undefined} />
     </div>
   )

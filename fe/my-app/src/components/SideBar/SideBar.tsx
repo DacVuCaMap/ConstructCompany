@@ -10,7 +10,7 @@ export default function SideBar() {
     setActiveLink(id);
   };
   return (
-    <div className="bg-green-900 text-white w-64 fixed h-screen py-4 px-6 flex flex-col overflow-auto">
+    <div className=" text-white  bg-slate-900 w-64 fixed h-screen py-4 px-6 flex flex-col overflow-auto">
       <div className="flex items-center mb-6">
         <HardHat className="text-white mr-2" />
         <h2 className="ml-2">COMPANY CONSTRUCT</h2>

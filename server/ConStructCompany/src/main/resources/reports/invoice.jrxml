@@ -9,12 +9,13 @@
     </background>
     <title>
         <band height="97">
+
             <staticText>
                 <reportElement x="20" y="3" width="240" height="40" uuid="269ef885-4f16-4f67-a4ca-e1689c71e074">
                     <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
                 </reportElement>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Serif" size="14"/>
+                    <font fontName="DejaVu Sans" size="14"/>
                 </textElement>
                 <text><![CDATA[CÔNG TY TNHH XÂY DỰNG VÀ THƯƠNG MẠI TIẾN ĐÔNG]]></text>
             </staticText>

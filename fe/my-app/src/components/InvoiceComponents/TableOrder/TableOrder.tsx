@@ -41,6 +41,14 @@ export default function TableOrder(props: Props) {
         );
         setItems(updatedItems);
     };
+    const handlePriceChange = (e: any, id: any, key: any) => {
+        const { value } = e.target;
+        const formatedPrice = value.replace(/\./g, '');
+        const updatedItems = items.map((item: Detail) =>
+            item.id === id ? { ...item, [key]: formatedPrice } : item
+        );
+        setItems(updatedItems);
+    }
     const handleInputChange = (e: any, id: any, key: any) => {
         let { value } = e.target;
         if (key === "price" || key === "materialWeight") {
@@ -86,6 +94,9 @@ export default function TableOrder(props: Props) {
         let num = parseFloat(number.toFixed(fixed));
         return num.toLocaleString('de-DE');
     };
+    const  formatNumber= (number:any)=> {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      } 
     useEffect(() => {
         console.log('eff3')
         props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost * (1 - props.cost.tax) })
@@ -118,7 +129,14 @@ export default function TableOrder(props: Props) {
                             </td>
                             <td><input required className='h-7 w-full' placeholder='Nhập đơn vị' type="text" value={item.unit} onChange={(e) => handleInputChange(e, item.id, 'unit')} /></td>
                             <td><input required className='h-7 w-full' placeholder='Nhập Khối lượng' type='number' value={item.materialWeight === 0 ? '' : item.materialWeight} step="0.01" onChange={(e) => handleInputChange(e, item.id, 'materialWeight')} /></td>
-                            <td><input required className='h-7 w-full' placeholder='Nhập đơn giá' type="number" value={item.price === 0 ? '' : item.price} onChange={(e) => handleInputChange(e, item.id, 'price')} /></td>
+                            <td><input
+                                required
+                                className='h-7 w-full'
+                                placeholder='Nhập đơn giá'
+                                type="text"
+                                value={item.price === 0 ? '' : formatNumber(item.price)}
+                                onChange={(e) => handlePriceChange(e, item.id, 'price')} />
+                            </td>
                             <td className='text-center'>{numberWithDots((item.materialWeight * item.price), 0)}</td>
                             <td>
                                 <button type='button' className="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"

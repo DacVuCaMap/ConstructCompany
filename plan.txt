@@ -1,45 +1,16 @@
 new
-* customer edit fix lỗi mã số thuế trùng khi edit
-
-
------------
-fix:
-* search lowercase,uppercase các characters [Hai] []
-* order post thiếu positionSeller [H]
+* product list gửi thêm importPrice
+* bổ sung số hợp đồng,ngày kí order
 ------------------------
-api get
-* order get List(api/order/get?page=&size&filter)
-	-filter mặc định || mới create || !isPayment || isPayment || nhiều toltalAmount 
-	(gửi thêm customer Name luôn)
-
-apit get
-* order get details (api/order/details/{id})
------
-
-customer
-phoneNumber
+* fe: truy cập link ví dụ cusomters/asdjaskl -> trả về notFound()
+ 	
 
 
 
 
 
--- tu tu
-+ Order 
-	add Order (-id,create_at,update_at)
-	edit Order (-update_at,create_at)
-	delelte Order(+id)
-+ OrderDetails
-	add orderDetails (-id)
-	edit orderDetails
-	delelte orderDetails(+id)
 
-api post
-+ ProductOrder(
-	ProductOrder(-id,createAt,updateAt,TotalAmount)
-),ProductOrderDetail[](
-	ProductOrderDetails(-id)
-) ~ body bao gồm 2 cái trên
-+ 
+
 
 post add,edit,delete customer,product (api/customer/add-customer)	
 

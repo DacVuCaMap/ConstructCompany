@@ -12,8 +12,8 @@ export const sideBarAdmin = [
             },
             {
                 id: 12,
-                title: "Biên Bản NT và xác nhận KL",
-                url: "/invoice",
+                title: "Nghiệm thu khối lượng và giá trị",
+                url: "/statistic",
             },
         ],
     },
@@ -90,4 +90,7 @@ export const sellerData = {
     taxCode:"0110128690",
     representativeSeller:"Nguyễn Văn Tiến",
     positionSeller:"Giám đốc"
+}
+export const toltalPageGlobal = {
+    value: 0,
 }

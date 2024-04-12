@@ -7,8 +7,8 @@ export const AddProductField = [
     },
     {
         id: 2,
-        field: "Đơn vị",
-        title: "Unit",
+        field: "unit",
+        title: "Đơn vị",
         type: "text",
     },
     {
@@ -63,7 +63,7 @@ export const EditProductField = [
     { id: 8, field: "updateAt", title: "update At", type: "disable" },
 ]
 export const EditCustomerField = [
-    { id: 1, field: "id", title: "ID", type: "text" },
+    { id: 1, field: "id", title: "ID", type: "disable" },
     { id: 2, field: "companyName", title: "Tên Công Ty", type: "text" },
     { id: 3, field: "address", title: "Địa chỉ", type: "text" },
     { id: 4, field: "taxCode", title: "Mã số Thuế", type: "text" },

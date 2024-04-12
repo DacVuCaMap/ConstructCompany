@@ -1,15 +1,11 @@
 "use client"
-import { DataGrid, GridColDef, GridPagination, GridToolbar } from "@mui/x-data-grid"
+import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid"
 import "./dataTable.scss"
 import Image from "next/image";
-import axios from "axios";
 import DeletePattern from "@/ApiPattern/DeletePattern";
 import postData from "@/ApiPattern/PostPattern";
-import EditComponent from "../CRUDTAB/EditComponent";
 import { useState } from "react";
-import PutPattern from "@/ApiPattern/PutPattern";
 import PaginationComponent from "../List/PaginationComponent/PaginationComponent";
-import { useSearchParams } from "next/navigation";
 type Props = {
   columns: GridColDef[],
   rows: object[],
@@ -19,8 +15,6 @@ type Props = {
 }
 
 const DataTable = (props: Props) => {
-  const [openEdit, setOpenEdit] = useState(false);
-  const [items, setItems] = useState<any>([]);
   const handleDelete = async (id: string) => {
     console.log(id);
     console.log(props.rows, props.slug)
@@ -36,21 +30,13 @@ const DataTable = (props: Props) => {
     }
     window.location.reload();
   };
-  const handleEdit = async (items: any) => {
-    console.log(items);
-    setItems(items);
-    setOpenEdit(true);
-  }
-
   const actionColumn: GridColDef = {
     field: "action",
     headerName: "Action",
+    flex:0.2,
     renderCell: (params: any) => {
       return (
         <div className="action h-full flex justify-center items-center">
-          <div className="edit" onClick={() => handleEdit(params.row)}>
-            <Image src="/view.svg" width={10} height={10} alt="" />
-          </div>
           <div className="delete" onClick={() => handleDelete(params.row.id)}>
             <Image src="/delete.svg" width={10} height={10} alt="" />
           </div>
@@ -58,12 +44,11 @@ const DataTable = (props: Props) => {
       );
     }
   }
-  const handlePageChange = () => {
+  const handleRowClick = () => {
 
   }
   return (
     <div className="dataTable flex-1 m-2">
-      {openEdit && <EditComponent items={items} componentData={props.componentEditData} validValueSchema={props.validValueSchema} slug={props.slug} apiUrl="" setOpen={setOpenEdit} />}
       <DataGrid
         className="dataGrid"
         rows={props.rows}
@@ -83,6 +68,7 @@ const DataTable = (props: Props) => {
         }}
         slots={{ toolbar: GridToolbar }}
         disableColumnFilter
+        onRowClick={handleRowClick}
       />
       <div>
         <PaginationComponent />

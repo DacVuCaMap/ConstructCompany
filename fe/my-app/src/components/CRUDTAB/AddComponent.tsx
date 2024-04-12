@@ -15,6 +15,7 @@ type Props = {
 }
 
 export default function AddComponent(props: Props) {
+  console.log(props)
   const [errorForm, setErrorForm] = useState(false);
   const [change, setChange] = useState(false);
   const [success, setSuccess] = useState(false);
