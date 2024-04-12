@@ -3,12 +3,12 @@ package com.app.ConStructCompany.Request;
 import com.app.ConStructCompany.Request.dto.OrderDetailDto;
 import com.app.ConStructCompany.Request.dto.OrderDto;
 import lombok.Data;
-import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
 @Data
-public class AddOrderRequest {
+public class EditOrderRequest {
+
     private OrderDto order;
     private List<OrderDetailDto> orderDetails;
 
@@ -25,10 +25,12 @@ public class AddOrderRequest {
                         order.getSigningDate() == null ||
                         order.getCustomerId() == null ||
                         order.getSellerId() == null ||
+                        order.getId() == null ||
                         orderDetails.isEmpty() ||
                         orderDetails.stream().anyMatch(detail -> detail.getProductId() == null ||
                                 Double.isNaN(detail.getMaterialWeight()) || detail.getMaterialWeight() < 0 ||
                                 Double.isNaN(detail.getPrice()) || detail.getPrice() < 0)
+
                 )) {
             return true;
         }

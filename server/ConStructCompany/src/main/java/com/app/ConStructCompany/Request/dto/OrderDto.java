@@ -1,9 +1,13 @@
 package com.app.ConStructCompany.Request.dto;
 
+import jakarta.persistence.Column;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class OrderDto {
+    private Long id;
     private String representativeCustomer;
     private String representativeSeller;
     private String positionCustomer;
@@ -13,4 +17,6 @@ public class OrderDto {
     private Double totalAmount;
     private Long customerId;
     private Long sellerId;
+    private String contractCode;
+    private Date signingDate;
 }

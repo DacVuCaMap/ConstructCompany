@@ -61,4 +61,9 @@ public class Order {
     @Column(name = "signing_date")
     private Date signingDate;
 
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
+
+    @Column(name = "delete_at")
+    private Date deleteAt;
 }
