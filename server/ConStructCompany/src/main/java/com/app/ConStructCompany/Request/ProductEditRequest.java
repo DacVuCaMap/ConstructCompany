@@ -24,7 +24,7 @@ public class ProductEditRequest {
     private Double price;
 
     @NotNull(message = "Giá nhập không được để trống")
-    private Double importProduct;
+    private Double importPrice;
 
     private String description;
 

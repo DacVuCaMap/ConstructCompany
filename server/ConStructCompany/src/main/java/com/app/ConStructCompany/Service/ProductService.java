@@ -36,15 +36,19 @@ public class ProductService {
 
     public Product editProduct(ProductEditRequest productEditRequest){
         Optional<Product> productOptional = productRepository.findById(productEditRequest.getId());
-        Product product = productOptional.get();
-        product.setProName(productEditRequest.getProName());
-        product.setUnit(productEditRequest.getUnit());
-        product.setPrice(productEditRequest.getPrice());
-        product.setDescription(productEditRequest.getDescription());
-        product.setUpdateAt(new Date());
-        product.setImportPrice(productEditRequest.getImportProduct());
-        Product productSaved = productRepository.save(product);
-        return productSaved;
+        if(productOptional.isPresent()){
+            Product product = productOptional.get();
+            product.setProName(productEditRequest.getProName());
+            product.setUnit(productEditRequest.getUnit());
+            product.setPrice(productEditRequest.getPrice());
+            product.setImportPrice(productEditRequest.getImportPrice());
+            product.setDescription(productEditRequest.getDescription());
+            product.setUpdateAt(new Date());
+            Product productSaved = productRepository.save(product);
+            return productSaved;
+        }else {
+            return null;
+        }
     }
 
     public void deleteProductById(Long id) {
