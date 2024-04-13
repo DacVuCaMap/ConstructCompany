@@ -33,11 +33,11 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         }
         Order order = checkOrder.get();
 
-        List<OrderDetail> orderDetails = orderDetailRepository.findAllById(id);
+        List<OrderDetail> orderDetails = orderDetailRepository.findAllByOrderId(id);
 
         List<ProductOrderDetailDto> productOrderDetailDtos = orderDetails.stream()
                 .map(ProductOrderDetailDto::getProductOrderDetail)
-                .collect(Collectors.toList());
+                .toList();
 
         GetOrderDetailsResponse response = new GetOrderDetailsResponse();
         response.setOrder(order);
