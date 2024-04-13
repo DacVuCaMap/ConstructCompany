@@ -6,7 +6,6 @@ import com.app.ConStructCompany.Request.ProductEditRequest;
 import com.app.ConStructCompany.Response.GetProductResponse;
 import com.app.ConStructCompany.Service.ProductService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -34,7 +33,12 @@ public class ProductController {
     @PutMapping("/edit-product")
     public ResponseEntity<?> editProduct(@RequestBody @Valid ProductEditRequest productEditRequest){
         Product product = productService.editProduct(productEditRequest);
-        return ResponseEntity.ok(product);
+        if(product!=null){
+            return ResponseEntity.ok(product);
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy id của sản phẩm!");
+        }
+
     }
 
     @DeleteMapping("/delete/{id}")
