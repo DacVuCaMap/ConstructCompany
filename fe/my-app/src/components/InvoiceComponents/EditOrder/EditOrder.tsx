@@ -4,17 +4,19 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import './AddOrderProduct.scss';
-import TableOrder from '../TableOrder/TableOrder';
 import OpenWindowSearchCus from '../OpenWindowSearchCus/OpenWindowSearchCus';
 import { sellerData } from '@/data/data';
 import postData from '@/ApiPattern/PostPattern';
 import TableOrderDetails from '../OrderDetail/TableOrderDetails';
+import { ClipboardMinus } from 'lucide-react';
+import PrintInvoice from '@/components/PrintComponent/PrintInvoice';
+import ReactToPrint from 'react-to-print';
 type Cost = { totalCost: number, tax: number, totalAmount: number }
-type Props={
-    orderData:any
+type Props = {
+    orderData: any
 }
 const schema = yup.object().shape({
-    customerId: yup.number().notOneOf([-1],"Không để trống").required("Không để trống customer"),
+    customerId: yup.number().notOneOf([-1], "Không để trống").required("Không để trống customer"),
     representativeSeller: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
     positionCustomer: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
     positionSeller: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
@@ -24,9 +26,9 @@ const schema = yup.object().shape({
     TotalCost: yup.number(),
 });
 
-export default function EditOrder(props : Props) {
+export default function EditOrder(props: Props) {
     const sellerDt = sellerData;
-    const [orderDetailsProps,setOrderDetailsProps]=useState<any[]>([]);
+    const [orderDetailsProps, setOrderDetailsProps] = useState<any[]>([]);
     const {
         register,
         handleSubmit,
@@ -42,7 +44,7 @@ export default function EditOrder(props : Props) {
         positionCustomer: string
     }>({
         id: -1,
-        companyName:'',
+        companyName: '',
         representativeCustomer: '',
         positionCustomer: ''
     });
@@ -54,8 +56,8 @@ export default function EditOrder(props : Props) {
     const [orderDetail, setOrderDetail] = useState<any>();
     const [cost, setCost] = useState<Cost>({ totalCost: 0, tax: 0.1, totalAmount: 0 });
     const inpRef = useRef(null);
-    
-    useEffect(()=>{
+    const [createAt, setCreateAt] = useState<Date>(new Date());
+    useEffect(() => {
         if (props.orderData && props.orderData.order && props.orderData.order.customer) {
             setCustomer({
                 id: props.orderData.order.customer.id,
@@ -67,7 +69,10 @@ export default function EditOrder(props : Props) {
         if (props.orderData.orderDetails) {
             setOrderDetailsProps(props.orderData.orderDetails)
         }
-    },[props.orderData])
+        if (props.orderData.order) {
+            setCreateAt(props.orderData.order.createAt);
+        }
+    }, [props.orderData])
     useEffect(() => {
         if (customer && customer.id) {
             console.log(customer)
@@ -83,19 +88,19 @@ export default function EditOrder(props : Props) {
     // update cost
     const onSubmit = async (data: any) => {
 
-        let urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/order/add-order'
+        let urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/order/edit-order'
         console.log(urlPost);
 
-        const dataPost = { order: { ...data, ...cost }, orderDetails: orderDetail }
+        const dataPost = { id: props.orderData.order.id, order: { ...data, ...cost }, orderDetails: orderDetail }
         console.log("dataPost", dataPost)
 
-        // const post = await postData(urlPost, dataPost, {});
-        // console.log(post)
+        const post = await postData(urlPost, dataPost, {});
+        console.log(post)
     };
 
-    const data = [
-        [{ value: "vnila" }, { value: "conccas" }]
-    ]
+    //open print
+    const componentRef = useRef<HTMLDivElement>(null);
+    const [openPDF, setOpenPDF] = useState(false);
     return (
         <div className="flex justify-center items-center h-full  ">
             <form
@@ -213,19 +218,45 @@ export default function EditOrder(props : Props) {
                     </div>
                 </div>
                 <div className='mt-2 mb-2 '>
-                    <TableOrderDetails  setCost={setCost} setOrderDetail={setOrderDetail} cost={cost} orderDetailsProps={orderDetailsProps} />
+                    <TableOrderDetails setCost={setCost} setOrderDetail={setOrderDetail} cost={cost} orderDetailsProps={orderDetailsProps} />
                 </div>
 
 
-                <div className="flex items-center justify-between">
+                <div className="flex">
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="submit"
                     >
                         Lưu Dữ Liệu
                     </button>
+                    <button
+                        className=" hover:text-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        onClick={() => setOpenPDF(true)}
+                        type='button'
+                    >
+                        <div className='flex'>
+                            <ClipboardMinus /> Xem Trước PDF
+                        </div>
+                    </button>
                 </div>
             </form>
+            {openPDF && <div onClick={() => setOpenPDF(false)} className="fixed pt-64 overflow-auto top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 flex justify-center items-center">
+                <div className='mt-20'>
+                    <ReactToPrint trigger={() => <button className="z-99 absolute top-10 left-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Export PDF
+                    </button>
+                    }
+                        content={() => componentRef.current} />
+                    <PrintInvoice ref={componentRef} data={{
+                        createAt: createAt,
+                        companyName: customer.companyName,
+                        representativeCustomer: customer.representativeCustomer,
+                        positionCustomer:customer.positionCustomer,
+                        orderDetails:orderDetail
+                    }} />
+                </div>
+            </div>}
+
         </div>
     );
 }

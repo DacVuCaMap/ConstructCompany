@@ -14,6 +14,7 @@ export default function TableOrderDetails(props: Props) {
     const [items, setItems] = useState<Detail[]>([]);
     useEffect(()=>{
         if (props.orderDetailsProps) {
+            setItems([]);
             props.orderDetailsProps.map((item: any) => {
                 setItems(prevItems => [...prevItems, {
                     id: item.id,
@@ -138,7 +139,7 @@ export default function TableOrderDetails(props: Props) {
                 </thead>
                 <tbody className='border-b border-gray-500'>
 
-                    {items.map((item, index) => (
+                    {items.map((item) => (
                         <tr key={item.id} className={`h-7 ${count % 2 != 0 ? 'bg-white' : 'bg-stone-200'}`}>
                             <td>{count++}</td>
                             <td className='relative'>

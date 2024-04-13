@@ -21,7 +21,7 @@ export default function LoginComponent() {
 
     }
     return (
-        <div className="bg-gray-100 h-full flex justify-center items-center">
+        <div className="h-full flex justify-center items-center">
             <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-semibold mb-4">Login</h2>
                 <form onSubmit={handleLogin}>
@@ -37,7 +37,7 @@ export default function LoginComponent() {
                         <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">Login</button>
                     </div>
                 </form>
-                <p className="text-gray-600 text-sm">Don&apos;t have an account? <a href="#" className="text-blue-500">Sign up</a></p>
+
             </div>
         </div>
     )

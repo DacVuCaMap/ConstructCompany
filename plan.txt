@@ -1,4 +1,5 @@
 new
+* Seller bổ sung accountBankName,accountBankNumber,bankName
 ------------------------
 * fe: truy cập link ví dụ cusomters/asdjaskl -> trả về notFound()
  	
@@ -6,6 +7,7 @@ new
 
 
 
+-----
 
 
 

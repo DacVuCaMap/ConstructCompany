@@ -1,11 +1,27 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import './PrintInvoice.css'
+import { sellerData } from '@/data/data';
 interface PrintableContentProps {
-  content: string;
+  data: {
+    createAt: Date;
+    companyName: string;
+    representativeCustomer: string;
+    positionCustomer: string;
+    orderDetails: any[]
+  };
 }
+type PrintOrder = { createAt: Date, companyName: string, representativeCustomer: string, positionCustomer: string }
+export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
+  ({ data }, ref) => {
+    console.log('dataPrint', data);
+    const [loading, setLoading] = useState(true);
+    const seller = sellerData;
+    let count = 1;
+    useEffect(() => setLoading(false), [data]);
 
-const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
-  ({ content }, ref) => {
+    if (loading) {
+      return <div>Loading...</div>; // Hiển thị thông báo khi đang tải dữ liệu
+    }
     return (
       <div ref={ref}>
         <div className="a4-sheet lg:block ">
@@ -14,12 +30,12 @@ const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
           <div className="card-child card-3"><span>BIÊN BẢN NGHIỆM THU VÀ XÁC NHẬN KHỐI LƯỢNG</span> </div>
           <div className="card-child card-4"><span>- Căn cứ HĐKT Số: 0112/2023 /HĐNT/AK-TĐ </span><br />
             <span>Hôm nay, ngày 31 tháng 01 năm 2024. Chúng tôi gồm:</span> <br />
-            <span style={{ fontWeight: 'bolder' }}>Đại diện bên mua: CÔNG TY TNHH TƯ VẤN VÀ ĐẦU TƯ XÂY DỰNG AN KHÔI</span>
+            <span style={{ fontWeight: 'bolder' }}>Đại diện bên mua:{data.companyName}</span>
             <br />
-            <span className="span-card1">Ông: Nguyễn Văn Tá</span><span>Ông: Nguyễn Văn Tá</span><br />
-            <span style={{ fontWeight: 'bolder' }}>Đại diện bên mua: CÔNG TY TNHH TƯ VẤN VÀ ĐẦU TƯ XÂY DỰNG AN KHÔI</span>
+            <span className="span-card1">Người đại diện:{data.representativeCustomer} </span><span>Chức vụ: {data.positionCustomer}</span><br />
+            <span style={{ fontWeight: 'bolder' }}>Đại diện bên bán:{seller.companyName}</span>
             <br />
-            <span className="span-card1">Ông: Nguyễn Văn Tá</span><span>Ông: Nguyễn Văn Tá</span>
+            <span className="span-card1">Người đại diện: {seller.representativeSeller}</span><span>Chức vụ: {seller.positionSeller}</span>
             <br />
             <span>Đã cùng nhau đối chiếu và nghiệm thu xác nhận khối lượng giao nhận cụ thể như sau : </span>
             <table className="custom-table">
@@ -34,14 +50,16 @@ const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
+                {data.orderDetails.map((item) => (
+                  <tr key={count++}>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                ))}
               </tbody>
               <tfoot className='font-bold'>
                 <tr>
@@ -83,5 +101,5 @@ const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
     );
   }
 );
-
+PrintInvoice.displayName = 'PrintInvoice';
 export default PrintInvoice;

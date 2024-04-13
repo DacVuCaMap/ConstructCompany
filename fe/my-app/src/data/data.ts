@@ -19,7 +19,7 @@ export const sideBarAdmin = [
     },
     {
         id: 2,
-        title: "Quản Lí Chung",
+        title: "Quản Lí",
         listItems: [
 
             {

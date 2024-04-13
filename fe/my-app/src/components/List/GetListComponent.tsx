@@ -43,12 +43,12 @@ export default function GetListComponent(props: Props) {
       <h2 className='text-gray-700 font-bold text-4xl mb-4'>{props.nameSlug}</h2>
       <div className='m-5'>
         <button onClick={() => setOpenAdd(!openAdd)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Add {props.slug}
+          Thêm {props.nameSlug}
         </button>
       </div>
       {loading ? <LoadingScene /> : <DataTable componentEditData={props.EditDataField} validValueSchema={props.dataSchema} columns={props.columnData} rows={data} slug={props.slug} />}
       <div>
-        {openAdd && <AddComponent componentData={props.AddDataField} validValueSchema={props.dataSchema} slug={props.slug} setOpen={setOpenAdd} apiUrl={props.apiAddData} />}
+        {openAdd && <AddComponent nameSlug={props.nameSlug} componentData={props.AddDataField} validValueSchema={props.dataSchema} slug={props.slug} setOpen={setOpenAdd} apiUrl={props.apiAddData} />}
       </div>
     </div>
   )

@@ -11,11 +11,11 @@ type Props = {
   validValueSchema: any,
   slug: string,
   apiUrl: string,
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  nameSlug:string
 }
 
 export default function AddComponent(props: Props) {
-  console.log(props)
   const [errorForm, setErrorForm] = useState(false);
   const [change, setChange] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -59,7 +59,7 @@ export default function AddComponent(props: Props) {
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 z-51 w-full lg:max-w-4xl"
       >
-        <h2 className='text-gray-700 font-bold text-4xl mb-4'>{props.slug}</h2>
+        <h2 className='text-gray-700 font-bold text-4xl mb-4'>{props.nameSlug}</h2>
         {errorForm && (
           <p className="text-red-500 text-xs italic">FAILED TO ADD {props.slug}</p>
         )}

@@ -18,6 +18,8 @@ const schema = yup.object().shape({
     sellerId: yup.number().required("Khong de trong"),
     Tax: yup.string(),
     TotalCost: yup.number(),
+    signingDate:yup.date().required('Không bỏ trống'),
+    contractCode:yup.string().required('Không bỏ trống'),
 });
 
 export default function AddOrderProduct() {
@@ -188,8 +190,41 @@ export default function AddOrderProduct() {
                             </div>
                         </div>
                     </div>
+                    
                 </div>
                 <div className='mt-2 mb-2 '>
+                <div className='flex pb-4 mb-4 border-b border-neutral-400'>
+                            <div className='mr-1'>
+                                <label
+                                    className="block text-gray-700 font-bold mb-2"
+                                >
+                                    Ngày Kí Hợp Đồng:
+                                </label><input
+                                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.representativeCustomer ? 'border-red-500' : ''}`}
+                                    id="10"
+                                    type="date"
+                                    {...register('signingDate')} />
+                                {errors.representativeCustomer && (
+                                    <p className="text-red-500 text-xs italic">{errors.representativeCustomer.message}</p>
+                                )}
+                            </div>
+                            <div>
+                                <label
+                                    className="block text-gray-700 font-bold mb-2"
+                                >
+                                    Số Hợp Đồng:
+                                </label><input
+                                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.positionCustomer ? 'border-red-500' : ''}`}
+                                    id="13"
+                                    type="text"
+                                    placeholder='Mã Số Hợp đồng'
+                                    {...register('contractCode')} />
+                                {errors.positionCustomer && (
+                                    <p className="text-red-500 text-xs italic">{errors.positionCustomer.message}</p>
+                                )}
+                            </div>
+                            
+                        </div>
                     <TableOrder setCost={setCost} setOrderDetail={setOrderDetail} cost={cost} />
                 </div>
 
