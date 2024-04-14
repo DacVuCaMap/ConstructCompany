@@ -55,6 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setRepresentativeCustomer(addCustomerRequest.getRepresentativeCustomer());
         customer.setIsDeleted(false);
         customer.setPhoneNumber(addCustomerRequest.getPhoneNumber());
+        customer.setEmail(addCustomerRequest.getEmail());
         customerRepository.save(customer);
 
         return new PostCustomerResponse(HttpStatus.OK.value(), "Tạo khách hàng mới thành công");
@@ -93,11 +94,11 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setTaxCode(editCustomerRequest.getTaxCode());
         customer.setAddress(editCustomerRequest.getAddress());
         customer.setCompanyName(editCustomerRequest.getCompanyName());
-        customer.setDebt(editCustomerRequest.getDebt());
         customer.setUpdateAt(DateTimeUtils.getCurrentDate());
         customer.setPhoneNumber(editCustomerRequest.getPhoneNumber());
         customer.setPositionCustomer(editCustomerRequest.getPositionCustomer());
         customer.setRepresentativeCustomer(editCustomerRequest.getRepresentativeCustomer());
+        customer.setEmail(editCustomerRequest.getEmail());
         customerRepository.save(customer);
         return new PostCustomerResponse(HttpStatus.OK.value(), "Thay đổi thông tin khách hàng thành công");
     }

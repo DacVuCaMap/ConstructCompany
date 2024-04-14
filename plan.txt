@@ -1,9 +1,9 @@
 new
 * Seller bổ sung accountBankName,accountBankNumber,bankName
+* PDF open lỗi khi chưa kịp loading
 ------------------------
 * fe: truy cập link ví dụ cusomters/asdjaskl -> trả về notFound()
- 	
-
+* bổ sung email	customer
 
 
 

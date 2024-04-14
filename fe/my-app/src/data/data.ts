@@ -7,14 +7,19 @@ export const sideBarAdmin = [
         listItems: [
             {
                 id: 11,
-                title: "Nghiệm thu và xác nhận khối lượng",
+                title: "BBNT và XNKL",
                 url: "/invoice/list?size=10&page=0",
             },
             {
                 id: 12,
-                title: "Nghiệm thu khối lượng và giá trị",
-                url: "/statistic",
+                title: "Đề nghị Thanh Toán",
+                url: "/",
             },
+            {
+                id:13,
+                title: "BBNT và GT",
+                url:"/statistic"
+            }
         ],
     },
     {

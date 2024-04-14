@@ -6,6 +6,7 @@ import { FieldError, useForm } from 'react-hook-form';
 import DisableScreen from '../DisableScreen';
 import postData from '@/ApiPattern/PostPattern';
 import PutPattern from '@/ApiPattern/PutPattern';
+import { formatDateData, formatNumberWithDot, numberWithoutDots } from '@/data/listData';
 
 type Props = {
   componentData: any,
@@ -24,14 +25,6 @@ export default function EditComponent(props: Props) {
   // useEffect(()=>{
   //   setValueField({...props.items});
   // },[props.items])
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setValueField((prevState : any)=> ({
-      ...prevState,
-      [name]: value
-    }));
-  };
 
   const {
     register,
@@ -75,9 +68,13 @@ export default function EditComponent(props: Props) {
   }
   const inputProps = (item:any) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      let val : any = e.target.value
+      // if (e.target.name==='price' || e.target.name==='importPrice' || e.target.name==='debt') {
+      //   val=Number(numberWithoutDots(val));
+      // }
       setValueField((prevState:any) => ({
         ...prevState,
-        [item.field]: e.target.value
+        [item.field]: val
       }));
     };
   
@@ -86,16 +83,26 @@ export default function EditComponent(props: Props) {
       onChange: handleChange,
       className: `focus:outline-none focus:shadow-outline shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight ${errors[item.field] ? 'border-red-500' : ''} ${item.type === 'disable' ? 'cursor-not-allowed bg-gray-200' : ''}`,
       type: item.type,
-      step: item.type === "number" ? "0.01" : undefined,
-      value: fieldValue[item.field],
+      value:fieldValue[item.field],
+      name:item.field
     };
   };
+  // const checkFormat=(item:any)=>{
+  //   if (item.field==='price' || item.field==='importPrice' || item.field==='debt') {
+  //     return formatNumberWithDot(fieldValue[item.field],2);
+  //   }
+  //   if (item.field==='createAt' || item.field ==='updateAt') {
+  //     return formatDateData(fieldValue[item.field]);
+  //   }
+  //   return fieldValue[item.field];
+  // }
+
   return (
     <div onClick={handleCancel} className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center">
       <form
         onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 z-51 w-full lg:max-w-4xl"
+        className="bg-white overflow-auto max-h-screen shadow-md rounded px-8 pt-6 pb-8 mb-4 z-51 w-full lg:max-w-4xl"
       >
         <h2 className='text-gray-700 font-bold text-4xl mb-4'>{props.slug}</h2>
         {errorForm && (
@@ -104,9 +111,9 @@ export default function EditComponent(props: Props) {
         {success && (
           <p className="text-green-700 italic">Tạo thành công</p>
         )}
-        <div className={`flex  ${flexResponsive} max-h-full flex-auto pb-2 mb-2 border-b border-neutral-400 gap-x-4`}>
+        <div className={`flex lg:flex-row flex-col flex-wrap max-h-full w-full pb-2 mb-2 border-b border-neutral-400 gap-x-4`}>
           {props.componentData.map((item: any) => (
-            <div className='flex-auto mb-2 ' key={item.id}>
+            <div className={`mb-2 pr-2 lg:w-${item.width} w-full`} key={item.id}>
               <label
                 className="block text-gray-700 font-bold mb-2"
               >
@@ -117,7 +124,6 @@ export default function EditComponent(props: Props) {
                 <p className="text-red-500 text-xs italic">{(errors[item.field] as FieldError)?.message}</p>
               )}
             </div>
-
           ))}
         </div>
 

@@ -1,6 +1,7 @@
 package com.app.ConStructCompany.Request;
 
 import com.app.ConStructCompany.utils.ValidateUtils;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -23,8 +24,6 @@ public class EditCustomerRequest extends CustomerRequest{
     @NotNull(message = "Tax code is required and cannot be null")
     private String taxCode;
 
-    @NotNull(message = "Debt is required and cannot be null")
-    private Double debt;
 
     @NotNull(message = "Position is required and cannot be null")
     private String positionCustomer;
@@ -34,7 +33,8 @@ public class EditCustomerRequest extends CustomerRequest{
 
     @Pattern(regexp = "^0[0-9]{8,11}$", message = "Invalid phone number") @NotNull(message = "Phone number is null")
     private String phoneNumber;
-
+    @Email(message = "Invalid Email")
+    private String email;
     @Override
     public boolean isValidRequest() {
         return !address.isEmpty() && !companyName.isEmpty() && !taxCode.isEmpty() && !positionCustomer.isEmpty() && !representativeCustomer.isEmpty() && !phoneNumber.isEmpty();

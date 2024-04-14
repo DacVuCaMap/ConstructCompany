@@ -51,4 +51,6 @@ public class Customer {
 
     @Column(name = "representative_customer")
     private String representativeCustomer;
+    @Column (name="email")
+    private String email;
 }

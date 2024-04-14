@@ -15,5 +15,6 @@ export const customerSchema = yup.object().shape({
   taxCode: yup.number(),
   phoneNumber:yup.string().required('Không để trống').matches(/^[0-9]*$/, 'Phải là số'),
   representativeCustomer:yup.string().required("Không để trống"),
-  positionCustomer:yup.string().required("Không để trống")
+  positionCustomer:yup.string().required("Không để trống"),
+  email:yup.string().email('Phải là email').required('Không để trống')
 });

@@ -44,8 +44,8 @@ public class ProductService {
             product.setImportPrice(productEditRequest.getImportPrice());
             product.setDescription(productEditRequest.getDescription());
             product.setUpdateAt(new Date());
-            Product productSaved = productRepository.save(product);
-            return productSaved;
+            product.setInventory(productEditRequest.getInventory());
+            return productRepository.save(product);
         }else {
             return null;
         }

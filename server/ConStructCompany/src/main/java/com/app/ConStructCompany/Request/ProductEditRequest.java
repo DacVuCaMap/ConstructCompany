@@ -11,11 +11,14 @@ import lombok.Data;
 import java.util.Date;
 @Data
 public class ProductEditRequest {
-    @NotBlank(message = "ID sản phẩm không được để trống")
+    @NotNull(message = "ID sản phẩm không được để trống")
     private Long id;
 
     @NotNull(message = "Tên sản phẩm không được để trống")
     private String proName;
+
+    @NotNull(message = "Khong phu hop")
+    private Double inventory;
 
     @NotNull(message = "Unit không được để trống")
     private String unit;

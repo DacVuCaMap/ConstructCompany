@@ -251,8 +251,9 @@ export default function EditOrder(props: Props) {
                         createAt: createAt,
                         companyName: customer.companyName,
                         representativeCustomer: customer.representativeCustomer,
-                        positionCustomer:customer.positionCustomer,
-                        orderDetails:orderDetail
+                        positionCustomer: customer.positionCustomer,
+                        orderDetails: orderDetail,
+                        tax:props.orderData.order.tax
                     }} />
                 </div>
             </div>}

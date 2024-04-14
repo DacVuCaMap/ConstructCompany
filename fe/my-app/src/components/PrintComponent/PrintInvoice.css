@@ -54,6 +54,7 @@
 .custom-table th {
     border: 1px solid black;
     font-weight: bold;
+    text-align: center;
 }
 
 .custom-table td {

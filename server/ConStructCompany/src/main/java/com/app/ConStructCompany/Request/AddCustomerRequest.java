@@ -1,6 +1,7 @@
 package com.app.ConStructCompany.Request;
 
 import com.app.ConStructCompany.utils.ValidateUtils;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -26,7 +27,8 @@ public class AddCustomerRequest extends CustomerRequest{
 
     @Pattern(regexp = "^0[0-9]{8,11}$", message = "Invalid phone number")
     private String phoneNumber;
-
+    @Email(message = "not email")
+    private String email;
     @Override
     public boolean isValidRequest() {
         return !address.isEmpty() && !companyName.isEmpty() && !taxCode.isEmpty() && !phoneNumber.isEmpty() && !positionCustomer.isEmpty() && !representativeCustomer.isEmpty();

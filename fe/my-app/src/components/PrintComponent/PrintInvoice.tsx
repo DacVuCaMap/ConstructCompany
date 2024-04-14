@@ -7,7 +7,8 @@ interface PrintableContentProps {
     companyName: string;
     representativeCustomer: string;
     positionCustomer: string;
-    orderDetails: any[]
+    orderDetails: any[],
+    tax:number
   };
 }
 type PrintOrder = { createAt: Date, companyName: string, representativeCustomer: string, positionCustomer: string }
@@ -15,10 +16,19 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
   ({ data }, ref) => {
     console.log('dataPrint', data);
     const [loading, setLoading] = useState(true);
+    const [totalCost, setTotalCost] = useState(0);
     const seller = sellerData;
     let count = 1;
     useEffect(() => setLoading(false), [data]);
-
+    const numberWithDots = (number: number, fixed: number) => {
+      let num = parseFloat(number.toFixed(fixed));
+      return num.toLocaleString('de-DE');
+    };
+    const handleCalculator = () => {
+      return data.orderDetails?.reduce((total, item) => {
+        return total + item.materialWeight * item.price;
+      }, 0)
+    }
     if (loading) {
       return <div>Loading...</div>; // Hiển thị thông báo khi đang tải dữ liệu
     }
@@ -40,7 +50,7 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
             <span>Đã cùng nhau đối chiếu và nghiệm thu xác nhận khối lượng giao nhận cụ thể như sau : </span>
             <table className="custom-table">
               <thead>
-                <tr>
+                <tr >
                   <th>STT</th>
                   <th>Tên Vật liệu</th>
                   <th>Đơn vị</th>
@@ -51,13 +61,13 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
               </thead>
               <tbody>
                 {data.orderDetails.map((item) => (
-                  <tr key={count++}>
-                    <td>1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                  <tr key={count}>
+                    <td>{count++}</td>
+                    <td>{item.proName}</td>
+                    <td className='text-center'>{item.unit}</td>
+                    <td className='text-center w-1/12'>{item.materialWeight}</td>
+                    <td className='text-right'>{numberWithDots(item.price, 2)}</td>
+                    <td className='text-right'>{numberWithDots(item.price * item.materialWeight, 0)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -68,7 +78,7 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td></td>
+                  <td className='text-align:right'>{numberWithDots(handleCalculator(),0)}</td>
                 </tr>
                 <tr>
                   <td></td>
@@ -76,7 +86,7 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td></td>
+                  <td className='text-align:right'>{numberWithDots(handleCalculator()*data.tax,0)}</td>
                 </tr>
                 <tr>
                   <td></td>
@@ -84,7 +94,7 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td></td>
+                  <td className='text-align:right'>{numberWithDots(handleCalculator()*(1-data.tax),0)}</td>
                 </tr>
               </tfoot>
             </table>

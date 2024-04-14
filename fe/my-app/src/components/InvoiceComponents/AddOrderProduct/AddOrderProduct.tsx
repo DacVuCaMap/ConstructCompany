@@ -10,7 +10,7 @@ import { sellerData } from '@/data/data';
 import postData from '@/ApiPattern/PostPattern';
 type Cost = { totalCost: number, tax: number, totalAmount: number }
 const schema = yup.object().shape({
-    customerId: yup.number().notOneOf([-1],"Không để trống").required("Không để trống customer"),
+    customerId: yup.number().notOneOf([-1], "Không để trống").required("Không để trống customer"),
     representativeSeller: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
     positionCustomer: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
     positionSeller: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
@@ -18,8 +18,7 @@ const schema = yup.object().shape({
     sellerId: yup.number().required("Khong de trong"),
     Tax: yup.string(),
     TotalCost: yup.number(),
-    signingDate:yup.date().required('Không bỏ trống'),
-    contractCode:yup.string().required('Không bỏ trống'),
+    signingDate: yup.date().required('Không bỏ trống'),
 });
 
 export default function AddOrderProduct() {
@@ -65,16 +64,26 @@ export default function AddOrderProduct() {
         let urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/order/add-order'
         console.log(urlPost);
 
-        const dataPost = { order: { ...data, ...cost }, orderDetails: orderDetail }
+        const dataPost = { order: { ...data, ...cost,contractCode:formattedDate }, orderDetails: orderDetail }
         console.log("dataPost", dataPost)
 
-        const post = await postData(urlPost, dataPost, {});
-        console.log(post)
+        // const post = await postData(urlPost, dataPost, {});
+        // console.log(post)
     };
 
     const data = [
         [{ value: "vnila" }, { value: "conccas" }]
     ]
+    //build contractCode
+    const currentDate = new Date();
+
+    // Lấy ngày, tháng và năm hiện tại
+    const day = currentDate.getDate();
+    const month = currentDate.getMonth() + 1; // Tháng được đếm từ 0, nên cần cộng thêm 1
+    const year = currentDate.getFullYear();
+
+    // Chuyển đổi ngày và tháng thành chuỗi có định dạng "DDMM/YYYY"
+    const formattedDate = `${day < 10 ? '0' + day : day}${month < 10 ? '0' + month : month}/${year}`;
     return (
         <div className="flex justify-center items-center h-full  ">
             <form
@@ -190,41 +199,26 @@ export default function AddOrderProduct() {
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div className='mt-2 mb-2 '>
-                <div className='flex pb-4 mb-4 border-b border-neutral-400'>
-                            <div className='mr-1'>
-                                <label
-                                    className="block text-gray-700 font-bold mb-2"
-                                >
-                                    Ngày Kí Hợp Đồng:
-                                </label><input
-                                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.representativeCustomer ? 'border-red-500' : ''}`}
-                                    id="10"
-                                    type="date"
-                                    {...register('signingDate')} />
-                                {errors.representativeCustomer && (
-                                    <p className="text-red-500 text-xs italic">{errors.representativeCustomer.message}</p>
-                                )}
-                            </div>
-                            <div>
-                                <label
-                                    className="block text-gray-700 font-bold mb-2"
-                                >
-                                    Số Hợp Đồng:
-                                </label><input
-                                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.positionCustomer ? 'border-red-500' : ''}`}
-                                    id="13"
-                                    type="text"
-                                    placeholder='Mã Số Hợp đồng'
-                                    {...register('contractCode')} />
-                                {errors.positionCustomer && (
-                                    <p className="text-red-500 text-xs italic">{errors.positionCustomer.message}</p>
-                                )}
-                            </div>
-                            
+                    <div className='flex pb-4 mb-4 border-b border-neutral-400'>
+                        <div className='mr-1'>
+                            <label
+                                className="block text-gray-700 font-bold mb-2"
+                            >
+                                Ngày Kí Hợp Đồng:
+                            </label><input
+                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.representativeCustomer ? 'border-red-500' : ''}`}
+                                id="10"
+                                type="date"
+                                {...register('signingDate')} />
+                            {errors.representativeCustomer && (
+                                <p className="text-red-500 text-xs italic">{errors.representativeCustomer.message}</p>
+                            )}
                         </div>
+
+                    </div>
                     <TableOrder setCost={setCost} setOrderDetail={setOrderDetail} cost={cost} />
                 </div>
 
