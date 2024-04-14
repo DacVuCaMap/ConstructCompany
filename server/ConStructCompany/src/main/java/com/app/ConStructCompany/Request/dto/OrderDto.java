@@ -18,5 +18,5 @@ public class OrderDto {
     private Long customerId;
     private Long sellerId;
     private String contractCode;
-    private Date signingDate;
+    private String signingDate;
 }

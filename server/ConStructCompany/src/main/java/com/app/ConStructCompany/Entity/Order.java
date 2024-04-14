@@ -59,7 +59,7 @@ public class Order {
     private String contractCode;
 
     @Column(name = "signing_date")
-    private Date signingDate;
+    private String signingDate;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;
