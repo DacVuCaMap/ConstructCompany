@@ -18,7 +18,7 @@ const schema = yup.object().shape({
     sellerId: yup.number().required("Khong de trong"),
     Tax: yup.string(),
     TotalCost: yup.number(),
-    signingDate: yup.date().required('Không bỏ trống'),
+    signingDateForm: yup.date().required('Không bỏ trống'),
 });
 
 export default function AddOrderProduct() {
@@ -62,13 +62,14 @@ export default function AddOrderProduct() {
     const onSubmit = async (data: any) => {
 
         let urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/order/add-order'
+        let month=data.signingDateForm.getMonth()+1;
         console.log(urlPost);
-
-        const dataPost = { order: { ...data, ...cost,contractCode:formattedDate }, orderDetails: orderDetail }
+        let signingDate = `${data.signingDateForm.getFullYear()}-${month < 10 ? '0' + month : month}-${data.signingDateForm.getDate()}`;
+        const dataPost = { order: { ...data,signingDate:signingDate, ...cost,contractCode:formattedDate }, orderDetails: orderDetail }
         console.log("dataPost", dataPost)
 
-        // const post = await postData(urlPost, dataPost, {});
-        // console.log(post)
+        const post = await postData(urlPost, dataPost, {});
+        console.log(post)
     };
 
     const data = [
@@ -212,7 +213,7 @@ export default function AddOrderProduct() {
                                 className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.representativeCustomer ? 'border-red-500' : ''}`}
                                 id="10"
                                 type="date"
-                                {...register('signingDate')} />
+                                {...register('signingDateForm')} />
                             {errors.representativeCustomer && (
                                 <p className="text-red-500 text-xs italic">{errors.representativeCustomer.message}</p>
                             )}

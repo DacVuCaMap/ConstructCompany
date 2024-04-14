@@ -1,7 +1,7 @@
 
 import GetPattern from '@/ApiPattern/GetPattern';
 import LoadingScene from '@/components/LoadingScene';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 type Customer={
     id: number,
     companyName: string,
@@ -31,14 +31,25 @@ export default function OpenWindowSearchCus(props: Props) {
         
         handleCancel();
     }
+    useEffect(()=>{
+        const fetch = async (e: string) => {
+            setLoading(true);
+            const response = await GetPattern(url + e, {})
+            if (response==null) {
+                return;
+            }
+            setLoading(false);
+            setCusItem(response.customerPage.content);
+        }
+        fetch('');
+    },[])
     const handlePost = async (e: string) => {
         console.log(e)
         setLoading(true);
         const response = await GetPattern(url + e, {})
-        // if (response==null) {
-        //     return;
-        // }
-        // console.log("response",response.data.content);
+        if (response==null) {
+            return;
+        }
         setLoading(false);
         setCusItem(response.customerPage.content);
 

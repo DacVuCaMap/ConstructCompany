@@ -103,6 +103,7 @@ public class OrderServiceImpl implements OrderService {
         }catch (IllegalArgumentException ex) {
             return new PostOrderResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
         } catch (Exception ex) {
+            ex.printStackTrace();
             return new PostOrderResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Đã xảy ra lỗi khi thêm đơn hàng");
         }
     }
