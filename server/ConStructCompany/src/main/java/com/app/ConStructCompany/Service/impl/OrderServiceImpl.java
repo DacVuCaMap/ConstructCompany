@@ -9,6 +9,7 @@ import com.app.ConStructCompany.Request.SetIsPaymentedRequest;
 import com.app.ConStructCompany.Request.dto.OrderDetailDto;
 import com.app.ConStructCompany.Response.PostOrderResponse;
 import com.app.ConStructCompany.Service.OrderService;
+import com.app.ConStructCompany.Validator.ExceptionHandle;
 import com.app.ConStructCompany.utils.DateTimeUtils;
 import com.app.ConStructCompany.utils.GenerateUtils;
 import lombok.AllArgsConstructor;
@@ -54,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
             }
             Seller seller = checkSeller.get();
 
-            String latestOrderCode = getLatesOrderCode();
+            Long latestOrderCode = getLatesId();
             String newOrderCode = GenerateUtils.generateOrderCode(latestOrderCode);
             Order order = new Order();
             order.setPositionCustomer(addOrderRequest.getOrder().getPositionCustomer());
@@ -101,14 +102,14 @@ public class OrderServiceImpl implements OrderService {
 
             return new PostOrderResponse(HttpStatus.OK.value(), "Thêm đơn hàng thành công");
         }catch (IllegalArgumentException ex) {
-            return new PostOrderResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+            throw ex;
         } catch (Exception ex) {
-            ex.printStackTrace();
-            return new PostOrderResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Đã xảy ra lỗi khi thêm đơn hàng");
+            throw ex;
         }
     }
 
     @Override
+    @Transactional
     public PostOrderResponse editOrder(EditOrderRequest editOrderRequest) {
         try {
             if (!editOrderRequest.isValidRequest()){
@@ -177,9 +178,9 @@ public class OrderServiceImpl implements OrderService {
 
             return new PostOrderResponse(HttpStatus.OK.value(), "Thêm đơn hàng thành công");
         }catch (IllegalArgumentException ex) {
-            return new PostOrderResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+            throw ex;
         } catch (Exception ex) {
-            return new PostOrderResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Đã xảy ra lỗi khi thêm đơn hàng");
+            throw ex;
         }
     }
 
@@ -198,33 +199,42 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public PostOrderResponse deleteOrder(Long id) {
-        Optional<Order> checkOrder = orderRepository.findById(id);
-        if (!checkOrder.isPresent()){
-            throw new IllegalArgumentException("Đơn hàng không tồn tại");
-        }
-        Order order = checkOrder.get();
-        order.setIsDeleted(true);
-        orderRepository.save(order);
+        try {
+            Optional<Order> checkOrder = orderRepository.findById(id);
+            if (!checkOrder.isPresent()){
+                throw new IllegalArgumentException("Đơn hàng không tồn tại");
+            }
+            Order order = checkOrder.get();
+            order.setIsDeleted(true);
+            orderRepository.save(order);
 
-        return new PostOrderResponse(HttpStatus.OK.value(), "Xóa đơn hàng thành công");
+            return new PostOrderResponse(HttpStatus.OK.value(), "Xóa đơn hàng thành công");
+        }catch (IllegalArgumentException ex){
+            throw ex;
+        }
     }
 
     @Override
     public PostOrderResponse setIsPaymented(SetIsPaymentedRequest setIsPaymentedRequest) {
-        Optional<Order> checkOrder = orderRepository.findById(setIsPaymentedRequest.getId());
-        if (!checkOrder.isPresent()){
-            throw new IllegalArgumentException("Đơn hàng không tồn tại");
-        }
-        Order order = checkOrder.get();
-        order.setIsPaymented(setIsPaymentedRequest.getPayment());
-        orderRepository.save(order);
+        try {
+            Optional<Order> checkOrder = orderRepository.findById(setIsPaymentedRequest.getId());
+            if (!checkOrder.isPresent()){
+                throw new IllegalArgumentException("Đơn hàng không tồn tại");
+            }
+            Order order = checkOrder.get();
+            order.setIsPaymented(setIsPaymentedRequest.getPayment());
+            orderRepository.save(order);
 
-        return new PostOrderResponse(HttpStatus.OK.value(), "Đổi trạng thái thành công");
+            return new PostOrderResponse(HttpStatus.OK.value(), "Đổi trạng thái thành công");
+        }catch (IllegalArgumentException ex){
+            throw ex;
+        }
     }
 
-    private String getLatesOrderCode() {
-        Order latestOrder = orderRepository.findFirstByOrderByOrderCodeDesc();
-        return latestOrder != null ? latestOrder.getOrderCode() : null;
+    private Long getLatesId() {
+        Order lastId = orderRepository.findFirstByOrderByIdDesc();
+        return lastId != null ? lastId.getId() : null;
     }
 }
