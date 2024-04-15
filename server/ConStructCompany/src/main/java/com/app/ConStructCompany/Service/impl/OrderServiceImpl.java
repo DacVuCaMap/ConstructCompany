@@ -167,10 +167,11 @@ public class OrderServiceImpl implements OrderService {
                 Product product = checkProduct.get();
 
                 OrderDetail existingOrderDetail = currentOrderDetailsMap.get(orderDetailDto.getOrderDetailId());
-                if (currentOrderDetailsMap.get(orderDetailDto.getOrderDetailId()) != null){
+                if (existingOrderDetail != null){
                     existingOrderDetail.setPrice(orderDetailDto.getPrice());
                     existingOrderDetail.setMaterialWeight(orderDetailDto.getMaterialWeight());
                     existingOrderDetail.setProduct(product);
+                    currentOrderDetailsMap.remove(orderDetailDto.getOrderDetailId());
                 }else {
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.setOrder(newOrder);

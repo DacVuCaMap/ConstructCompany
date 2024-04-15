@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class StatisticRequest {
+    private Long id;
     private Long customerId;
     private Long sellerId;
     private String representativeCustomer;
