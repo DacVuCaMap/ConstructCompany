@@ -36,4 +36,14 @@ public class StatisticController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy id của khách hàng hoặc người bán!");
         }
     }
+
+    @PostMapping("/edit")
+    public ResponseEntity<?> editStatistic(@RequestBody StatisticAddRequest statisticAddRequest) {
+        return statisticService.editStatistic(statisticAddRequest);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteStatistic(@RequestParam Long id) {
+        return statisticService.deleteStatistic(id);
+    }
 }

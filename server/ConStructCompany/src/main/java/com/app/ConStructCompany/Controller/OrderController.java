@@ -28,7 +28,6 @@ public class OrderController {
 
     @PostMapping("/edit-order")
     public PostOrderResponse editOrder(@RequestBody EditOrderRequest editOrderRequest){
-        System.out.println(editOrderRequest);
         return orderService.editOrder(editOrderRequest);
     }
 

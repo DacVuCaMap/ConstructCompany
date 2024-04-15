@@ -21,9 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -153,7 +151,11 @@ public class OrderServiceImpl implements OrderService {
 
             Order newOrder = orderRepository.save(order);
 
-            List<OrderDetail> orderDetails = new ArrayList<>();
+            Map<Long, OrderDetail> currentOrderDetailsMap = new HashMap<>();
+            List<OrderDetail> currentOrderDetails = orderDetailRepository.findAllByOrderId(order.getId());
+            for (OrderDetail orderDetail : currentOrderDetails){
+                currentOrderDetailsMap.put(orderDetail.getId(), orderDetail);
+            }
 
             List<OrderDetailDto> orderDetailDtos = editOrderRequest.getOrderDetails();
 
@@ -163,20 +165,46 @@ public class OrderServiceImpl implements OrderService {
                     throw new IllegalArgumentException("Sản phẩm không tồn tại: " + orderDetailDto.getProductId());
                 }
                 Product product = checkProduct.get();
-                OrderDetail orderDetail = new OrderDetail();
-                orderDetail.setOrder(newOrder);
-                orderDetail.setPrice(orderDetailDto.getPrice());
-                orderDetail.setMaterialWeight(orderDetailDto.getMaterialWeight());
-                orderDetail.setProduct(product);
 
-                orderDetails.add(orderDetail);
+                OrderDetail existingOrderDetail = currentOrderDetailsMap.get(orderDetailDto.getOrderDetailId());
+                if (existingOrderDetail != null){
+                    existingOrderDetail.setPrice(orderDetailDto.getPrice());
+                    existingOrderDetail.setMaterialWeight(orderDetailDto.getMaterialWeight());
+                    existingOrderDetail.setProduct(product);
+                    currentOrderDetailsMap.remove(orderDetailDto.getOrderDetailId());
+                }else {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.setOrder(newOrder);
+                    orderDetail.setPrice(orderDetailDto.getPrice());
+                    orderDetail.setMaterialWeight(orderDetailDto.getMaterialWeight());
+                    orderDetail.setProduct(product);
+                    currentOrderDetails.add(orderDetail);
+                }
             }
 
-            orderDetailRepository.saveAll(orderDetails);
+            List<OrderDetail> orderDetailsToDelete = new ArrayList<>();
+
+            for (OrderDetail orderDetailToDelete : currentOrderDetailsMap.values()){
+                boolean toDelete = false;
+                for (OrderDetailDto orderDetailDto : orderDetailDtos){
+                    if (orderDetailDto.getOrderDetailId() != null && orderDetailDto.getOrderDetailId().equals(orderDetailToDelete.getId())){
+                        toDelete = true;
+                        break;
+                    }
+                }
+
+                if (!toDelete){
+                    orderDetailsToDelete.add(orderDetailToDelete);
+                    currentOrderDetails.remove(orderDetailToDelete);
+                }
+            }
+
+            orderDetailRepository.deleteAll(orderDetailsToDelete);
+            orderDetailRepository.saveAll(currentOrderDetails);
 
             customerRepository.save(customer);
 
-            return new PostOrderResponse(HttpStatus.OK.value(), "Thêm đơn hàng thành công");
+            return new PostOrderResponse(HttpStatus.OK.value(), "Cập nhật đơn hàng thành công");
         }catch (IllegalArgumentException ex) {
             throw ex;
         } catch (Exception ex) {
