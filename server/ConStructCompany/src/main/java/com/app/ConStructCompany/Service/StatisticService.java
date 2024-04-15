@@ -35,7 +35,7 @@ public class StatisticService {
         return statisticPage;
     }
 
-    @Transactional
+
     public Statistic addStatistic(StatisticAddRequest statisticAddRequest){
         Statistic statistic = new Statistic();
         StatisticRequest statisticRequest = statisticAddRequest.getStatistic();
