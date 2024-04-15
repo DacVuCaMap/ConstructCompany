@@ -35,6 +35,7 @@ public class StatisticService {
         return statisticPage;
     }
 
+    @Transactional
     public Statistic addStatistic(StatisticAddRequest statisticAddRequest){
         Statistic statistic = new Statistic();
         StatisticRequest statisticRequest = statisticAddRequest.getStatistic();
@@ -46,12 +47,13 @@ public class StatisticService {
             Seller seller = OptionalSeller.get();
             statistic.setCustomer(customer);
             statistic.setSeller(seller);
-            statistic.setRepresentativeCustomer(statistic.getRepresentativeCustomer());
-            statistic.setPositionCustomer(statistic.getPositionCustomer());
-            statistic.setRepresentativeSeller(statistic.getRepresentativeSeller());
-            statistic.setPositionSeller(statistic.getPositionSeller());
-            statistic.setTotalAmount(statistic.getTotalAmount());
+            statistic.setRepresentativeCustomer(statisticRequest.getRepresentativeCustomer());
+            statistic.setPositionCustomer(statisticRequest.getPositionCustomer());
+            statistic.setRepresentativeSeller(statisticRequest.getRepresentativeSeller());
+            statistic.setPositionSeller(statisticRequest.getPositionSeller());
+            statistic.setTotalAmount(statisticRequest.getTotalAmount());
             statistic.setCreateAt(new Date());
+            statistic.setIsDeleted(false);
             Statistic statisticSave = statisticRepository.save(statistic);
             for (StatisticDetailRequest statisticDetailRequest : statisticDetailRequests){
                 statisticDetailService.addStatisticDetail(statisticDetailRequest,statisticSave);

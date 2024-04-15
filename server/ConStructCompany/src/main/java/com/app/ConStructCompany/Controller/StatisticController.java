@@ -31,7 +31,7 @@ public class StatisticController {
         Statistic statistic = statisticService.addStatistic(statisticAddRequest);
 
         if(statistic!=null){
-            return ResponseEntity.ok("add than cong");
+            return ResponseEntity.ok("add thanh cong");
         }else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy id của khách hàng hoặc người bán!");
         }

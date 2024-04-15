@@ -41,4 +41,10 @@ public class Statistic {
 
     @Column(name = "update_at")
     private Date updateAt;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
+
+    @Column(name = "deleted_at")
+    private Date deletedAt;
 }
