@@ -109,3 +109,6 @@ export const formatNumberWithDot = (number: number, fixed: number) => {
     }
 };
 export const numberWithoutDots = (numberWithDots: string) => { return parseFloat(numberWithDots.replace(/\./g, '')) };
+export const  formatNumberToDot= (number:any)=> {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+} 

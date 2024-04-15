@@ -33,25 +33,18 @@ public class StatisticDetailService {
             return response;
         });
     }
-    public StatisticDetail addStatisticDetail(StatisticDetailRequest statisticDetailRequest){
+    public void addStatisticDetail(StatisticDetailRequest statisticDetailRequest,Statistic statistic){
         StatisticDetail statisticDetail =new StatisticDetail();
-        Optional<Statistic> optionalStatistic = statisticRepository.findById(statisticDetailRequest.getStatisticID());
-        if(optionalStatistic.isPresent()){
-            Statistic statistic = optionalStatistic.get();
-            statisticDetail.setStatistic(statistic);
-            statisticDetail.setPrice(statisticDetailRequest.getPrice());
-            statisticDetail.setDay(statisticDetailRequest.getDay());
-            statisticDetail.setMaterialWeight(statisticDetailRequest.getMaterialWeight());
-            statisticDetail.setTotalAmount(statisticDetailRequest.getTotalAmount());
-            statisticDetail.setTicket(statisticDetailRequest.getTicket());
-            statisticDetail.setTrailer(statisticDetailRequest.getTrailer());
-            statisticDetail.setLicensePlate(statisticDetailRequest.getLicensePlate());
-            statisticDetail.setTypeProduct(statisticDetailRequest.getTypeProduct());
-            statisticDetail.setNote(statisticDetailRequest.getNote());
-            StatisticDetail statisticSaved = statisticDetailRepository.save(statisticDetail);
-            return statisticSaved;
-        }else {
-            return null;
-        }
+        statisticDetail.setStatistic(statistic);
+        statisticDetail.setPrice(statisticDetailRequest.getPrice());
+        statisticDetail.setDay(statisticDetailRequest.getDay());
+        statisticDetail.setMaterialWeight(statisticDetailRequest.getMaterialWeight());
+        statisticDetail.setTotalAmount(statisticDetailRequest.getTotalAmount());
+        statisticDetail.setTicket(statisticDetailRequest.getTicket());
+        statisticDetail.setTrailer(statisticDetailRequest.getTrailer());
+        statisticDetail.setLicensePlate(statisticDetailRequest.getLicensePlate());
+        statisticDetail.setTypeProduct(statisticDetailRequest.getTypeProduct());
+        statisticDetail.setNote(statisticDetailRequest.getNote());
+        statisticDetailRepository.save(statisticDetail);
     }
 }

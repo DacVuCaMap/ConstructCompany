@@ -8,18 +8,8 @@ import TableOrder from '../TableOrder/TableOrder';
 import OpenWindowSearchCus from '../OpenWindowSearchCus/OpenWindowSearchCus';
 import { sellerData } from '@/data/data';
 import postData from '@/ApiPattern/PostPattern';
+import { schemaOrder } from '@/data/schemaData';
 type Cost = { totalCost: number, tax: number, totalAmount: number }
-const schema = yup.object().shape({
-    customerId: yup.number().notOneOf([-1], "Không để trống").required("Không để trống customer"),
-    representativeSeller: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
-    positionCustomer: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
-    positionSeller: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
-    representativeCustomer: yup.string().required("Không để trống"),
-    sellerId: yup.number().required("Khong de trong"),
-    Tax: yup.string(),
-    TotalCost: yup.number(),
-    signingDateForm: yup.date().required('Không bỏ trống'),
-});
 
 export default function AddOrderProduct() {
     const sellerDt = sellerData;
@@ -29,7 +19,7 @@ export default function AddOrderProduct() {
         setValue,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(schema),
+        resolver: yupResolver(schemaOrder),
     });
     const [customer, setCustomer] = useState<{
         id: number,

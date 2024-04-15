@@ -1,0 +1,7 @@
+.bodyTable td{
+    border: 1px solid black;
+    height: 20px;
+}
+input{
+    background: none;
+}

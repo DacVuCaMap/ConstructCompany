@@ -21,20 +21,17 @@ public class Statistic {
     @JoinColumn(name = "sellerId")
     private Seller seller;
 
-    @Column(name = "representativeCus")
-    private String representativeCus;
+    @Column(name = "representativeCustomer")
+    private String representativeCustomer;
 
-    @Column(name = "genderCus")
-    private String genderCus;
+    @Column(name = "positionCustomer")
+    private String positionCustomer;
 
-    @Column(name = "positionCus")
-    private String positionCus;
+    @Column(name = "representativeSeller")
+    private String representativeSeller;
 
-    @Column(name = "positionSell")
-    private String positionSell;
-
-    @Column(name = "genderSell")
-    private String genderSell;
+    @Column(name = "positionSeller")
+    private String positionSeller;
 
     @Column(name = "totalAmount")
     private Double totalAmount;

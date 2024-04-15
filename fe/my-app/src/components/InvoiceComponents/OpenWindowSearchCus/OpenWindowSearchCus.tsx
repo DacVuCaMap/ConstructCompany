@@ -87,11 +87,11 @@ export default function OpenWindowSearchCus(props: Props) {
 
                                 {cusItem.map((item: any) => (
                                     <tr onClick={() => handleSetCus(item)} className="h-10 cursor-pointer hover:bg-gray-400 border-b border-gray-200" key={item.id}>
-                                        <td>{item.id}</td>
-                                        <td>{item.companyName}</td>
-                                        <td>{item.taxCode}</td>
-                                        <td>{item.representativeCustomer}</td>
-                                        <td>{item.positionCustomer}</td>
+                                        <td className='text-center'>{item.id}</td>
+                                        <td className='text-center'>{item.companyName}</td>
+                                        <td className='text-center'>{item.taxCode}</td>
+                                        <td className='text-center'>{item.representativeCustomer}</td>
+                                        <td className='text-center'>{item.positionCustomer}</td>
                                     </tr>
                                 ))}
                             </tbody>

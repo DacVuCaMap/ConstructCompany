@@ -14,7 +14,7 @@ public class StatisticDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "statisticId")
     private Statistic statistic;
 
@@ -28,7 +28,7 @@ public class StatisticDetail {
     private String trailer;
 
     @Column(name = "ticket")
-    private Integer ticket;
+    private String ticket;
 
     @Column(name = "typeProduct")
     private String typeProduct;

@@ -26,13 +26,4 @@ public class StatisticDetailController {
         return ResponseEntity.ok(statisticDetailResponsePage);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<?> addStatisticDetail(@RequestBody StatisticDetailRequest statisticDetailRequest) {
-        StatisticDetail statisticDetail = statisticDetailService.addStatisticDetail(statisticDetailRequest);
-        if(statisticDetail!=null){
-            return ResponseEntity.ok(statisticDetail);
-        }else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy id của statistic!");
-        }
-    }
 }

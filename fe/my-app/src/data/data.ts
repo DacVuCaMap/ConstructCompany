@@ -18,7 +18,7 @@ export const sideBarAdmin = [
             {
                 id:13,
                 title: "BBNT và GT",
-                url:"/statistic"
+                url:"/statistic/list?size=10&page=0"
             }
         ],
     },

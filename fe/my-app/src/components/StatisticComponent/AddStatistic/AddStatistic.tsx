@@ -1,50 +1,34 @@
-"use client"
-import React, { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import './AddOrderProduct.scss';
-import { sellerData } from '@/data/data';
-import postData from '@/ApiPattern/PostPattern';
 import OpenWindowSearchCus from '@/components/InvoiceComponents/OpenWindowSearchCus/OpenWindowSearchCus';
-import TableOrder from '@/components/InvoiceComponents/TableOrder/TableOrder';
-type Cost = { totalCost: number, tax: number, totalAmount: number }
-const schema = yup.object().shape({
-    customerId: yup.number().notOneOf([-1],"Không để trống").required("Không để trống customer"),
-    representativeSeller: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
-    positionCustomer: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
-    positionSeller: yup.string().min(5, 'Trên 5 ký tự').required("Không để trống"),
-    representativeCustomer: yup.string().required("Không để trống"),
-    sellerId: yup.number().required("Khong de trong"),
-    Tax: yup.string(),
-    TotalCost: yup.number(),
-});
+import { sellerData } from '@/data/data';
+import { schemaStatistic } from '@/data/schemaData';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Table } from 'lucide-react';
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form';
+import TableAddStatistic from '../TableAddStatistic/TableAddStatistic';
+import postData from '@/ApiPattern/PostPattern';
+type Customer={
+    id: number,
+    companyName: string,
+    representativeCustomer:string,
+    positionCustomer:string
+}
 
-export default function AddOrderProduct() {
-    const sellerDt = sellerData;
+export default function AddStatistic() {
     const {
         register,
         handleSubmit,
         setValue,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(schema),
+        resolver: yupResolver(schemaStatistic),
     });
-    const [customer, setCustomer] = useState<{
-        id: number,
-        companyName: string,
-        representativeCustomer: string,
-        positionCustomer: string
-    }>({
-        id: -1,
-        companyName: '',
-        representativeCustomer: '',
-        positionCustomer: ''
-    });
-    const [showWindow, setShowWindow] = useState(false);
-    const [orderDetail, setOrderDetail] = useState<any>();
-    const [cost, setCost] = useState<Cost>({ totalCost: 0, tax: 0.1, totalAmount: 0 });
-    const inpRef = useRef(null);
+    //state
+    const [openWindowCus,setOpenWindowCus] = useState(false);
+    const [customer,setCustomer] = useState<Customer>({} as Customer);
+    const [totalAmount,setTotalAmount] = useState<any>();
+    const [statisticDetails,setStatisticDetails] = useState<any[]>([]);
+    //handle open
     useEffect(() => {
         if (customer && customer.id) {
             console.log(customer)
@@ -54,32 +38,22 @@ export default function AddOrderProduct() {
             console.log(customer)
         }
     }, [customer]);
-    const handleOpenWindow = () => {
-        setShowWindow(true);
-    }
-    // update cost
-    const onSubmit = async (data: any) => {
+    //submit form data
+    const onSubmit=async (data:any)=>{
+        const dataPost = {statistic:{...data,totalAmount:totalAmount},statisticDetails:[...statisticDetails]}
 
-        let urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/order/add-order'
-        console.log(urlPost);
-
-        const dataPost = { order: { ...data, ...cost }, orderDetails: orderDetail }
-        console.log("dataPost", dataPost)
-
+        const urlPost = process.env.NEXT_PUBLIC_API_URL+'/api/statistic/add';
+        console.log(dataPost)
         const post = await postData(urlPost, dataPost, {});
         console.log(post)
-    };
-
-    const data = [
-        [{ value: "vnila" }, { value: "conccas" }]
-    ]
+    }
     return (
         <div className="flex justify-center items-center h-full  ">
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full lg:max-w-5xl  "
+                className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full lg:max-w-7xl  "
             >
-                <h2 className='block text-3xl text-gray-900 font-bold mb-4'>Tạo biên bản nghiệm thu khối lượng và giá trị</h2>
+                <h2 className='block text-3xl text-gray-900 font-bold mb-4'>Biên bản nghiệm thu và xác nhận khối lượng</h2>
                 <div className={`flex lg:flex-row flex-col`}>
                     <div className='flex-auto m-1'>
                         <div className='mb-2'>
@@ -93,13 +67,13 @@ export default function AddOrderProduct() {
                                 type="text"
                                 readOnly
                                 placeholder='Nhấn để chọn Công Ty'
-                                onClick={() => handleOpenWindow()}
+                                onClick={() => setOpenWindowCus(true)}
                                 value={customer?.companyName} />
                             <input type="hidden" value={customer?.id} {...register('customerId')} />
                             {errors.customerId && (
                                 <p className="text-red-500 text-xs italic">{errors.customerId.message}</p>
                             )}
-                            {showWindow && <OpenWindowSearchCus setOpen={setShowWindow} setCustomer={setCustomer} />}
+                            {openWindowCus && <OpenWindowSearchCus setOpen={setOpenWindowCus} setCustomer={setCustomer}/>}
                         </div>
                         <div className='flex pb-4 mb-4 border-b border-neutral-400'>
                             <div className='mr-1'>
@@ -147,8 +121,8 @@ export default function AddOrderProduct() {
                                 className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.sellerId ? 'border-red-500' : ''}`}
                                 id="4"
                                 type="text"
-                                value={sellerDt.companyName} />
-                            <input type="hidden" id="5" value={sellerDt.id} {...register('sellerId')} />
+                                value={sellerData.companyName} />
+                            <input type="hidden" id="5" value={sellerData.id} {...register('sellerId')} />
                             {errors.sellerId && (
                                 <p className="text-red-500 text-xs italic">{errors.sellerId.message}</p>
                             )}
@@ -188,9 +162,27 @@ export default function AddOrderProduct() {
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div className='mt-2 mb-2 '>
-                    <TableOrder setCost={setCost} setOrderDetail={setOrderDetail} cost={cost} />
+                    {/* <div className='flex pb-4 mb-4 border-b border-neutral-400'>
+                        <div className='mr-1'>
+                            <label
+                                className="block text-gray-700 font-bold mb-2"
+                            >
+                                Ngày Kí Hợp Đồng:
+                            </label><input
+                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.representativeCustomer ? 'border-red-500' : ''}`}
+                                id="10"
+                                type="date"
+                                {...register('signingDateForm')} />
+                            {errors.representativeCustomer && (
+                                <p className="text-red-500 text-xs italic">{errors.representativeCustomer.message}</p>
+                            )}
+                        </div>
+
+                    </div> */}
+                    <TableAddStatistic setTotalAmount={setTotalAmount} setStatisticDetails={setStatisticDetails} />
                 </div>
 
 
@@ -204,5 +196,5 @@ export default function AddOrderProduct() {
                 </div>
             </form>
         </div>
-    );
+    )
 }

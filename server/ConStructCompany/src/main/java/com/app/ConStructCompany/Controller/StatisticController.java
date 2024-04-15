@@ -1,6 +1,7 @@
 package com.app.ConStructCompany.Controller;
 
 import com.app.ConStructCompany.Entity.Statistic;
+import com.app.ConStructCompany.Request.StatisticAddRequest;
 import com.app.ConStructCompany.Request.StatisticRequest;
 import com.app.ConStructCompany.Service.StatisticService;
 import org.springframework.data.domain.Page;
@@ -26,10 +27,11 @@ public class StatisticController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addStatistic(@RequestBody StatisticRequest statisticRequest) {
-        Statistic statistic = statisticService.addStatistic(statisticRequest);
+    public ResponseEntity<?> addStatistic(@RequestBody StatisticAddRequest statisticAddRequest) {
+        Statistic statistic = statisticService.addStatistic(statisticAddRequest);
+
         if(statistic!=null){
-            return ResponseEntity.ok(statistic);
+            return ResponseEntity.ok("add than cong");
         }else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy id của khách hàng hoặc người bán!");
         }

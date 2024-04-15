@@ -4,13 +4,11 @@ import lombok.Data;
 
 @Data
 public class StatisticRequest {
-    private Long cusId;
+    private Long customerId;
     private Long sellerId;
-    private String representativeCus;
-    private String genderCus;
-    private String representativeSell;
-    private String genderSell;
-    private String positionCus;
-    private String positionSell;
+    private String representativeCustomer;
+    private String representativeSeller;
+    private String positionCustomer;
+    private String positionSeller;
     private Double totalAmount;
 }

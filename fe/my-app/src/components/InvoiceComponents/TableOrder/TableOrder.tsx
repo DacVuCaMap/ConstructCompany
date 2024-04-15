@@ -96,7 +96,7 @@ export default function TableOrder(props: Props) {
     };
     const  formatNumber= (number:any)=> {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-      } 
+    } 
     useEffect(() => {
         console.log('eff3')
         props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost * (1 - props.cost.tax) })
