@@ -48,8 +48,8 @@ export default function OpenWindowPro(props: Props) {
                     <thead>
                         <tr className='bg-gray-200'>
                             <th style={{ width: '20%' }}>ID</th>
-                            <th>Tên Công Ty</th>
-                            <th>Đơn vị</th>
+                            <th>Tên </th>
+                            <th>Giá</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,7 +58,6 @@ export default function OpenWindowPro(props: Props) {
                             <tr onClick={() => handleSetPro(item.id, item.proName,item.unit,item.price)} className="h-10 cursor-pointer hover:bg-gray-400 border-b border-gray-200" key={item.id}>
                                 <td>{item.id}</td>
                                 <td>{item.proName}</td>
-                                <td>{item.unit}</td>
                                 <td>{item.price}</td>
                             </tr>
                         ))}

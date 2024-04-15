@@ -19,18 +19,9 @@ type Props = {
 const DataTable = (props: Props) => {
   const router = useRouter();
   const handleDelete = async (id: string) => {
-    console.log(id);
-    console.log(props.rows, props.slug)
-    if (props.slug == 'product') {
-      let url = process.env.NEXT_PUBLIC_API_URL + `/api/${props.slug}/delete/` + id
-      const response = await DeletePattern(url, {});
+    let url = process.env.NEXT_PUBLIC_API_URL + `/api/${props.slug}/delete-order?id=` + id
+    const response = await postData(url, {}, {});
       console.log(response)
-    }
-    else {
-      let url = process.env.NEXT_PUBLIC_API_URL + `/api/${props.slug}s/delete-customer?id=` + id
-      const response = await postData(url, {}, {});
-      console.log(response)
-    }
     window.location.reload();
   };
   const actionColumn: GridColDef = {
@@ -39,7 +30,7 @@ const DataTable = (props: Props) => {
     flex:0.2,
     renderCell: (params: any) => {
       return (
-        <div className="action h-full flex justify-center items-center">
+        <div className="action h-full flex justify-center items-center" onClick={(e) => e.stopPropagation()}>
           <div className="delete" onClick={() => handleDelete(params.row.id)}>
             <Image src="/delete.svg" width={10} height={10} alt="" />
           </div>

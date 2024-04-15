@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import TableAddStatistic from '../TableAddStatistic/TableAddStatistic';
 import postData from '@/ApiPattern/PostPattern';
+import { redirect } from 'next/navigation';
 type Customer={
     id: number,
     companyName: string,
@@ -44,8 +45,9 @@ export default function AddStatistic() {
 
         const urlPost = process.env.NEXT_PUBLIC_API_URL+'/api/statistic/add';
         console.log(dataPost)
-        const post = await postData(urlPost, dataPost, {});
-        console.log(post)
+        // const post = await postData(urlPost, dataPost, {});
+        // console.log(post)
+        // redirect('/');
     }
     return (
         <div className="flex justify-center items-center h-full  ">

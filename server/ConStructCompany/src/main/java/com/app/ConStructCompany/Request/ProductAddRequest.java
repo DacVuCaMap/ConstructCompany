@@ -16,7 +16,7 @@ public class ProductAddRequest {
     @NotNull(message = "Giá trị tồn kho không được để trống")
     private double inventory;
     @NotNull(message = "Giá nhập không được để trống")
-    private Double importProduct;
+    private Double importPrice;
 
     private String description;
 

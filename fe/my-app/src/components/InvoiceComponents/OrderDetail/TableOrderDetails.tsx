@@ -23,7 +23,8 @@ export default function TableOrderDetails(props: Props) {
                     unit: item.product.unit,
                     materialWeight: item.materialWeight,
                     price: item.price,
-                    isOpen: false
+                    isOpen: false,
+                    orderDetailId:item.orderDetailId
                 }])
             })
             console.log('item',items)
@@ -42,7 +43,7 @@ export default function TableOrderDetails(props: Props) {
             unit: '',
             materialWeight: 0,
             price: 0,
-            isOpen: false
+            isOpen: false,
         };
         setItems([...items, newItem]);
     };
@@ -93,7 +94,7 @@ export default function TableOrderDetails(props: Props) {
         setItems(closeWindowItem);
     }
     useEffect(() => {
-        console.log('eff1');
+
         props.setOrderDetail(items);
     }, [items])
     //set product
@@ -119,7 +120,7 @@ export default function TableOrderDetails(props: Props) {
         }
     }
     useEffect(() => {
-        console.log('eff3')
+
         props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost * (1 - props.cost.tax) })
     }, [items])
     return (

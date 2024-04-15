@@ -57,6 +57,8 @@ export default function EditOrder(props: Props) {
     const [cost, setCost] = useState<Cost>({ totalCost: 0, tax: 0.1, totalAmount: 0 });
     const inpRef = useRef(null);
     const [createAt, setCreateAt] = useState<Date>(new Date());
+    const [numberWords,setNumberWords] = useState('');
+    
     useEffect(() => {
         if (props.orderData && props.orderData.order && props.orderData.order.customer) {
             setCustomer({
@@ -94,13 +96,17 @@ export default function EditOrder(props: Props) {
         const dataPost = { id: props.orderData.order.id, order: { ...data, ...cost }, orderDetails: orderDetail }
         console.log("dataPost", dataPost)
 
-        const post = await postData(urlPost, dataPost, {});
-        console.log(post)
+        // const post = await postData(urlPost, dataPost, {});
+        // console.log(post)
     };
 
     //open print
     const componentRef = useRef<HTMLDivElement>(null);
     const [openPDF, setOpenPDF] = useState(false);
+    const closePDFView = ()=>{
+        setOpenPDF(false);
+        document.body.style.overflow = 'unset';
+    }
     return (
         <div className="flex justify-center items-center h-full  ">
             <form
@@ -240,7 +246,7 @@ export default function EditOrder(props: Props) {
                     </button>
                 </div>
             </form>
-            {openPDF && <div onClick={() => setOpenPDF(false)} className="fixed pt-64 overflow-auto top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 flex justify-center items-center">
+            {openPDF && <div onClick={() => closePDFView()} className="fixed pt-64 overflow-auto top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 flex justify-center items-center">
                 <div className='mt-20'>
                     <ReactToPrint trigger={() => <button className="z-99 absolute top-10 left-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Export PDF
@@ -248,12 +254,14 @@ export default function EditOrder(props: Props) {
                     }
                         content={() => componentRef.current} />
                     <PrintInvoice ref={componentRef} data={{
-                        createAt: createAt,
+                        createAt: new Date(createAt),
                         companyName: customer.companyName,
                         representativeCustomer: customer.representativeCustomer,
                         positionCustomer: customer.positionCustomer,
                         orderDetails: orderDetail,
-                        tax:props.orderData.order.tax
+                        contractCode:props.orderData.order.contractCode,
+                        tax:props.orderData.order.tax,
+                        totalAmount:props.orderData.order.totalAmount
                     }} />
                 </div>
             </div>}

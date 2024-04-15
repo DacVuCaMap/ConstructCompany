@@ -29,11 +29,12 @@ export default function AddComponent(props: Props) {
   });
 
   const onSubmit = async (data: any) => {
+    setErrorForm(false)
     console.log(data);
     const url = process.env.NEXT_PUBLIC_API_URL + props.apiUrl;
     const response = await postData(url, data, {});
     console.log("response: ", response)
-    if (response == null) {
+    if (response == null || response.status===400) {
       setErrorForm(true);
       return;
     }

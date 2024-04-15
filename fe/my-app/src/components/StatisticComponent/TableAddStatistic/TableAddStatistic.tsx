@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import './TableAddStatistic.css'
 type StatisticItem = {
     id: number, day: string, licensePlate: string
-    , trailer: string, ticket: string, proName: string, proId: number, unit: string, price: number
+    , trailer: string, ticket: string, typeProduct: string, proId: number, unit: string, price: number
     , materialWeight: number, note: string
 }
 type ParentStatisticItem = { proName: string, proUnit: string, proPrice: number, proId: number, statisticItems: StatisticItem[] }
@@ -72,7 +72,7 @@ export default function TableAddStatistic(props: Props) {
 
         const childItem: StatisticItem = {
             id: id, day: '', licensePlate: ''
-            , trailer: '', ticket: '', proName: parentItem.proName, proId: parentItem.proId
+            , trailer: '', ticket: '', typeProduct: parentItem.proName, proId: parentItem.proId
             , unit: parentItem.proUnit, price: parentItem.proPrice
             , materialWeight: 0, note: ''
         }

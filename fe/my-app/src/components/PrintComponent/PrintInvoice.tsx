@@ -1,6 +1,7 @@
 import React, { forwardRef, useEffect, useState } from 'react';
 import './PrintInvoice.css'
 import { sellerData } from '@/data/data';
+import { numberToWords } from '@/data/function';
 interface PrintableContentProps {
   data: {
     createAt: Date;
@@ -8,17 +9,21 @@ interface PrintableContentProps {
     representativeCustomer: string;
     positionCustomer: string;
     orderDetails: any[],
-    tax:number
+    tax: number,
+    contractCode:string,
+    totalAmount:number
   };
 }
 type PrintOrder = { createAt: Date, companyName: string, representativeCustomer: string, positionCustomer: string }
 export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
   ({ data }, ref) => {
+    document.body.style.overflow = 'hidden';
     console.log('dataPrint', data);
     const [loading, setLoading] = useState(true);
     const [totalCost, setTotalCost] = useState(0);
     const seller = sellerData;
     let count = 1;
+    
     useEffect(() => setLoading(false), [data]);
     const numberWithDots = (number: number, fixed: number) => {
       let num = parseFloat(number.toFixed(fixed));
@@ -33,13 +38,16 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
       return <div>Loading...</div>; // Hiển thị thông báo khi đang tải dữ liệu
     }
     return (
-      <div ref={ref}>
-        <div className="a4-sheet lg:block ">
-          <div className="card-child card-1"><span>CTY TNHH XÂY DỰNG <br /> VÀ THƯƠNG MẠI TIẾN ĐÔNG</span></div>
-          <div className="card-child card-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM  <br />Độc lập - Tự do - Hạnh phúc</span></div>
+      <div >
+        <div  className="a4-sheet lg:block document">
+          <div className="card-child card-1">
+            <span className='underline font-bold'>CTY TNHH XÂY DỰNG <br /> VÀ THƯƠNG MẠI TIẾN ĐÔNG</span><br />
+            <span className='font-light'>Số:{data.contractCode}/BBNT</span>
+          </div>
+          <div className="card-child card-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM </span> <br /><span className='underline decoration-solid'>Độc lập - Tự do - Hạnh phúc</span></div>
           <div className="card-child card-3"><span>BIÊN BẢN NGHIỆM THU VÀ XÁC NHẬN KHỐI LƯỢNG</span> </div>
-          <div className="card-child card-4"><span>- Căn cứ HĐKT Số: 0112/2023 /HĐNT/AK-TĐ </span><br />
-            <span>Hôm nay, ngày 31 tháng 01 năm 2024. Chúng tôi gồm:</span> <br />
+          <div className="card-child card-4"><span>- Căn cứ HĐKT Số: {data.contractCode}/HĐNT/AK-TĐ </span><br />
+            <span>Hôm nay, ngày {data.createAt.getDate()} tháng {data.createAt.getMonth()} năm {data.createAt.getFullYear()}. Chúng tôi gồm:</span> <br />
             <span style={{ fontWeight: 'bolder' }}>Đại diện bên mua:{data.companyName}</span>
             <br />
             <span className="span-card1">Người đại diện:{data.representativeCustomer} </span><span>Chức vụ: {data.positionCustomer}</span><br />
@@ -78,7 +86,7 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td className='text-align:right'>{numberWithDots(handleCalculator(),0)}</td>
+                  <td className='text-align:right'>{numberWithDots(handleCalculator(), 0)}</td>
                 </tr>
                 <tr>
                   <td></td>
@@ -86,7 +94,7 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td className='text-align:right'>{numberWithDots(handleCalculator()*data.tax,0)}</td>
+                  <td className='text-align:right'>{numberWithDots(handleCalculator() * data.tax, 0)}</td>
                 </tr>
                 <tr>
                   <td></td>
@@ -94,10 +102,12 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td className='text-align:right'>{numberWithDots(handleCalculator()*(1-data.tax),0)}</td>
+                  <td className='text-align:right'>{numberWithDots(handleCalculator() * (1 - data.tax), 0)}</td>
                 </tr>
               </tfoot>
             </table>
+            <span>- Bằng chữ: {numberToWords(data.totalAmount)}</span>
+            <br />
             <span> - Hai bên đồng ý nghiệm thu khối lượng công việc thực hiện trên.</span>
             <br />
             <span>- Bên mua có trách nhiệm thanh toán toàn bộ số tiền trên cho Bên bán theo đúng điều khoản trong hợp đồng. <br />

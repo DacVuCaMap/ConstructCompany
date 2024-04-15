@@ -9,10 +9,14 @@ import OpenWindowSearchCus from '../OpenWindowSearchCus/OpenWindowSearchCus';
 import { sellerData } from '@/data/data';
 import postData from '@/ApiPattern/PostPattern';
 import { schemaOrder } from '@/data/schemaData';
+import { useRouter } from 'next/navigation';
+import LoadingScene from '@/components/LoadingScene';
 type Cost = { totalCost: number, tax: number, totalAmount: number }
 
 export default function AddOrderProduct() {
     const sellerDt = sellerData;
+    const router = useRouter();
+    const [isDisable,setDisable] = useState(false);
     const {
         register,
         handleSubmit,
@@ -50,16 +54,17 @@ export default function AddOrderProduct() {
     }
     // update cost
     const onSubmit = async (data: any) => {
-
+        setDisable(true);
         let urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/order/add-order'
-        let month=data.signingDateForm.getMonth()+1;
+        let month = data.signingDateForm.getMonth() + 1;
         console.log(urlPost);
         let signingDate = `${data.signingDateForm.getFullYear()}-${month < 10 ? '0' + month : month}-${data.signingDateForm.getDate()}`;
-        const dataPost = { order: { ...data,signingDate:signingDate, ...cost,contractCode:formattedDate }, orderDetails: orderDetail }
-        console.log("dataPost", dataPost)
+        const dataPost = { order: { ...data, signingDate: signingDate, ...cost, contractCode: formattedDate }, orderDetails: orderDetail }
+        // console.log("dataPost", dataPost)
 
         const post = await postData(urlPost, dataPost, {});
-        console.log(post)
+        console.log(post);
+        router.push('/invoice/list?size=10&page=0');
     };
 
     const data = [
@@ -216,10 +221,11 @@ export default function AddOrderProduct() {
 
                 <div className="flex items-center justify-between">
                     <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        className="bg-blue-500 hover:bg-blue-700 active:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="submit"
+                        disabled={isDisable}
                     >
-                        Lưu Dữ Liệu
+                        {isDisable ? <LoadingScene/>:'Lưu Dữ Liệu'}
                     </button>
                 </div>
             </form>

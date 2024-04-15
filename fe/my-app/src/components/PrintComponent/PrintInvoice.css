@@ -5,7 +5,9 @@
     box-sizing: border-box;
     position: relative;
   }
-  
+.document{
+    font-family: 'Times New Roman', Times, serif;
+}
 
 .card-child {
     position: absolute;
@@ -27,7 +29,7 @@
 }
 
 .card-3 {
-    top: 130px;
+    top: 150px;
     left: 0;
     width: 100%;
     text-align: center;
@@ -35,7 +37,7 @@
     z-index: 60;
 }
 .card-4 {
-    top: 170px;
+    top: 180px;
     left: 0;
     width: 100%;
     padding-left: 40px;

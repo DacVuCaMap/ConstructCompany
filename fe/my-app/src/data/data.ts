@@ -12,8 +12,8 @@ export const sideBarAdmin = [
             },
             {
                 id: 12,
-                title: "Đề nghị Thanh Toán",
-                url: "/",
+                title: "Đề nghị Thanh Toán(PDF)",
+                url: "/payment/list?size=10&page=0",
             },
             {
                 id:13,
@@ -94,7 +94,10 @@ export const sellerData = {
     address:"Thôn Thuận An 1, xã Hữu Văn, Huyện Chương Mỹ, TP Hà Nội",
     taxCode:"0110128690",
     representativeSeller:"Nguyễn Văn Tiến",
-    positionSeller:"Giám đốc"
+    positionSeller:"Giám đốc",
+    accountBankName:"Công ty TNHH Xây dựng và thương mại Tiến Đông",
+    accountBankNumber:'222123999',
+    bankName:"TMCP Quân đội - Chi nhánh Thanh Xuân"
 }
 export const toltalPageGlobal = {
     value: 0,
