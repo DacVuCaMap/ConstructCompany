@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import TableAddStatistic from '../TableAddStatistic/TableAddStatistic';
 import postData from '@/ApiPattern/PostPattern';
 import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 type Customer={
     id: number,
     companyName: string,
@@ -16,6 +17,7 @@ type Customer={
 }
 
 export default function AddStatistic() {
+    const router=useRouter();
     const {
         register,
         handleSubmit,
@@ -45,9 +47,9 @@ export default function AddStatistic() {
 
         const urlPost = process.env.NEXT_PUBLIC_API_URL+'/api/statistic/add';
         console.log(dataPost)
-        // const post = await postData(urlPost, dataPost, {});
-        // console.log(post)
-        // redirect('/');
+        const post = await postData(urlPost, dataPost, {});
+        console.log(post)
+        router.push('/statistic/list?size=10&page=0');
     }
     return (
         <div className="flex justify-center items-center h-full  ">

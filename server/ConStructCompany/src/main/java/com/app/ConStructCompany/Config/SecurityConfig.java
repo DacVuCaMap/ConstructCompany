@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -23,18 +25,24 @@ import java.util.Arrays;
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
+    private final LogoutHandler logoutHandler;
     @Bean
     public SecurityFilterChain filterChai(HttpSecurity http) throws Exception{
         http
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers("api/auth/**","api/**").permitAll()
+                                .requestMatchers("api/auth/**").permitAll()
                                 .anyRequest().authenticated()
                 ).authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement((session)->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.csrf().disable();  
         http.cors((cors)->cors.configurationSource(corsConfiguration()));
+        http.logout((logout)->logout
+                .logoutUrl("/api/auth/logout")
+                .addLogoutHandler(logoutHandler)
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+        );
         return http.build();
     }
     @Bean

@@ -9,6 +9,11 @@ import com.app.ConStructCompany.Request.StatisticAddRequest;
 import com.app.ConStructCompany.Request.StatisticDetailRequest;
 import com.app.ConStructCompany.Request.StatisticRequest;
 import com.app.ConStructCompany.Request.dto.OrderDetailDto;
+import com.app.ConStructCompany.Request.dto.StatisticDTO;
+import com.app.ConStructCompany.Response.CustomerResponse;
+import com.app.ConStructCompany.Response.GetStatisticResponse;
+import com.app.ConStructCompany.Response.StatisticDetailResponse;
+import com.app.ConStructCompany.Response.StatisticResponse;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +35,19 @@ public class StatisticService {
     private final StatisticDetailService statisticDetailService;
     private final StatisticDetailRepository statisticDetailRepository;
 
-    public Page<Statistic> findAll(Pageable pageable) {
+    public Page<StatisticDTO> findAll(Pageable pageable) {
         Page<Statistic> statisticPage = statisticRepository.findAllByIsDeletedFalse(pageable);
-        return statisticPage;
+        return statisticPage.map(this::convertToStatisticDTO);
+    }
+
+    private StatisticDTO convertToStatisticDTO(Statistic statistic) {
+        StatisticDTO statisticDTO = new StatisticDTO();
+        statisticDTO.setId(statistic.getId());
+        statisticDTO.setCompanyName(statistic.getCustomer().getCompanyName());
+        statisticDTO.setCreateAt(statistic.getCreateAt());
+        statisticDTO.setUpdateAt(statistic.getUpdateAt());
+        statisticDTO.setTotalAmount(statistic.getTotalAmount());
+        return statisticDTO;
     }
 
 
@@ -166,5 +181,61 @@ public class StatisticService {
         statisticRepository.save(statistic);
 
         return ResponseEntity.ok("Xóa thành công");
+    }
+    public ResponseEntity<?> getDetailsStatistic(Long id){
+        Optional<Statistic> checkStatistic = statisticRepository.findById(id);
+        if (checkStatistic.isEmpty() || checkStatistic.get().getIsDeleted()){
+            return ResponseEntity.badRequest().body("Khong ton tai");
+        }
+        Statistic statistic = checkStatistic.get();
+        Customer customer = statistic.getCustomer();
+        CustomerResponse customerResponse = new CustomerResponse();
+        customerResponse.setId(customer.getId());
+        customerResponse.setCompanyName(customer.getCompanyName());
+        customerResponse.setAddress(customer.getAddress());
+        customerResponse.setTaxCode(customer.getTaxCode());
+        customerResponse.setDebt(customer.getDebt());
+        customerResponse.setCreateAt(customer.getCreateAt());
+        customerResponse.setUpdateAt(customer.getUpdateAt());
+        customerResponse.setTotalPayment(customer.getTotalPayment());
+        customerResponse.setPhoneNumber(customer.getPhoneNumber());
+        customerResponse.setPositionCustomer(customer.getPositionCustomer());
+        customerResponse.setRepresentativeCustomer(customer.getRepresentativeCustomer());
+        customerResponse.setEmail(customer.getEmail());
+        StatisticResponse statisticResponse = new StatisticResponse();
+        statisticResponse.setId(statistic.getId());
+        statisticResponse.setCustomer(customerResponse);
+        statisticResponse.setSellerId(statistic.getSeller().getId());
+        statisticResponse.setRepresentativeCustomer(statistic.getRepresentativeCustomer());
+        statisticResponse.setPositionCustomer(statistic.getPositionCustomer());
+        statisticResponse.setRepresentativeSeller(statistic.getRepresentativeSeller());
+        statisticResponse.setPositionSeller(statistic.getPositionSeller());
+        statisticResponse.setTotalAmount(statistic.getTotalAmount());
+        statisticResponse.setCreateAt(statistic.getCreateAt());
+        statisticResponse.setUpdateAt(statistic.getUpdateAt());
+        List<StatisticDetail> getStatisticDetails = statisticDetailRepository.findAllByStatisticId(statistic.getId());
+        List<StatisticDetailResponse> responseList = new ArrayList<>();
+        for (StatisticDetail statisticDetail : getStatisticDetails){
+            StatisticDetailResponse temp = new StatisticDetailResponse();
+            temp.setId(statisticDetail.getId());
+            temp.setStatisticID(statistic.getId());
+            temp.setDay(statisticDetail.getDay());
+            temp.setLicensePlate(statisticDetail.getLicensePlate());
+            temp.setTrailer(statisticDetail.getTrailer());
+            temp.setTicket(statisticDetail.getTicket());
+            temp.setTypeProduct(statisticDetail.getTypeProduct());
+            temp.setMaterialWeight(statisticDetail.getMaterialWeight());
+            temp.setPrice(statisticDetail.getPrice());
+            temp.setTotalAmount(statisticDetail.getTotalAmount());
+            temp.setNote(statisticDetail.getNote());
+            temp.setUnit(statisticDetail.getUnit());
+            temp.setProId(statisticDetail.getProId());
+            responseList.add(temp);
+        }
+        GetStatisticResponse getStatisticResponse = new GetStatisticResponse();
+        getStatisticResponse.setStatistic(statisticResponse);
+        getStatisticResponse.setStatisticDetails(responseList);
+        return ResponseEntity.ok().body(getStatisticResponse);
+
     }
 }

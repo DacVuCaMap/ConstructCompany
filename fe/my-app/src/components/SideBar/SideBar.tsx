@@ -3,12 +3,33 @@ import { sideBarAdmin } from '@/data/data'
 import { HardHat } from 'lucide-react'
 import Link from 'next/link'
 import React, { useState } from 'react'
-
-export default function SideBar() {
-  const [activeLink,setActiveLink] = useState(0);
+import Cookies from 'js-cookie'
+import { userData } from '@/data/authenticate'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+type Props={
+  userMail:any
+}
+export default function SideBar(props: Props) {
+  const router = useRouter();
+  const [activeLink, setActiveLink] = useState(0);
   const handleClick = (id: number) => {
     setActiveLink(id);
   };
+  const handleLogout = async () => {
+
+    let url = process.env.NEXT_PUBLIC_API_URL + '/api/auth/logout'
+
+    try {
+      const response = await axios.post(url, {}, { withCredentials: true });
+      Cookies.remove('email');
+      Cookies.remove('admin');
+      Cookies.remove('id');
+      window.location.href = '/login';
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className=" text-white bg-slate-900 w-64 fixed h-screen py-4 px-6 flex flex-col overflow-auto">
       <div className="flex items-center mb-6 ">
@@ -22,7 +43,7 @@ export default function SideBar() {
             <Link
               key={listItem.id}
               href={listItem.url}
-              className={`block py-2 hover:text-green-300 ${activeLink === listItem.id ? 'bg-black' : ''}`}
+              className={`block p-5 rounded py-2 hover:text-green-300 ${activeLink === listItem.id ? 'bg-black ' : ''}`}
               onClick={() => handleClick(listItem.id)}
             >
               {listItem.title}
@@ -32,9 +53,11 @@ export default function SideBar() {
       ))}
 
       <div>
-        <Link href="/login" className="block py-2 hover:text-green-300">
-          Logout
-        </Link>
+        {
+          props.userMail && <span onClick={() => handleLogout()} className="block py-2 hover:text-green-300 hover:cursor-pointer">
+            Logout
+          </span>
+        }
       </div>
     </div>
   );

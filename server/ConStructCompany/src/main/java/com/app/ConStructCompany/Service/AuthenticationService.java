@@ -6,6 +6,7 @@ import com.app.ConStructCompany.Repository.AccountRepository;
 import com.app.ConStructCompany.Repository.TokenRepository;
 import com.app.ConStructCompany.Request.LoginRequest;
 import com.app.ConStructCompany.Request.RegisterRequest;
+import com.app.ConStructCompany.Request.dto.LoginDTO;
 import com.app.ConStructCompany.Response.LoginResponse;
 import com.app.ConStructCompany.Response.RegisterResponse;
 import jakarta.servlet.http.Cookie;
@@ -44,7 +45,7 @@ public class AuthenticationService {
                 .status(true).build();
     }
 
-    public String LoginAccount (LoginRequest loginRequest){
+    public LoginDTO LoginAccount (LoginRequest loginRequest){
         Account acc = accountRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(()->new UsernameNotFoundException("User not found"));
 
@@ -57,7 +58,13 @@ public class AuthenticationService {
         //save account token
         Token saveToken = Token.builder().tokenString(tokenString).account(acc).expiration(false).revoked(false).build();
         tokenRepository.save(saveToken);
-        return saveToken.getTokenString();
+        LoginDTO loginDTO = new LoginDTO();
+        loginDTO.setToken(saveToken.getTokenString());
+        loginDTO.setEmail(acc.getEmail());
+        loginDTO.setAdmin(acc.isAdmin());
+        loginDTO.setFullName(acc.getFullName());
+        loginDTO.setId(acc.getId());
+        return loginDTO;
     }
 
     private void RevokeAccountToken(Account account){

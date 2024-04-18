@@ -1,8 +1,13 @@
 "use client"
 import getData from '@/components/List/getData';
+import DataTableInvoice from '@/components/ListInvoice/DataTableInvoice';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import * as yup from 'yup';
+import StatisticDataTable from '../StatisticDataTable/StatisticDataTable';
+import { columnStatistic } from '@/data/listData';
+import GetPattern from '@/ApiPattern/GetPattern';
 
 export default function StatisticList() {
   const searchParams = useSearchParams();
@@ -13,9 +18,11 @@ export default function StatisticList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getData('order', 'list', size, page);
-        console.log("result", result)
-        setData(result);
+        let url = process.env.NEXT_PUBLIC_API_URL+`/api/statistic/get?page=${page}&size=${size}`
+        const result = await GetPattern(url,{});
+        console.log("result", result.content)
+        
+        setData(result.content);
       } catch (error) {
         setData([]);
       }
@@ -26,9 +33,9 @@ export default function StatisticList() {
   }, []);
   return (
     <div className="flex flex-col">
-      {/* <h2 className='text-gray-700 font-bold text-4xl mb-4'>Danh sách biên bản Nghiệm thu khối lượng và giá trị</h2>
+      <h2 className='text-gray-700 font-bold text-4xl mb-4'>DANH SÁCH BIÊN BẢN NGHIỆM THU VÀ GIÁ TRỊ</h2>
       <Link className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' href={"/statistic/add-statistic"}>Tạo Biên Bản Nghiệm Thu và Xác Nhận Khối Lượng</Link>
-      <DataTableInvoice columns={columnOrder} rows={data} slug={'order'} validValueSchema={undefined} componentEditData={undefined} /> */}
+      {!loading && <StatisticDataTable columns={columnStatistic} rows={data} slug={'statistic'}/>}
     </div>
   )
 }

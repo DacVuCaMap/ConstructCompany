@@ -3,11 +3,31 @@ new
 ------------------------
 * fe: truy cập link ví dụ cusomters/asdjaskl -> trả về notFound()
 *fix number to words
-
+* giảm re render trong các trang edit
+* fix lại list
+*add product gap loi
 -----
 
 
 
 
 post add,edit,delete customer,product (api/customer/add-customer)	
+
+
+
+
+
+
+20:15
+https://o.vdoc.vn/data/image/2022/02/17/mau-bien-ban-nghiem-thu-cong-viec-xay-dung-1.jpg
+
+
+20:20
+https://vercel.com/
+
+
+
+Kiên Ngô Trung
+20:33
+https://codelabs.developers.google.com/codelabs/cloud-app-engine-springboot/index.html?index=..%2F..index#0
 

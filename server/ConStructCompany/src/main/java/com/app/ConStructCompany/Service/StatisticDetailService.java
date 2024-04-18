@@ -45,6 +45,8 @@ public class StatisticDetailService {
         statisticDetail.setLicensePlate(statisticDetailRequest.getLicensePlate());
         statisticDetail.setTypeProduct(statisticDetailRequest.getTypeProduct());
         statisticDetail.setNote(statisticDetailRequest.getNote());
+        statisticDetail.setUnit(statisticDetailRequest.getUnit());
+        statisticDetail.setProId(statisticDetailRequest.getProId());
         statisticDetailRepository.save(statisticDetail);
     }
 }

@@ -10,4 +10,5 @@ import java.util.Date;
 public class LoginRequest {
     private String email;
     private String password;
+    private boolean isRemember;
 }

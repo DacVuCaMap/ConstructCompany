@@ -44,5 +44,9 @@ public class StatisticDetail {
 
     @Column(name = "note")
     private String note;
+    @Column(name = "unit")
+    private String unit;
+    @Column(name = "proId")
+    private Long proId;
 
 }

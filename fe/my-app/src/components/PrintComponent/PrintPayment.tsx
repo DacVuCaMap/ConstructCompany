@@ -3,10 +3,11 @@ import ReactToPrint from 'react-to-print';
 import './PrintPayment.css'
 import { sellerData } from '@/data/data';
 import { numberToWords } from '@/data/function';
-type Props={
-    data:any
+import { formatNumberToDot } from '@/data/listData';
+type Props = {
+    data: any
 }
-const PrintComponent = (props:Props) => {
+const PrintComponent = (props: Props) => {
     const componentRef = useRef(null);
     console.log(props.data);
     const today = new Date(props.data.createAt);
@@ -26,7 +27,7 @@ const PrintComponent = (props:Props) => {
                 <div className="card-child card-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM </span> <br /><span className='underline decoration-solid'>Độc lập - Tự do - Hạnh phúc</span></div>
                 <div className="card-child card-3"><span>GIẤY ĐỀ NGHỊ THANH TOÁN</span> </div>
                 <div className='card-child card-12 text-right'>Hà Nội, ngày {today.getDate()} tháng {today.getMonth()} năm  {today.getFullYear()}</div>
-                <span className='card-child card-34'>Hạng mục: "Thi công Trục đường Âu Cơ, phường Tứ Liêm, quận Tây Hồ, Tp. Hà Nội"</span>
+                <span className='card-child card-34'>Hạng mục: &#34;Thi công Trục đường Âu Cơ, phường Tứ Liêm, quận Tây Hồ, Tp. Hà Nội&#34;</span>
                 <div className="card-child card-4">
                     <span className='font-bold'><span className='underline'>Kính gửi:</span> {props.data.customer.companyName} </span><br />
                     <span>  - Căn cứ hợp đồng nguyên tắc {props.data.contractCode} /HĐNT/AK-TĐ  - Ký ngày {signingDate.getDate()} tháng {signingDate.getMonth()} năm {signingDate.getFullYear()} giữa {sellerData.companyName} và {props.data.customer.companyName}</span> <br />
@@ -40,10 +41,10 @@ const PrintComponent = (props:Props) => {
                         2. Đã tạm ứng: <br />
                         3. Giá trị đề nghị thanh toán:</span>
                     <span className='span-card2'>
-                        <span className='font-bold'>{props.data.totalAmount} Đồng</span><br />
+                        <span className='font-bold'>{formatNumberToDot(props.data.totalAmount)} Đồng</span><br />
                         <span className='font-bold'>0 Đồng</span><br />
-                        <span className='font-bold'>{props.data.totalAmount} Đồng</span></span>
-                    <div style={{ height: '80px'}}></div>
+                        <span className='font-bold'>{formatNumberToDot(props.data.totalAmount)} Đồng</span></span>
+                    <div style={{ height: '80px' }}></div>
                     <p className='span-card4 font-bold'>(Bằng chữ:   {numberToWords(props.data.totalAmount)}./.)</p>
                     <span>Toàn bộ số tiền trên xin chuyển vào tài khoản Ngân hàng của chúng tôi:</span>
                     <br />
@@ -58,14 +59,14 @@ const PrintComponent = (props:Props) => {
                     <span className='underline font-bold'> Nơi Nhận: </span>
                     <br />
                     <div className='ml-28'>
-                        
+
                         <span className='mr-64'>- Như trên:</span>
                         <span className='font-bold'>CÔNG TY TIẾN ĐÔNG</span>
                         <br />
-                        <span>- Lưu PKH;</span>
+                        <span>- Lưu PKH</span>
                     </div>
 
-                    
+
                 </div>
 
             </div>

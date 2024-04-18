@@ -12,35 +12,17 @@ import java.util.Date;
 @Data
 public class StatisticDetailResponse {
     private Long id;
-
-
     private Long statisticID;
-
-
     private Date day;
-
-
     private String licensePlate;
-
-
     private String trailer;
-
-
-    private Integer ticket;
-
-
+    private String ticket;
     private String typeProduct;
-
-
     private Double materialWeight;
-
-
     private Double price;
-
-
     private Double totalAmount;
-
-
     private String note;
+    private Long proId;
+    private String unit;
 
 }

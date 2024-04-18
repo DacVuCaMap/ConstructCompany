@@ -12,7 +12,7 @@ export const sideBarAdmin = [
             },
             {
                 id: 12,
-                title: "Đề nghị Thanh Toán(PDF)",
+                title: "ĐN Thanh Toán(PDF)",
                 url: "/payment/list?size=10&page=0",
             },
             {
@@ -42,6 +42,11 @@ export const sideBarAdmin = [
                 title: "Admin",
                 url: "/admin",
             },
+            {
+                id: 25,
+                title: "Quản lí công nợ",
+                url: "/admin",
+            },
         ],
     },
     {
@@ -51,7 +56,7 @@ export const sideBarAdmin = [
 
             {
                 id: 31,
-                title: "Logs",
+                title: "Config",
                 url: "/faculties",
             },
         ],

@@ -72,11 +72,6 @@ export const columnOrder: GridColDef[] = [
     { field: 'id', headerName: "ID", flex: 0.2 },
     { field: 'orderCode', headerName: "Order Code", flex: 0.5 },
     {
-        field: 'customer', headerName: "Tên Công ty (khách hàng)", flex: 1.5, valueGetter: (value: any) => {
-            return value.companyName
-        }
-    },
-    {
         field: 'totalAmount', headerName: "Total Amount", flex: 1, valueGetter: (value: number) => {
             return formatNumberWithDot(value, 0)
         }
@@ -91,6 +86,27 @@ export const columnOrder: GridColDef[] = [
             return formatDateData(value)
         }
     },
+]
+export const columnStatistic:GridColDef[]=[
+    { field: 'id', headerName: "ID", flex: 0.2 },
+    {
+        field: 'companyName', headerName: "Tên Công ty (khách hàng)", flex: 1.5
+    },
+    {
+        field: 'totalAmount', headerName: "Total Amount", flex: 1, valueGetter: (value: number) => {
+            return formatNumberWithDot(value, 0)
+        }
+    },
+    {
+        field: 'createAt', headerName: "Create At", flex: 1, valueGetter: (value: string) => {
+            return formatDateData(value)
+        }
+    },
+    {
+        field: 'updateAt', headerName: "Update At", flex: 1, valueGetter: (value: string) => {
+            return formatDateData(value)
+        }
+    }
 ]
 
 export const formatDateData = (dateString: string) => {

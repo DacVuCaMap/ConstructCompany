@@ -1,8 +1,10 @@
 import GetPattern from '@/ApiPattern/GetPattern';
+import { userData } from '@/data/authenticate';
 import { toltalPageGlobal } from '@/data/data';
 export default async function getData(component:string,slug:string,size:any,page:any) {
     const url = process.env.NEXT_PUBLIC_API_URL + `/api/${component}/${slug}?size=${size}&page=${page}`;
-    const data = await GetPattern(url, {});
+    const data = await GetPattern(url, {
+    });
     if (data === null) {
       console.log("vao null")
       return [];
