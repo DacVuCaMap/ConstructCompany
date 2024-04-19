@@ -21,14 +21,14 @@ const PrintComponent = (props: Props) => {
                 content={() => componentRef.current}
             />
             <div ref={componentRef} className="a4-sheet lg:block document">
-                <div className="card-child card-1">
+                <div className="card-child cardb-1">
                     --------o0o--------
                 </div>
-                <div className="card-child card-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM </span> <br /><span className='underline decoration-solid'>Độc lập - Tự do - Hạnh phúc</span></div>
-                <div className="card-child card-3"><span>GIẤY ĐỀ NGHỊ THANH TOÁN</span> </div>
-                <div className='card-child card-12 text-right'>Hà Nội, ngày {today.getDate()} tháng {today.getMonth()} năm  {today.getFullYear()}</div>
-                <span className='card-child card-34'>Hạng mục: &#34;Thi công Trục đường Âu Cơ, phường Tứ Liêm, quận Tây Hồ, Tp. Hà Nội&#34;</span>
-                <div className="card-child card-4">
+                <div className="card-child cardb-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM </span> <br /><span className='underline decoration-solid'>Độc lập - Tự do - Hạnh phúc</span></div>
+                <div className="card-child cardb-3"><span>GIẤY ĐỀ NGHỊ THANH TOÁN</span> </div>
+                <div className='card-child cardb-12 text-right'>Hà Nội, ngày {today.getDate()} tháng {today.getMonth()} năm  {today.getFullYear()}</div>
+                <span className='card-child cardb-34'>Hạng mục: &#34;Thi công Trục đường Âu Cơ, phường Tứ Liêm, quận Tây Hồ, Tp. Hà Nội&#34;</span>
+                <div className="card-child cardb-4">
                     <span className='font-bold'><span className='underline'>Kính gửi:</span> {props.data.customer.companyName} </span><br />
                     <span>  - Căn cứ hợp đồng nguyên tắc {props.data.contractCode} /HĐNT/AK-TĐ  - Ký ngày {signingDate.getDate()} tháng {signingDate.getMonth()} năm {signingDate.getFullYear()} giữa {sellerData.companyName} và {props.data.customer.companyName}</span> <br />
                     <span>- Căn cứ Bảng xác nhận giá trị khối lượng công việc hoàn thành.</span>
@@ -36,16 +36,16 @@ const PrintComponent = (props: Props) => {
                     <span>  - Công ty TNHH Xây dựng và thương mại Tiến Đông đề nghị {props.data.customer.companyName} thanh toán khối
                         lượng hoàn thành cho chúng tôi như sau:</span>
                     <br />
-                    <span className='span-card1'>
+                    <span className='span-cardb1'>
                         1. Giá trị khối lượng hoàn thành: <br />
                         2. Đã tạm ứng: <br />
                         3. Giá trị đề nghị thanh toán:</span>
-                    <span className='span-card2'>
+                    <span className='span-cardb2'>
                         <span className='font-bold'>{formatNumberToDot(props.data.totalAmount)} Đồng</span><br />
                         <span className='font-bold'>0 Đồng</span><br />
                         <span className='font-bold'>{formatNumberToDot(props.data.totalAmount)} Đồng</span></span>
                     <div style={{ height: '80px' }}></div>
-                    <p className='span-card4 font-bold'>(Bằng chữ:   {numberToWords(props.data.totalAmount)}./.)</p>
+                    <p className='span-cardb4 font-bold'>(Bằng chữ:   {numberToWords(props.data.totalAmount)}./.)</p>
                     <span>Toàn bộ số tiền trên xin chuyển vào tài khoản Ngân hàng của chúng tôi:</span>
                     <br />
                     <span>- Tên tài khoản: <span className='font-bold'>{sellerData.accountBankName}</span></span>

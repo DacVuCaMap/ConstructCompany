@@ -26,15 +26,15 @@ export default function TableAddStatistic(props: Props) {
     useEffect(() => {
         if (props.editData) {
             let count = 0;
-            console.log(props.editData)
+            // console.log(props.editData)
             const groupedItems = props.editData.reduce((acc: any, current: any) => {
                 const existingItem = acc.find((item: any) => item.proId === current.proId);
-                console.log(current);
+                // console.log(current);
                 if (!existingItem) {
-                    count=0;
+                    count = 0;
                     acc.push({
                         proName: current.typeProduct, proUnit: current.unit, proPrice: current.price
-                        ,proId:current.proId, statisticItems: [{
+                        , proId: current.proId, statisticItems: [{
                             id: count, day: current.day, licensePlate: current.licensePlate
                             , trailer: current.trailer, ticket: current.ticket,
                             typeProduct: current.typeProduct, proId: current.proId,
@@ -57,7 +57,7 @@ export default function TableAddStatistic(props: Props) {
                 return acc;
             }, []);
             setItems(groupedItems);
-            console.log(groupedItems);
+            // console.log(groupedItems);
         }
     }, [props.editData]);
 
@@ -130,13 +130,17 @@ export default function TableAddStatistic(props: Props) {
     }
     const [childItemId, setChildItemId] = useState<number[]>([]);
     const genChildId = (index: number) => {
-        let getId : number = items[index].statisticItems[items[index].statisticItems.length-1].id;
-        return getId+1;
+        let getId: number = -1;
+        if (items[index].statisticItems.length > 0) {
+            getId = items[index].statisticItems[items[index].statisticItems.length - 1].id;
+        }
+        return getId + 1;
     };
     let totalWeight: number[] = [];
     let totalCost: number[] = [];
     let weightRs: number = 0;
     let costRs: number = 0
+    let count =0;
     const TotalMaterialWeight = (index: number) => {
         const total: number = items[index].statisticItems.reduce((total, item) => { return total + Number(item.materialWeight) }, 0)
         const arrWeight = [...totalWeight]
@@ -144,8 +148,8 @@ export default function TableAddStatistic(props: Props) {
         // setTotalWeight(arrWeight);
         return total;
     }
-    const formattedDate = (str:string)=>{
-        return new Date(str).toISOString().slice(0,10);
+    const formattedDate = (str: string) => {
+        return new Date(str).toISOString().slice(0, 10);
     }
     const HandleTotalCost = (index: number) => {
         const total = items[index].statisticItems.reduce((total, item) => { return total + item.price * item.materialWeight }, 0)
@@ -197,8 +201,8 @@ export default function TableAddStatistic(props: Props) {
                     {items.map((parentItem, index) => (
                         <>
                             {parentItem.statisticItems.map((item: StatisticItem, num) => (
-                                <tr key={num} className={`h-7 ${num % 2 === 0 ? 'bg-white' : 'bg-stone-200'} bodyTable `}>
-                                    <td>{num+1}</td>
+                                <tr key={count++} className={`h-7 ${num % 2 === 0 ? 'bg-white' : 'bg-stone-200'} bodyTable `}>
+                                    <td>{num + 1}</td>
                                     <td><input required className='h-7 w-full' type="date" value={item.day ? formattedDate(item.day) : item.day} onChange={(e) => handleInputChange(e, index, item.id, 'day')} /></td>
                                     <td><input required className='h-7 w-full' type="text" value={item.licensePlate} onChange={(e) => handleInputChange(e, index, item.id, 'licensePlate')} /></td>
                                     <td><input required className='h-7 w-full' type="text" value={item.trailer} onChange={(e) => handleInputChange(e, index, item.id, 'trailer')} /></td>

@@ -77,11 +77,11 @@ export default function EditOrder(props: Props) {
     }, [props.orderData])
     useEffect(() => {
         if (customer && customer.id) {
-            console.log(customer)
+            // console.log(customer)
             setValue('customerId', customer.id);
             setValue('representativeCustomer', customer.representativeCustomer)
             setValue('positionCustomer', customer.positionCustomer)
-            console.log(customer)
+            // console.log(customer)
         }
     }, [customer]);
     const handleOpenWindow = () => {

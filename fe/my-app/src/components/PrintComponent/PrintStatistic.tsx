@@ -114,8 +114,8 @@ const PrintStatistic = (props: Props) => {
                                 <br />
                                 <span>Mã số thuế:</span>
                             </div>
-                            <div className=''>
-                                <div className='flex'>
+                            <div className='w-3/4'>
+                                <div className='flex w-1/2'>
                                     <span className='font-bold'>{props.data.statistic.customer.representativeCustomer}</span>
                                     <span className='text-right flex-grow'>Chức vụ: <span className='font-bold'>{props.data.statistic.customer.positionCustomer}</span></span>
                                 </div>
@@ -135,8 +135,8 @@ const PrintStatistic = (props: Props) => {
                                 <br />
                                 <span>Mã số thuế:</span>
                             </div>
-                            <div className=''>
-                                <div className='flex'>
+                            <div className='w-3/4'>
+                                <div className='flex w-1/2'>
                                     <span className='font-bold'>{sellerData.representativeSeller}</span>
                                     <span className='text-right flex-grow'>Chức vụ: <span className='font-bold'>{sellerData.positionSeller}</span></span>
                                 </div>
@@ -192,7 +192,7 @@ const PrintStatistic = (props: Props) => {
 
                                     ))}
                                     <tr key={parentItem.proId} className='bg-yellow-200 text-sm'>
-                                        <td className='text-center'>{index + 1}</td>
+                                        <td className='text-center'></td>
                                         <td className='text-center' colSpan={6}>{parentItem.proName}</td>
                                         <td className='text-center'>{formatNumberToDot(TotalMaterialWeight(index))}</td>
                                         <td></td>
@@ -203,16 +203,27 @@ const PrintStatistic = (props: Props) => {
                             ))}
                         </tbody >
                         <tfoot className='font-bold'>
-                            <td></td>
-                            <td colSpan={6} className='text-center'>Tổng phát sinh chi phí </td>
-                            <td className='text-center'>{HandletotalWeight() === 0 ? '' : HandletotalWeight()}</td>
-                            <td></td>
-                            <td>{formatNumberToDot(HandleTotalAmount())}</td>
-                            <td></td>
+                            <tr>
+                                <td></td>
+                                <td colSpan={6} className='text-center'>Tổng phát sinh chi phí </td>
+                                <td className='text-center'>{HandletotalWeight() === 0 ? '' : HandletotalWeight()}</td>
+                                <td></td>
+                                <td>{formatNumberToDot(HandleTotalAmount())}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colSpan={11}><p className='text-center'>Bằng chữ: {numberToWords(HandleTotalAmount())} </p></td>
+                            </tr>
                         </tfoot>
                     </table>
-                    <p className='text-center'>Bằng chữ: {numberToWords(HandleTotalAmount())} </p>
-                    <p className='text-center'>Biên bản được thành lập 02 (hai) bản, mỗi bên giữ 01 (một) bản có giá trị pháp lý như nhau.</p>
+                    <div className='w-full flex justify-center items-center'>
+                        <div className='inline-block'>
+
+                            <p className='text-center'>Biên bản được thành lập 02 (hai) bản, mỗi bên giữ 01 (một) bản có giá trị pháp lý như nhau.</p>
+                        </div>
+                    </div>
+
+                    <br />
                     <span className='font-bold mr-64 ml-20'>ĐẠI DIỆN BÊN A</span>
                     <span className='font-bold'>ĐẠI DIỆN BÊN B</span>
 

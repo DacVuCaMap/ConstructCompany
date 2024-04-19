@@ -17,7 +17,7 @@
 
 .card-1 {
     top: 150px;
-    left: 100px;
+    left: 40px;
 }
 
 .card-2 {
@@ -53,7 +53,6 @@
     top: 200px;
     left: 0;
     width: 100%;
-    padding-left: 60px;
     position: relative;
 }
 .card-5{

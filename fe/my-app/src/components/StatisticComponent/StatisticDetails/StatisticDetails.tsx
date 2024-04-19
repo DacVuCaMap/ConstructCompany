@@ -7,9 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { notFound, useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
-import TableAddStatistic from '../TableAddStatistic/TableAddStatistic';
 import StatisticDetailsData from './StatisticDetailsData';
-import GetPattern from '@/ApiPattern/GetPattern';
 import TableEditStatistic from '../TableAddStatistic/TableEditStatistic';
 import { ClipboardMinus } from 'lucide-react';
 import PrintStatistic from '@/components/PrintComponent/PrintStatistic';
@@ -63,22 +61,22 @@ export default function StatisticDetails(param: any) {
   //handle open
   useEffect(() => {
     if (customer && customer.id) {
-      console.log(customer)
+      // console.log(customer)
       setValue('customerId', customer.id);
       setValue('representativeCustomer', customer.representativeCustomer)
       setValue('positionCustomer', customer.positionCustomer)
-      console.log(customer)
+      // console.log(customer)
     }
   }, [customer]);
   //submit form data
   const onSubmit = async (data: any) => {
-    const dataPost = { statistic: { ...data, totalAmount: totalAmount }, statisticDetails: [...statisticDetails] }
+    const dataPost = { statistic: { id:dataEdit.statistic.id,...data, totalAmount: totalAmount }, statisticDetails: [...statisticDetails] }
 
     const urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/statistic/edit';
     console.log(dataPost)
     const post = await postData(urlPost, dataPost, {});
     console.log(post)
-    router.push('/statistic/list?size=10&page=0');
+    // router.push('/statistic/list?size=10&page=0');
   }
   //PDF
   const [openPDF, setOpenPDF] = useState(false);

@@ -27,7 +27,7 @@ export default function TableOrderDetails(props: Props) {
                     orderDetailId:item.orderDetailId
                 }])
             })
-            console.log('item',items)
+            // console.log('item',items)
         }
     },[props.orderDetailsProps])
     const [product, setProduct] = useState<any>(null);
@@ -141,7 +141,7 @@ export default function TableOrderDetails(props: Props) {
                 <tbody className='border-b border-gray-500'>
 
                     {items.map((item) => (
-                        <tr key={item.id} className={`h-7 ${count % 2 != 0 ? 'bg-white' : 'bg-stone-200'}`}>
+                        <tr key={count} className={`h-7 ${count % 2 != 0 ? 'bg-white' : 'bg-stone-200'}`}>
                             <td>{count++}</td>
                             <td className='relative'>
                                 <input required className='h-7 w-full' placeholder='Nhập tên' type="text" value={item.proName !== undefined ? item.proName : ''} onChange={(e) => handleInputNameChange(e, item.id, 'proName')} />

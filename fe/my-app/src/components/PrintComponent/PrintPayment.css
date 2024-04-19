@@ -9,39 +9,40 @@
     font-family: "Times New Roman", Times, serif;
 }  
 
-.card-child {
+.cardb-child {
     position: absolute;
     display: inline-block;
 }
 
-.card-1 {
+.cardb-1 {
     top: 100px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
 }
 
-.card-2 {
+.cardb-2 {
     top: 50px;
     left: 50%;
+    display: inline-block;
     transform: translateX(-50%);
     text-align: center;
     font-weight: bold;
 }
-.card-12{
+.cardb-12{
     top: 130px;
     right: 60px;
     text-align: center;
     font-weight: bold;
 }
-.card-34{
+.cardb-34{
     top: 220px;
     left: 0;
     width: 100%;
     text-align: center;
     font-weight: bold;
 }
-.card-3 {
+.cardb-3 {
     top: 170px;
     left: 0;
     width: 100%;
@@ -50,7 +51,7 @@
     font-size: 20px;
     z-index: 60;
 }
-.card-4 {
+.cardb-4 {
     top: 250px;
     left: 0;
     width: 92%;
@@ -58,16 +59,16 @@
     position: relative;
 }
 
-.span-card1 {
+.span-cardb1 {
     position: absolute;
     left: 60px;
 }
-.span-card2 {
+.span-cardb2 {
     position: absolute;
     right: 0px;
     text-align:right;
 }
-.span-card4{
+.span-cardb4{
     width: 100%;
     text-align: center;
     color: red;

@@ -22,7 +22,7 @@ export default function LoginComponent() {
             console.log(response);
             saveCookieUser(response.data);
             console.log(userData());
-            // window.location.href='/';
+            window.location.href='/';
         } catch (error) {
             console.log(error)
             setPassword('');
@@ -38,11 +38,11 @@ export default function LoginComponent() {
                     {errorLogin && <span className='text-red-500'>Tài khoản hoặc mật khẩu không hợp lệ</span>}
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-gray-700">Email</label>
-                        <input onChange={(e) => setEmail(e.target.value)} type="email" id="email" name="email" className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" required />
+                        <input placeholder='User name' onChange={(e) => setEmail(e.target.value)} type="text" id="username" name="username" className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" required />
                     </div>
                     <div className="mb-4">
                         <label htmlFor="password" className="block text-gray-700">Password</label>
-                        <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" name="password" className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" required />
+                        <input placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" name="password" className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" required />
                     </div>
                     <div className="mb-4">
                         <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">Login</button>
