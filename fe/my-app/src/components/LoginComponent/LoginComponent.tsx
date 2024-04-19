@@ -22,7 +22,7 @@ export default function LoginComponent() {
             console.log(response);
             saveCookieUser(response.data);
             console.log(userData());
-            window.location.href='/';
+            // window.location.href='/';
         } catch (error) {
             console.log(error)
             setPassword('');

@@ -20,7 +20,6 @@ type Customer = {
   positionCustomer: string
 }
 export default function StatisticDetails(param: any) {
-  console.log('so lan render')
   const route = useRouter()
   const [dataEdit, setDataEdit] = useState<any>();
   //state
