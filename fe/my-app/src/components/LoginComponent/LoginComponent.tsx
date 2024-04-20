@@ -4,14 +4,17 @@ import { saveCookieUser, userData } from '@/data/authenticate';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
+import LoadingScene from '../LoadingScene';
+import { MoonLoader } from 'react-spinners';
 
 export default function LoginComponent() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isRemember, setRemember] = useState(false);
     const [errorLogin, setErrorLogin] = useState(false);
-    const route = useRouter();
+    const [loading,setLoading] = useState(false);
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+        setLoading(true);
         e.preventDefault();
         console.log(email, password)
         setErrorLogin(false);
@@ -27,6 +30,7 @@ export default function LoginComponent() {
             console.log(error)
             setPassword('');
             setErrorLogin(true);
+            setLoading(false)
         }
 
     }
@@ -45,7 +49,7 @@ export default function LoginComponent() {
                         <input placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" name="password" className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" required />
                     </div>
                     <div className="mb-4">
-                        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">Login</button>
+                        <button type="submit" disabled={loading} className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">{loading ? <div className='w-full h-full flex justify-center items-center'><MoonLoader size={20} color="rgba(0, 0, 0, 1)" /> </div>: 'Login'}</button>
                     </div>
                     <div className="mb-4">
                         <label htmlFor="remember" className="flex items-center">

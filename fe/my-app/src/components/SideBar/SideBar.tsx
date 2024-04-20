@@ -19,12 +19,13 @@ export default function SideBar(props: Props) {
   const handleLogout = async () => {
 
     let url = process.env.NEXT_PUBLIC_API_URL + '/api/auth/logout'
-
+    const token = Cookies.get('jwt');
     try {
-      const response = await axios.post(url, {}, { withCredentials: true });
+      const response = await axios.post(url, {token:token}, { withCredentials: true });
       Cookies.remove('email');
       Cookies.remove('admin');
       Cookies.remove('id');
+      Cookies.remove('jwt');
       window.location.href = '/login';
     } catch (error) {
       console.log(error)

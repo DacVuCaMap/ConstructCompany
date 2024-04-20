@@ -57,7 +57,7 @@ export const sideBarAdmin = [
             {
                 id: 31,
                 title: "Config",
-                url: "/faculties",
+                url: "/seller",
             },
         ],
     },
