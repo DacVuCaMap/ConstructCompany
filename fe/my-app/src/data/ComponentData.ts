@@ -46,6 +46,12 @@ export const AddCustomerField = [
     { id: 4, field: "phoneNumber", title: "Số điện thoại", type: "text" },
 ]
 
+export const AddAccount = [
+    { id: 1, field: "email", title: "Tên đăng nhập", type: "text" },
+    { id: 7, field: "password", title: "Mật khẩu", type: "text" },
+    { id: 5, field: "fullName", title: "Họ tên", type: "text" },
+    { id: 6, field: "phoneNumber", title: "Số điện thoại", type: "text" },
+]
 export const typeCustomerData = ["id", "companyName", "address", "taxCode", "debt", "createAt", "updateAt"]
 //       companyName: item.companyName,
 //       address: item.address,

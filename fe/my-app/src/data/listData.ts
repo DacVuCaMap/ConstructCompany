@@ -108,7 +108,16 @@ export const columnStatistic:GridColDef[]=[
         }
     }
 ]
-
+export const columnAccount : GridColDef[]=[
+    { field: 'id', headerName: "ID", flex: 0.5 },
+    { field: 'email', headerName: "Tên đăng nhập", flex: 1 },
+    { field: 'fullName', headerName: "Họ Tên", flex: 1 },
+    { field: 'phoneNumber', headerName: "SDT", flex: 1 },
+    { field: 'createAt', headerName: "Create At", flex: 1,valueGetter:(value:string)=>{
+        return formatDateData(value);
+    } },
+    { field: 'admin', headerName: "Quyền", flex: 0.5 }
+]
 export const formatDateData = (dateString: string) => {
     if (!dateString) {
         return;

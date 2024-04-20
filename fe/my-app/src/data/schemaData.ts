@@ -21,3 +21,10 @@ export const schemaStatistic = yup.object().shape({
     Tax: yup.string(),
     TotalCost: yup.number(),
 });
+export const schemaAccount = yup.object().shape({
+    email:yup.string().required("Khong de trong"),
+    password:yup.string().required("khong de trong"),
+    fullName:yup.string().required("Khong de trong"),
+    phoneNumber: yup.string().matches(/^[0-9]+$/, 'Số điện thoại chỉ chứa ký tự số').required('Số điện thoại không được để trống'),
+    admin:yup.boolean().nullable()
+})

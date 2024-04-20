@@ -1,0 +1,31 @@
+.barHead {
+    left: -100%;
+}
+
+@keyframes slideInLeft {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left:0;
+    }
+}
+
+.slideInLeft-animation {
+    animation: slideInLeft 0.5s forwards;
+}
+
+/* @keyframes slideInRight {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.slideInRight-animation {
+    animation: slideInRight 0.5s forwards;
+} */

@@ -11,6 +11,7 @@ import postData from '@/ApiPattern/PostPattern';
 import { schemaOrder } from '@/data/schemaData';
 import { useRouter } from 'next/navigation';
 import LoadingScene from '@/components/LoadingScene';
+import { MoonLoader } from 'react-spinners';
 type Cost = { totalCost: number, tax: number, totalAmount: number }
 
 export default function AddOrderProduct() {
@@ -60,7 +61,7 @@ export default function AddOrderProduct() {
         console.log(urlPost);
         let signingDate = `${data.signingDateForm.getFullYear()}-${month < 10 ? '0' + month : month}-${data.signingDateForm.getDate()}`;
         const dataPost = { order: { ...data, signingDate: signingDate, ...cost, contractCode: formattedDate }, orderDetails: orderDetail }
-        // console.log("dataPost", dataPost)
+        console.log("dataPost", dataPost)
 
         const post = await postData(urlPost, dataPost, {});
         console.log(post);
@@ -225,7 +226,7 @@ export default function AddOrderProduct() {
                         type="submit"
                         disabled={isDisable}
                     >
-                        {isDisable ? <LoadingScene/>:'Lưu Dữ Liệu'}
+                        {isDisable ? <MoonLoader size={20} color="rgba(0, 0, 0, 1)" /> :'Lưu Dữ Liệu'}
                     </button>
                 </div>
             </form>
