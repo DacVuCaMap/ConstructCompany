@@ -31,10 +31,13 @@ export default function Header(props: Props) {
             {props.userMail}
           </span>
 
-            {props.isAdminRole === "true" &&
+            {props.isAdminRole === "true" ?
               <div className="bg-slate-900 px-5 rounded text-lg text-gray-400 ml-2 border-b border-transparent hover:bg-gray-700 flex items-center">
                 <span className="h-2 w-2 bg-green-500 rounded-full mr-2"></span>
                 ADMIN
+              </div> :<div className="bg-slate-900 px-5 rounded text-lg text-gray-400 ml-2 border-b border-transparent hover:bg-gray-700 flex items-center">
+                <span className="h-2 w-2 bg-green-500 rounded-full mr-2"></span>
+                Nhân viên
               </div>
             }</>
 

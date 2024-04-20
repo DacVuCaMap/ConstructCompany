@@ -1,58 +1,59 @@
+
 "use client"
 import { flexResponsive } from '@/data/dataResponsive';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useState } from 'react'
 import { FieldError, useForm } from 'react-hook-form';
 import postData from '@/ApiPattern/PostPattern';
-import { schemaAccount } from '@/data/schemaData';
-import { AddAccount } from '@/data/ComponentData';
 import { ChevronDown } from 'lucide-react';
 
 type Props = {
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  componentData: any,
+  validValueSchema: any,
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
 }
-export default function RegisterAccount(props: Props) {
-    const [errorForm, setErrorForm] = useState(false);
-    const [change, setChange] = useState(false);
-    const [success, setSuccess] = useState(false);
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm({
-        resolver: yupResolver(schemaAccount),
-    });
 
-    const onSubmit = async (data: any) => {
-        setErrorForm(false)
-        console.log(data);
-        const url = process.env.NEXT_PUBLIC_API_URL + '/api/auth/register';
-        const response = await postData(url, data, {});
-        console.log("response: ", response)
-        if (response == null || response.status === 400) {
-            setErrorForm(true);
-            return;
-        }
-        console.log(response);
-        success
-        console.log(data);
-        setSuccess(true);
-        setChange(true);
-        setTimeout(() => {
-            setSuccess(false);
-        }, 2000);
-        reset();
-    };
-    const handleCancel = () => {
-        if (change) {
-            window.location.reload();
-        }
-        props.setOpen(false);
+export default function AddComponent(props: Props) {
+  const [errorForm, setErrorForm] = useState(false);
+  const [change, setChange] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(props.validValueSchema),
+  });
+
+  const onSubmit = async (data: any) => {
+    setErrorForm(false)
+    console.log(data);
+    const url = process.env.NEXT_PUBLIC_API_URL + '/api/auth/register';
+    const response = await postData(url, data, {});
+    console.log("response: ", response)
+    if (response == null || response.status===400) {
+      setErrorForm(true);
+      return;
     }
-    return (
-        <div onClick={handleCancel} className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center">
-            <form
+    console.log(response);
+    //success
+    setSuccess(true);
+    setChange(true);
+    setTimeout(() => {
+      setSuccess(false);
+    }, 2000);
+    reset();
+  };
+  const handleCancel = () => {
+    if (change) {
+      window.location.reload();
+    }
+    props.setOpen(false);
+  }
+  return (
+    <div onClick={handleCancel} className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center">
+      <form
                 onClick={(e) => e.stopPropagation()}
                 onSubmit={handleSubmit(onSubmit)}
                 className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 z-51 w-full lg:max-w-4xl"
@@ -65,7 +66,7 @@ export default function RegisterAccount(props: Props) {
                     <p className="text-green-700 italic">Tạo thành công</p>
                 )}
                 <div className={`flex flex-wrap ${flexResponsive} pb-4 mb-4 border-b border-neutral-400 gap-x-4`}>
-                    {AddAccount.map((item: any, index) => (
+                    {props.componentData.map((item: any, index:number) => (
                         <div key={index} className='flex-auto'>
                             <div className='flex-auto'>
                                 <label className="block text-gray-700 font-bold mb-2">
@@ -114,6 +115,6 @@ export default function RegisterAccount(props: Props) {
 
                 </div>
             </form >
-        </div >
-    )
+    </div>
+  )
 }

@@ -40,7 +40,7 @@ export const sideBarAdmin = [
             {
                 id: 24,
                 title: "Admin",
-                url: "/admin",
+                url: "/admin/list?page=0&size=10",
             },
             {
                 id: 25,

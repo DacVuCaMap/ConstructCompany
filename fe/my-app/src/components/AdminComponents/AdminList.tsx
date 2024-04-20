@@ -9,6 +9,8 @@ import GetPattern from '@/ApiPattern/GetPattern';
 import LoadingScene from '../LoadingScene';
 import './dataTable.scss'
 import RegisterAccount from './RegisterAccount';
+import { AddAccount } from '@/data/ComponentData';
+import { schemaAccount } from '@/data/schemaData';
 
 export default function AdminList() {
     const searchParam = useSearchParams();
@@ -51,7 +53,7 @@ export default function AdminList() {
     return (
         <div className="dataTable flex-1 m-2 ">
             <h2 className='text-gray-700 font-bold text-4xl mb-4'>Quản lí tài khoản</h2>
-            {openAdd && <RegisterAccount setOpen={setOpenAdd} />}
+            {openAdd && <RegisterAccount componentData={AddAccount} validValueSchema={schemaAccount} setOpen={setOpenAdd} />}
             <button onClick={() => setOpenAdd(!openAdd)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Tạo tài khoản
             </button>
