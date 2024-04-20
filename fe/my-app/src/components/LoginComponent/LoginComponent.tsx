@@ -16,7 +16,6 @@ export default function LoginComponent() {
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         setLoading(true);
         e.preventDefault();
-        console.log(email, password)
         setErrorLogin(false);
         const url = process.env.NEXT_PUBLIC_API_URL + "/api/auth/login";
         const data: LoginRequest = new LoginRequest(email, password, isRemember);
