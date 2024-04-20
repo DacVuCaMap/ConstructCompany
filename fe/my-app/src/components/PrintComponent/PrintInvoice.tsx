@@ -47,7 +47,7 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
           <div className="card-child card-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM </span> <br /><span className='underline decoration-solid'>Độc lập - Tự do - Hạnh phúc</span></div>
           <div className="card-child card-3"><span>BIÊN BẢN NGHIỆM THU VÀ XÁC NHẬN KHỐI LƯỢNG</span> </div>
           <div className="card-child card-4"><span>- Căn cứ HĐKT Số: {data.contractCode}/HĐNT/AK-TĐ </span><br />
-            <span>Hôm nay, ngày {data.createAt.getDate()} tháng {data.createAt.getMonth()} năm {data.createAt.getFullYear()}. Chúng tôi gồm:</span> <br />
+            <span>Hôm nay, ngày {data.createAt.getDate()} tháng {data.createAt.getMonth()+1} năm {data.createAt.getFullYear()}. Chúng tôi gồm:</span> <br />
             <span style={{ fontWeight: 'bolder' }}>Đại diện bên mua:{data.companyName}</span>
             <br />
             <span className="span-card1">Người đại diện:{data.representativeCustomer} </span><span>Chức vụ: {data.positionCustomer}</span><br />

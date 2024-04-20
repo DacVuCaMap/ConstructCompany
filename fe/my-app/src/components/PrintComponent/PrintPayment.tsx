@@ -26,7 +26,7 @@ const PrintComponent = (props: Props) => {
                 </div>
                 <div className="card-child cardb-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM </span> <br /><span className='underline decoration-solid'>Độc lập - Tự do - Hạnh phúc</span></div>
                 <div className="card-child cardb-3"><span>GIẤY ĐỀ NGHỊ THANH TOÁN</span> </div>
-                <div className='card-child cardb-12 text-right'>Hà Nội, ngày {today.getDate()} tháng {today.getMonth()} năm  {today.getFullYear()}</div>
+                <div className='card-child cardb-12 text-right'>Hà Nội, ngày {today.getDate()} tháng {today.getMonth()+1} năm  {today.getFullYear()}</div>
                 <span className='card-child cardb-34'>Hạng mục: &#34;Thi công Trục đường Âu Cơ, phường Tứ Liêm, quận Tây Hồ, Tp. Hà Nội&#34;</span>
                 <div className="card-child cardb-4">
                     <span className='font-bold'><span className='underline'>Kính gửi:</span> {props.data.customer.companyName} </span><br />

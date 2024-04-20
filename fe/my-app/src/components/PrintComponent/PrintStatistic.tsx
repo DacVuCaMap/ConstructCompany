@@ -100,7 +100,7 @@ const PrintStatistic = (props: Props) => {
                 <div className="card-child card-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM </span> <br /><span className='underline decoration-solid'>Độc lập - Tự do - Hạnh phúc</span></div>
                 <div className="card-child card-3"><span>BIÊN BẢN NGHIỆM THU VÀ XÁC NHẬN KHỐI LƯỢNG</span> </div>
                 <div className='card-child card-1'>Căn cứ khối lượng thực tế<br />
-                    Hôm nay, ngày {today.getDate()} Tháng {today.getMonth()} năm {today.getFullYear()}, chúng tôi gồm các bên:
+                    Hôm nay, ngày {today.getDate()} Tháng {today.getMonth()+1} năm {today.getFullYear()}, chúng tôi gồm các bên:
                 </div>
 
                 <div className="card-child card-4">
