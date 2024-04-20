@@ -18,6 +18,7 @@ export const saveCookieUser = (data:any) =>{
     key.map(item=>{
         setCookie(item,data[item],day);
     })
+    setCookie('jwt',data.token,day);
 
 }
 const setCookie = (name:string,value:any,day:Date) => {
