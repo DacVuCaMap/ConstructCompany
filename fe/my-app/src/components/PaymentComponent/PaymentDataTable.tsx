@@ -1,4 +1,4 @@
-
+'use client'
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid"
 import PaginationComponent from "../List/PaginationComponent/PaginationComponent";
 import "./dataTable.scss"
@@ -30,7 +30,7 @@ export default function PaymentDataTable(props: Props) {
             <DataGrid
                 className="dataGrid hover:cursor-pointer"
                 rows={props.rows}
-                columns={[...props.columns]}
+                columns={window.innerWidth<768 ? [...props.columns.slice(0, 3)] : [...props.columns]}
                 initialState={{
                     pagination: {
                         paginationModel: {

@@ -1,4 +1,4 @@
-
+'use client'
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid"
 import "./dataTable.scss"
 import { useRef, useState } from "react";
@@ -44,7 +44,7 @@ export default function StatisticDataTable(props: Props) {
             <DataGrid
                 className="dataGrid hover:cursor-pointer"
                 rows={props.rows}
-                columns={[...props.columns, actionColumn]}
+                columns={window.innerWidth<768 ? [...props.columns.slice(0, 3), actionColumn] : [...props.columns, actionColumn]}
                 initialState={{
                     pagination: {
                         paginationModel: {

@@ -96,8 +96,8 @@ export default function EditOrder(props: Props) {
         const dataPost = { id: props.orderData.order.id, order: { ...data, ...cost }, orderDetails: orderDetail }
         console.log("dataPost", dataPost)
 
-        // const post = await postData(urlPost, dataPost, {});
-        // console.log(post)
+        const post = await postData(urlPost, dataPost, {});
+        console.log(post)
     };
 
     //open print

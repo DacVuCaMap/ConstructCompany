@@ -121,7 +121,7 @@ export default function TableOrderDetails(props: Props) {
     }
     useEffect(() => {
 
-        props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost * (1 - props.cost.tax) })
+        props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost+(props.cost.totalCost * props.cost.tax) })
     }, [items])
     return (
         <div>
@@ -189,7 +189,7 @@ export default function TableOrderDetails(props: Props) {
                             />
                             %
                         </td>
-                        <td className='text-center font-bold'></td>
+                        <td className='text-center font-bold'>{numberWithDots(props.cost.tax*props.cost.totalCost,2)}</td>
                     </tr>
                     <tr>
                         <td colSpan={5}>Tổng Thành Tiền:</td>

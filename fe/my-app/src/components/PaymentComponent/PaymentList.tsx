@@ -29,7 +29,7 @@ export default function PaymentList() {
   }, []);
   return (
     <div className="flex flex-col">
-      <h2 className='text-gray-700 font-bold text-4xl mb-4'>Danh sách PDF giấy đề nghị thanh toán</h2>
+      <h2 className='text-gray-700 font-bold lg:text-3xl text-lg mb-4'>Danh sách PDF giấy đề nghị thanh toán</h2>
       <PaymentDataTable columns={columnOrder} rows={data} slug={'order'} validValueSchema={undefined} componentEditData={undefined} />
     </div>
   )

@@ -58,16 +58,14 @@ const DataTable = (props: Props) => {
       );
     }
   }
-  const handlePageChange = () => {
-
-  }
+  console.log(window.innerWidth)
   return (
     <div className="dataTable flex-1 m-2">
       {openEdit && <EditComponent items={items} componentData={props.componentEditData} validValueSchema={props.validValueSchema} slug={props.slug} apiUrl="" setOpen={setOpenEdit} />}
       <DataGrid
         className="dataGrid"
         rows={props.rows}
-        columns={[...props.columns, actionColumn]}
+        columns={window.innerWidth<768 ? [...props.columns.slice(0, 3), actionColumn] : [...props.columns, actionColumn]}
         initialState={{
           pagination: {
             paginationModel: {
