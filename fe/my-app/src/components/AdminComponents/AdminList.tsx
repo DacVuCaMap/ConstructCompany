@@ -62,7 +62,7 @@ export default function AdminList() {
                     <DataGrid
                         className="dataGrid hover:cursor-pointer"
                         rows={data}
-                        columns={[...columnAccount, actionColumn]}
+                        columns={window.innerWidth<768 ? [...columnAccount.slice(0, 3), actionColumn] : [...columnAccount, actionColumn]}
                         initialState={{
                             pagination: {
                                 paginationModel: {
