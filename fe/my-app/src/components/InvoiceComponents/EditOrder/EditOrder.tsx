@@ -11,6 +11,8 @@ import TableOrderDetails from '../OrderDetail/TableOrderDetails';
 import { ClipboardMinus } from 'lucide-react';
 import PrintInvoice from '@/components/PrintComponent/PrintInvoice';
 import ReactToPrint from 'react-to-print';
+import { schemaOrder } from '@/data/schemaData';
+import { useRouter } from 'next/navigation';
 type Cost = { totalCost: number, tax: number, totalAmount: number }
 type Props = {
     orderData: any
@@ -27,6 +29,7 @@ const schema = yup.object().shape({
 });
 
 export default function EditOrder(props: Props) {
+    const route = useRouter();
     const sellerDt = sellerData;
     const [orderDetailsProps, setOrderDetailsProps] = useState<any[]>([]);
     const {
@@ -55,10 +58,11 @@ export default function EditOrder(props: Props) {
     const [showWindow, setShowWindow] = useState(false);
     const [orderDetail, setOrderDetail] = useState<any>();
     const [cost, setCost] = useState<Cost>({ totalCost: 0, tax: 0.1, totalAmount: 0 });
+    const [contractCode,setContractCode] = useState<any>();
     const inpRef = useRef(null);
     const [createAt, setCreateAt] = useState<Date>(new Date());
     const [numberWords,setNumberWords] = useState('');
-    
+    const [signingDate,setSigningDate] = useState<Date>(new Date());
     useEffect(() => {
         if (props.orderData && props.orderData.order && props.orderData.order.customer) {
             setCustomer({
@@ -73,6 +77,8 @@ export default function EditOrder(props: Props) {
         }
         if (props.orderData.order) {
             setCreateAt(props.orderData.order.createAt);
+            setSigningDate(new Date(props.orderData.order.signingDate));
+            setContractCode(props.orderData.order.contractCode);
         }
     }, [props.orderData])
     useEffect(() => {
@@ -93,11 +99,12 @@ export default function EditOrder(props: Props) {
         let urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/order/edit-order'
         console.log(urlPost);
 
-        const dataPost = { id: props.orderData.order.id, order: { ...data, ...cost }, orderDetails: orderDetail }
+        const dataPost = { order: { id:props.orderData.order.id,...data, ...cost,contractCode:contractCode,signingDate:signingDate.toISOString().substring(0,10) }, orderDetails: orderDetail }
         console.log("dataPost", dataPost)
 
         const post = await postData(urlPost, dataPost, {});
         console.log(post)
+        route.push('/invoice/list?size=10&page=0')
     };
 
     //open print
@@ -106,6 +113,9 @@ export default function EditOrder(props: Props) {
     const closePDFView = ()=>{
         setOpenPDF(false);
         document.body.style.overflow = 'unset';
+    }
+    const handleSigningDate=(e:any)=>{
+        setSigningDate(new Date(e.target.value));
     }
     return (
         <div className="flex justify-center items-center h-full  ">
@@ -224,6 +234,24 @@ export default function EditOrder(props: Props) {
                     </div>
                 </div>
                 <div className='mt-2 mb-2 '>
+                <div className='flex pb-4 mb-4 border-b border-neutral-400'>
+                        <div className='mr-1'>
+                            <label
+                                className="block text-gray-700 font-bold mb-2"
+                            >
+                                Ngày Kí Hợp Đồng:
+                                </label><input
+                                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.representativeCustomer ? 'border-red-500' : ''}`}
+                                    id="10"
+                                    type="date"
+                                    value={signingDate.toISOString().substring(0,10)}
+                                    required 
+                                    onChange={(e)=>handleSigningDate(e)}/>
+                            {errors.representativeCustomer && (
+                                <p className="text-red-500 text-xs italic">{errors.representativeCustomer.message}</p>
+                            )}
+                        </div>
+                    </div>
                     <TableOrderDetails setCost={setCost} setOrderDetail={setOrderDetail} cost={cost} orderDetailsProps={orderDetailsProps} />
                 </div>
 

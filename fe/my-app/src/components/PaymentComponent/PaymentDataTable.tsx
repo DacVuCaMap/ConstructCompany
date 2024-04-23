@@ -4,6 +4,7 @@ import PaginationComponent from "../List/PaginationComponent/PaginationComponent
 import "./dataTable.scss"
 import { useRef, useState } from "react";
 import PrintPayment from "../PrintComponent/PrintPayment";
+import { useRouter } from "next/navigation";
 type Props = {
     columns: GridColDef[],
     rows: object[],
@@ -13,12 +14,14 @@ type Props = {
 }
 
 export default function PaymentDataTable(props: Props) {
+    const route = useRouter();
     const [openPDF, setOpenPDF] = useState(false);
     const [data,setData] = useState<any>();
     const handleRowClick = (params: any) => {
         //open pdf
-        setData(params.row);
-        setOpenPDF(true);
+        // setData(params.row);
+        // setOpenPDF(true);
+        route.push('/payment/get/'+params.row.id);
     }
     const closePDFView = () => {
         setOpenPDF(false);
@@ -51,11 +54,7 @@ export default function PaymentDataTable(props: Props) {
             <div>
                 <PaginationComponent />
             </div>
-            {openPDF && <div onClick={() => closePDFView()} className="fixed pt-64 overflow-auto top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 flex justify-center items-center">
-                <div className='mt-20'>
-                    <PrintPayment data={data}/>
-                </div>
-            </div>}
+            
         </div>
 
     )

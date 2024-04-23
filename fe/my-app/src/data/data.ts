@@ -12,7 +12,7 @@ export const sideBarAdmin = [
             },
             {
                 id: 12,
-                title: "ĐN Thanh Toán(PDF)",
+                title: "Quản Lí Công nợ",
                 url: "/payment/list?size=10&page=0",
             },
             {
@@ -26,7 +26,6 @@ export const sideBarAdmin = [
         id: 2,
         title: "Quản Lí",
         listItems: [
-
             {
                 id: 21,
                 title: "Sản Phẩm",
@@ -41,11 +40,6 @@ export const sideBarAdmin = [
                 id: 24,
                 title: "Admin",
                 url: "/admin/list?page=0&size=10",
-            },
-            {
-                id: 25,
-                title: "Quản lí công nợ",
-                url: "/admin",
             },
         ],
     },

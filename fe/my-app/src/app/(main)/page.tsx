@@ -1,10 +1,14 @@
 import { ArrowRight } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default function Home() {
   const cookie = cookies();
   let userMail=cookie.get('email')?.value
+  if (!userMail) {
+    redirect('/login');
+  }
   return (
     <div className="bg-gradient-to-br from-purple-400 to-pink-600 min-h-screen flex items-center justify-center">
       <div className="bg-white shadow-md rounded-lg px-12 py-8 max-w-lg">

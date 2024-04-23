@@ -6,13 +6,14 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import LoadingScene from '../LoadingScene';
 import { MoonLoader } from 'react-spinners';
+import { HardHat } from 'lucide-react';
 
 export default function LoginComponent() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isRemember, setRemember] = useState(false);
     const [errorLogin, setErrorLogin] = useState(false);
-    const [loading,setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         setLoading(true);
         e.preventDefault();
@@ -24,7 +25,7 @@ export default function LoginComponent() {
             console.log(response);
             saveCookieUser(response.data);
             console.log(userData());
-            window.location.href='/';
+            window.location.href = '/';
         } catch (error) {
             console.log(error)
             setPassword('');
@@ -35,8 +36,12 @@ export default function LoginComponent() {
     }
     return (
         <div className="h-full flex justify-center items-center">
-            <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
-                <h2 className="text-2xl font-semibold mb-4">Login</h2>
+            <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg relative" >
+                <div className="flex items-center mb-6 bg-slate-900 text-white absolute left-0 py-2 px-6">
+                    <HardHat className="mr-2" />
+                    <h2 className="ml-2 font-bold">TIEN DONG COMPANY</h2>
+                </div>
+                <h2 className="text-2xl font-semibold mt-14 mb-4">Login</h2>
                 <form onSubmit={handleLogin}>
                     {errorLogin && <span className='text-red-500'>Tài khoản hoặc mật khẩu không hợp lệ</span>}
                     <div className="mb-4">
@@ -48,7 +53,7 @@ export default function LoginComponent() {
                         <input placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" name="password" className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" required />
                     </div>
                     <div className="mb-4">
-                        <button type="submit" disabled={loading} className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">{loading ? <div className='w-full h-full flex justify-center items-center'><MoonLoader size={20} color="rgba(0, 0, 0, 1)" /> </div>: 'Login'}</button>
+                        <button type="submit" disabled={loading} className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">{loading ? <div className='w-full h-full flex justify-center items-center'><MoonLoader size={20} color="rgba(0, 0, 0, 1)" /> </div> : 'Login'}</button>
                     </div>
                     <div className="mb-4">
                         <label htmlFor="remember" className="flex items-center">

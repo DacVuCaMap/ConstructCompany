@@ -52,5 +52,5 @@ export const numberToWords = (number: number) => {
       return str.charAt(0).toUpperCase() + str.slice(1);
     };
   
-    return capitalizeFirstLetter(result);
+    return capitalizeFirstLetter(result)+" đồng";
   };

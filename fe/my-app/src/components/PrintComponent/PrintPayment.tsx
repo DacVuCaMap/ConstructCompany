@@ -9,9 +9,10 @@ type Props = {
 }
 const PrintComponent = (props: Props) => {
     const componentRef = useRef(null);
-    console.log(props.data);
+    // console.log(props.data);
     const today = new Date(props.data.createAt);
     const signingDate = new Date(props.data.signingDate);
+    const left = props.data.leftAmount ? props.data.leftAmount : 0;
     return (
         <div>
             <ReactToPrint
@@ -42,10 +43,10 @@ const PrintComponent = (props: Props) => {
                         3. Giá trị đề nghị thanh toán:</span>
                     <span className='span-cardb2'>
                         <span className='font-bold'>{formatNumberToDot(props.data.totalAmount)} Đồng</span><br />
-                        <span className='font-bold'>0 Đồng</span><br />
-                        <span className='font-bold'>{formatNumberToDot(props.data.totalAmount)} Đồng</span></span>
+                        <span className='font-bold'>{formatNumberToDot(props.data.totalAmount-left)}</span><br />
+                        <span className='font-bold'>{formatNumberToDot(props.data.leftAmount)} Đồng</span></span>
                     <div style={{ height: '80px' }}></div>
-                    <p className='span-cardb4 font-bold'>(Bằng chữ:   {numberToWords(props.data.totalAmount)}./.)</p>
+                    <p className='span-cardb4 font-bold'>(Bằng chữ:   {numberToWords(props.data.leftAmount)}.)</p>
                     <span>Toàn bộ số tiền trên xin chuyển vào tài khoản Ngân hàng của chúng tôi:</span>
                     <br />
                     <span>- Tên tài khoản: <span className='font-bold'>{sellerData.accountBankName}</span></span>

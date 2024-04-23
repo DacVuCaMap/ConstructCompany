@@ -12,7 +12,7 @@ type Props = {
 }
 export default function Header(props: Props) {
   const [sideBarOpen, setSideBarOpen] = useState(false);
-  console.log(sideBarOpen);
+  // console.log(sideBarOpen);
   return (
     <div className="h-10 w-full bg-white flex items-center justify-between pr-4 ">
       <div className={`lg:hidden fixed top-0 barHead z-30 ${sideBarOpen ? 'slideInLeft-animation' : ''}`}>

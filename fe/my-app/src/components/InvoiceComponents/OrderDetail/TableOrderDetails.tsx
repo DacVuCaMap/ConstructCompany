@@ -15,9 +15,9 @@ export default function TableOrderDetails(props: Props) {
     useEffect(()=>{
         if (props.orderDetailsProps) {
             setItems([]);
-            props.orderDetailsProps.map((item: any) => {
+            props.orderDetailsProps.map((item: any,index) => {
                 setItems(prevItems => [...prevItems, {
-                    id: item.id,
+                    id: index,
                     productId: item.product.id,
                     proName: item.product.proName,
                     unit: item.product.unit,
@@ -27,12 +27,16 @@ export default function TableOrderDetails(props: Props) {
                     orderDetailId:item.orderDetailId
                 }])
             })
-            // console.log('item',items)
+            if (items[items.length-1]) {
+                setCountItemId(items[items.length-1].id+1)
+
+            }
+            // console.log('item',items[2].id)
         }
     },[props.orderDetailsProps])
     const [product, setProduct] = useState<any>(null);
     let count = 1;
-    const [countItemId, setCountItemId] = useState<number>(2);
+    const [countItemId, setCountItemId] = useState<number>(0);
     // Hàm thêm hàng mới
     const handleAddRow = () => {
         setCountItemId(countItemId + 1);
@@ -160,7 +164,7 @@ export default function TableOrderDetails(props: Props) {
                                 onChange={(e) => handlePriceChange(e, item.id, 'price')} />
                             </td>
                             <td className='text-center'>{numberWithDots((item.materialWeight * item.price), 0)}</td>
-                            <td>
+                            <td >
                                 <button type='button' className="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                                     onClick={() => handledelRow(item.id)}>xóa</button>
                             </td>

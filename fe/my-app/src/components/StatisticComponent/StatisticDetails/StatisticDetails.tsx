@@ -73,10 +73,10 @@ export default function StatisticDetails(param: any) {
     const dataPost = { statistic: { id:dataEdit.statistic.id,...data, totalAmount: totalAmount }, statisticDetails: [...statisticDetails] }
 
     const urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/statistic/edit';
-    console.log(dataPost)
+    // console.log(dataPost)
     const post = await postData(urlPost, dataPost, {});
-    console.log(post)
-    // router.push('/statistic/list?size=10&page=0');
+    // console.log(post)
+    router.push('/statistic/list?size=10&page=0');
   }
   //PDF
   const [openPDF, setOpenPDF] = useState(false);
