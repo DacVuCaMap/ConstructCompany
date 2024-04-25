@@ -58,11 +58,11 @@ export default function EditOrder(props: Props) {
     const [showWindow, setShowWindow] = useState(false);
     const [orderDetail, setOrderDetail] = useState<any>();
     const [cost, setCost] = useState<Cost>({ totalCost: 0, tax: 0.1, totalAmount: 0 });
-    const [contractCode,setContractCode] = useState<any>();
+    const [contractCode, setContractCode] = useState<any>();
     const inpRef = useRef(null);
     const [createAt, setCreateAt] = useState<Date>(new Date());
-    const [numberWords,setNumberWords] = useState('');
-    const [signingDate,setSigningDate] = useState<Date>(new Date());
+    const [numberWords, setNumberWords] = useState('');
+    const [signingDate, setSigningDate] = useState<Date>(new Date());
     useEffect(() => {
         if (props.orderData && props.orderData.order && props.orderData.order.customer) {
             setCustomer({
@@ -79,7 +79,7 @@ export default function EditOrder(props: Props) {
             setCreateAt(props.orderData.order.createAt);
             setSigningDate(new Date(props.orderData.order.signingDate));
             setContractCode(props.orderData.order.contractCode);
-            setCost({...cost,tax:props.orderData.order.tax})
+            setCost({ ...cost, tax: props.orderData.order.tax })
         }
     }, [props.orderData])
     useEffect(() => {
@@ -100,7 +100,7 @@ export default function EditOrder(props: Props) {
         let urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/order/edit-order'
         console.log(urlPost);
 
-        const dataPost = { order: { id:props.orderData.order.id,...data, ...cost,contractCode:contractCode,signingDate:signingDate.toISOString().substring(0,10) }, orderDetails: orderDetail }
+        const dataPost = { order: { id: props.orderData.order.id, ...data, ...cost, contractCode: contractCode, signingDate: signingDate.toISOString().substring(0, 10) }, orderDetails: orderDetail }
         console.log("dataPost", dataPost)
 
         const post = await postData(urlPost, dataPost, {});
@@ -111,11 +111,11 @@ export default function EditOrder(props: Props) {
     //open print
     const componentRef = useRef<HTMLDivElement>(null);
     const [openPDF, setOpenPDF] = useState(false);
-    const closePDFView = ()=>{
+    const closePDFView = () => {
         setOpenPDF(false);
         document.body.style.overflow = 'unset';
     }
-    const handleSigningDate=(e:any)=>{
+    const handleSigningDate = (e: any) => {
         setSigningDate(new Date(e.target.value));
     }
     return (
@@ -235,19 +235,19 @@ export default function EditOrder(props: Props) {
                     </div>
                 </div>
                 <div className='mt-2 mb-2 '>
-                <div className='flex pb-4 mb-4 border-b border-neutral-400'>
+                    <div className='flex pb-4 mb-4 border-b border-neutral-400'>
                         <div className='mr-1'>
                             <label
                                 className="block text-gray-700 font-bold mb-2"
                             >
                                 Ngày Kí Hợp Đồng:
-                                </label><input
-                                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.representativeCustomer ? 'border-red-500' : ''}`}
-                                    id="10"
-                                    type="date"
-                                    value={signingDate.toISOString().substring(0,10)}
-                                    required 
-                                    onChange={(e)=>handleSigningDate(e)}/>
+                            </label><input
+                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.representativeCustomer ? 'border-red-500' : ''}`}
+                                id="10"
+                                type="date"
+                                value={signingDate.toISOString().substring(0, 10)}
+                                required
+                                onChange={(e) => handleSigningDate(e)} />
                             {errors.representativeCustomer && (
                                 <p className="text-red-500 text-xs italic">{errors.representativeCustomer.message}</p>
                             )}
@@ -274,6 +274,7 @@ export default function EditOrder(props: Props) {
                         </div>
                     </button>
                 </div>
+
             </form>
             {openPDF && <div onClick={() => closePDFView()} className="fixed pt-64 overflow-auto top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 flex justify-center items-center">
                 <div className='mt-20'>
@@ -282,7 +283,7 @@ export default function EditOrder(props: Props) {
                     </button>
                     }
                         content={() => componentRef.current} />
-                    <PrintInvoice ref={componentRef} data={{
+                    <PrintInvoice componentRef={componentRef} data={{
                         createAt: new Date(createAt),
                         companyName: customer.companyName,
                         representativeCustomer: customer.representativeCustomer,

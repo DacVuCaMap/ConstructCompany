@@ -41,7 +41,7 @@ export default function LoginComponent() {
                     <HardHat className="mr-2" />
                     <h2 className="ml-2 font-bold">TIEN DONG COMPANY</h2>
                 </div>
-                <h2 className="text-2xl font-semibold mt-14 mb-4">Login</h2>
+                <h2 className="text-2xl font-semibold mt-14 mb-4"></h2>
                 <form onSubmit={handleLogin}>
                     {errorLogin && <span className='text-red-500'>Tài khoản hoặc mật khẩu không hợp lệ</span>}
                     <div className="mb-4">

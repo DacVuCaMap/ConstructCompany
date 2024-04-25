@@ -114,20 +114,23 @@ export default function EditComponent(props: Props) {
           )}
 
           <div className={`flex lg:flex-row flex-col flex-wrap pb-2 mb-2 border-b border-t overflow-auto h-3/4 border-neutral-400 gap-x-4`}>
-            {props.componentData.map((item: any) => (
-              <div className={`mb-2 pr-2 lg:w-${item.width}`} key={item.id}>
-                {/* {item.width} */}
-                <label
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  {item.title}
-                </label>
-                <input {...inputProps(item)} />
-                {errors[item.field] && (
-                  <p className="text-red-500 text-xs italic">{(errors[item.field] as FieldError)?.message}</p>
-                )}
-              </div>
-            ))}
+            {props.componentData.map((item: any) => {
+              return (
+                <div className={`mb-2 pr-2 ${item.width==='1/6' && 'lg:w-1/6'} ${item.width==='3/4' && 'lg:w-3/4'}  
+                ${item.width==='1/4' && 'lg:w-1/4'} ${item.width==='1/2' && 'lg:w-1/2'}`} key={item.id}>
+                  {item.width}
+                  <label
+                    className="block text-gray-700 font-bold mb-2"
+                  >
+                    {item.title}
+                  </label>
+                  <input {...inputProps(item)} />
+                  {errors[item.field] && (
+                    <p className="text-red-500 text-xs italic">{(errors[item.field] as FieldError)?.message}</p>
+                  )}
+                </div>
+              )
+            })}
           </div>
 
           <div className="flex items-center ">

@@ -20,7 +20,8 @@ const PrintStatistic = (props: Props) => {
     const [loading, setLoading] = useState(true);
     const [items, setItems] = useState<ParentStatisticItem[]>([]);
     const today = new Date(props.data.statistic.createAt)
-    console.log('print data: ', props.data);
+    // console.log('print data: ', props.data);
+    // console.log(today);
     useEffect(() => { setLoading(true) }, [props.data])
     if (loading) {
         <div>
@@ -97,10 +98,10 @@ const PrintStatistic = (props: Props) => {
                 </button>}
                 content={() => componentRef.current}
             />
-            <div className='lg:hidden block bg-gray-900 absolute top-5 text-gray-400 p-10'>Không khả dụng</div>
-            <div ref={componentRef} className="a4-sheet lg:block document hidden">
+            {/* <div className='lg:hidden block bg-gray-900 absolute top-5 text-gray-400 p-10'>Không khả dụng</div> */}
+            <div ref={componentRef} className={`a4-sheet lg:block document`}>
                 <div className="card-child card-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM </span> <br /><span className='underline decoration-solid'>Độc lập - Tự do - Hạnh phúc</span></div>
-                <div className="card-child card-3"><span>BIÊN BẢN NGHIỆM THU VÀ XÁC NHẬN KHỐI LƯỢNG</span> </div>
+                <div className="card-child card-3"><span>BIÊN BẢN NGHIỆM THU KHỐI LƯỢNG VÀ GIÁ TRỊ</span> </div>
                 <div className='card-child card-1'>Căn cứ khối lượng thực tế<br />
                     Hôm nay, ngày {today.getDate()} Tháng {today.getMonth()+1} năm {today.getFullYear()}, chúng tôi gồm các bên:
                 </div>
@@ -147,7 +148,7 @@ const PrintStatistic = (props: Props) => {
                                 <span>{sellerData.taxCode}</span>
                             </div>
                         </div>
-                        <p>Hai bên thống nhất khối lượng, giá trị hàng đến 12 h 00&#39; ngày  28/01/2024 như sau:</p>
+                        <p>Hai bên thống nhất khối lượng, giá trị hàng đến 12 h 00&#39; ngày  {today.getDate()}/{today.getMonth()+1}/{today.getFullYear()} như sau:</p>
                     </div>
 
 

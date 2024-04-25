@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import './PrintInvoice.css'
 import { sellerData } from '@/data/data';
 import { numberToWords } from '@/data/function';
-interface PrintableContentProps {
+type Props= {
   data: {
     createAt: Date;
     companyName: string;
@@ -12,12 +12,12 @@ interface PrintableContentProps {
     tax: number,
     contractCode:string,
     totalAmount:number
-  };
+  },
+  componentRef:any
 }
-type PrintOrder = { createAt: Date, companyName: string, representativeCustomer: string, positionCustomer: string }
-export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
-  ({ data }, ref) => {
-    document.body.style.overflow = 'hidden';
+export default function PrintInvoice(props:Props) {
+  const data =props.data;
+  document.body.style.overflow = 'hidden';
     console.log('dataPrint', data);
     const [loading, setLoading] = useState(true);
     const [totalCost, setTotalCost] = useState(0);
@@ -39,7 +39,7 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
     }
     return (
       <div >
-        <div  className="a4-sheet lg:block document">
+        <div ref={props.componentRef} className="a4-sheet lg:block document">
           <div className="invoiceCard invoiceCard-1">
             <span className='font-bold'>CTY TNHH XÂY DỰNG <br /> VÀ THƯƠNG MẠI TIẾN ĐÔNG</span><br />
             <span className='font-light'>Số:{data.contractCode}/BBNT</span>
@@ -48,12 +48,12 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
           <div className="invoiceCard invoiceCard-3"><span>BIÊN BẢN NGHIỆM THU VÀ XÁC NHẬN KHỐI LƯỢNG</span> </div>
           <div className="invoiceCard invoiceCard-4"><span>- Căn cứ HĐKT Số: {data.contractCode}/HĐNT/AK-TĐ </span><br />
             <span>Hôm nay, ngày {data.createAt.getDate()} tháng {data.createAt.getMonth()+1} năm {data.createAt.getFullYear()}. Chúng tôi gồm:</span> <br />
-            <span style={{ fontWeight: 'bolder' }}>Đại diện bên mua:{data.companyName}</span>
+            <span style={{ fontWeight: 'bolder' }}>Đại diện bên mua: {data.companyName}</span>
             <br />
-            <span className="span-card1">Người đại diện:{data.representativeCustomer} </span><span>Chức vụ: {data.positionCustomer}</span><br />
+            <span className="spanInvoice-card1">Người đại diện: {data.representativeCustomer} </span><span>Chức vụ: {data.positionCustomer}</span><br />
             <span style={{ fontWeight: 'bolder' }}>Đại diện bên bán:{seller.companyName}</span>
             <br />
-            <span className="span-card1">Người đại diện: {seller.representativeSeller}</span><span>Chức vụ: {seller.positionSeller}</span>
+            <span className="spanInvoice-card1">Người đại diện: {seller.representativeSeller}</span><span>Chức vụ: {seller.positionSeller}</span>
             <br />
             <span>Đã cùng nhau đối chiếu và nghiệm thu xác nhận khối lượng giao nhận cụ thể như sau : </span>
             <table className="custom-table">
@@ -94,8 +94,7 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
                 </tr>
               </tfoot>
             </table>
-            <span>- Bằng chữ: {numberToWords(data.totalAmount)}</span>
-            <br />
+            <p className='text-center'>( Bằng chữ: {numberToWords(data.totalAmount)} )</p>
             <span> - Hai bên đồng ý nghiệm thu khối lượng công việc thực hiện trên.</span>
             <br />
             <span>- Bên mua có trách nhiệm thanh toán toàn bộ số tiền trên cho Bên bán theo đúng điều khoản trong hợp đồng. <br />
@@ -107,7 +106,4 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
       </div>
 
     );
-  }
-);
-PrintInvoice.displayName = 'PrintInvoice';
-export default PrintInvoice;
+}
