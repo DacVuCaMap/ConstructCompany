@@ -77,12 +77,12 @@ export default function TableOrder(props: Props) {
         setItems(closeWindowItem);
     }
     useEffect(() => {
-        console.log('eff1');
+        // console.log('eff1');
         props.setOrderDetail(items);
     }, [items])
     //set product
     useEffect(() => {
-        console.log('eff2')
+        // console.log('eff2')
         if (product) {
             const updatedItems = items.map(item =>
                 item.id === product.itemId ? { ...item, unit: product.unit, price: product.price, productId: product.productId, proName: product.proName, isOpen: false } : item
@@ -98,7 +98,7 @@ export default function TableOrder(props: Props) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     } 
     useEffect(() => {
-        console.log('eff3')
+        // console.log('eff3')
         props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost+(props.cost.totalCost * props.cost.tax) })
     }, [items])
     return (

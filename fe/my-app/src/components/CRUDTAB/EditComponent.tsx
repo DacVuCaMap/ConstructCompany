@@ -13,7 +13,8 @@ type Props = {
   validValueSchema: any,
   slug: string,
   apiUrl: string,
-  items:any,
+  items: any,
+  nameSlug: any,
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -21,7 +22,8 @@ export default function EditComponent(props: Props) {
   const [errorForm, setErrorForm] = useState(false);
   const [change, setChange] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [fieldValue,setValueField] = useState({...props.items});
+  const [fieldValue, setValueField] = useState({ ...props.items });
+  document.body.style.overflow = 'hidden';
   // useEffect(()=>{
   //   setValueField({...props.items});
   // },[props.items])
@@ -41,11 +43,11 @@ export default function EditComponent(props: Props) {
     let response = null;
     if (props.slug === 'product') {
       let url = process.env.NEXT_PUBLIC_API_URL + `/api/${props.slug}/edit-${props.slug}`
-      response = await PutPattern(url,data,{});
+      response = await PutPattern(url, data, {});
     }
-    else{
+    else {
       let url = process.env.NEXT_PUBLIC_API_URL + `/api/${props.slug}s/edit-${props.slug}`
-      response = await postData(url,data,{})
+      response = await postData(url, data, {})
     }
     console.log("response: ", response)
     if (response == null) {
@@ -61,30 +63,31 @@ export default function EditComponent(props: Props) {
     }, 2000);
   };
   const handleCancel = () => {
+    document.body.style.overflow = 'unset';
     if (change) {
       window.location.reload();
     }
     props.setOpen(false);
   }
-  const inputProps = (item:any) => {
+  const inputProps = (item: any) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      let val : any = e.target.value
+      let val: any = e.target.value
       // if (e.target.name==='price' || e.target.name==='importPrice' || e.target.name==='debt') {
       //   val=Number(numberWithoutDots(val));
       // }
-      setValueField((prevState:any) => ({
+      setValueField((prevState: any) => ({
         ...prevState,
         [item.field]: val
       }));
     };
-  
+
     return {
       ...register(item.field),
       onChange: handleChange,
       className: `focus:outline-none focus:shadow-outline shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight ${errors[item.field] ? 'border-red-500' : ''} ${item.type === 'disable' ? 'cursor-not-allowed bg-gray-200' : ''}`,
       type: item.type,
-      value:fieldValue[item.field],
-      name:item.field
+      value: fieldValue[item.field],
+      name: item.field
     };
   };
   // const checkFormat=(item:any)=>{
@@ -98,46 +101,48 @@ export default function EditComponent(props: Props) {
   // }
 
   return (
-    <div onClick={handleCancel} className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center">
-      <form
-        onClick={(e) => e.stopPropagation()}
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-white overflow-auto max-h-screen shadow-md rounded px-8 pt-6 pb-8 mb-4 z-51 w-full lg:max-w-4xl"
-      >
-        <h2 className='text-gray-700 font-bold text-4xl mb-4'>{props.slug}</h2>
-        {errorForm && (
-          <p className="text-red-500 text-xs italic">FAILED TO ADD {props.slug}</p>
-        )}
-        {success && (
-          <p className="text-green-700 italic">Tạo thành công</p>
-        )}
-        <div className={`flex lg:flex-row flex-col flex-wrap max-h-full w-full pb-2 mb-2 border-b border-neutral-400 gap-x-4`}>
-          {props.componentData.map((item: any) => (
-            <div className={`mb-2 pr-2 lg:w-${item.width} w-full`} key={item.id}>
-              <label
-                className="block text-gray-700 font-bold mb-2"
-              >
-                {item.title}
-              </label>
-              <input {...inputProps(item)} />
-              {errors[item.field] && (
-                <p className="text-red-500 text-xs italic">{(errors[item.field] as FieldError)?.message}</p>
-              )}
-            </div>
-          ))}
-        </div>
+    <div onClick={handleCancel} className="fixed top-0 left-0 w-full h-screen bg-black bg-opacity-50 z-50 flex justify-center items-center">
+      <div className='h-screen flex  items-center'>
+        <form
+          onClick={(e) => e.stopPropagation()}
+          onSubmit={handleSubmit(onSubmit)}
+          className="bg-white overflow-auto h-5/6 shadow-md rounded px-8 pt-6 pb-8 mb-4 z-51 w-full lg:max-w-4xl"
+        >
+          <h2 className='text-gray-700 font-bold text-4xl mb-4'>{props.nameSlug}</h2>
+          {errorForm && (
+            <p className="text-red-500 text-xs italic">FAILED TO ADD {props.slug}</p>
+          )}
 
+          <div className={`flex lg:flex-row flex-col flex-wrap pb-2 mb-2 border-b border-t overflow-auto h-3/4 border-neutral-400 gap-x-4`}>
+            {props.componentData.map((item: any) => (
+              <div className={`mb-2 pr-2 lg:w-${item.width}`} key={item.id}>
+                {/* {item.width} */}
+                <label
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  {item.title}
+                </label>
+                <input {...inputProps(item)} />
+                {errors[item.field] && (
+                  <p className="text-red-500 text-xs italic">{(errors[item.field] as FieldError)?.message}</p>
+                )}
+              </div>
+            ))}
+          </div>
 
-        <div className="flex items-center justify-between">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-            Hoàn Thành
-          </button>
-
-        </div>
-      </form>
+          <div className="flex items-center ">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Hoàn Thành
+            </button>
+            {success && (
+              <p className="text-green-700 italic">Tạo thành công</p>
+            )}
+          </div>
+        </form>
+      </div>
     </div>
   )
 }

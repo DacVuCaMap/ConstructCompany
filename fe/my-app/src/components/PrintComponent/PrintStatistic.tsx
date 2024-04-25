@@ -15,6 +15,7 @@ type StatisticItem = {
 }
 type ParentStatisticItem = { proName: string, proUnit: string, proPrice: number, proId: number, statisticItems: StatisticItem[] }
 const PrintStatistic = (props: Props) => {
+    document.body.style.overflow = 'hidden';
     const componentRef = useRef(null);
     const [loading, setLoading] = useState(true);
     const [items, setItems] = useState<ParentStatisticItem[]>([]);
@@ -96,7 +97,8 @@ const PrintStatistic = (props: Props) => {
                 </button>}
                 content={() => componentRef.current}
             />
-            <div ref={componentRef} className="a4-sheet lg:block document">
+            <div className='lg:hidden block bg-gray-900 absolute top-5 text-gray-400 p-10'>Không khả dụng</div>
+            <div ref={componentRef} className="a4-sheet lg:block document hidden">
                 <div className="card-child card-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM </span> <br /><span className='underline decoration-solid'>Độc lập - Tự do - Hạnh phúc</span></div>
                 <div className="card-child card-3"><span>BIÊN BẢN NGHIỆM THU VÀ XÁC NHẬN KHỐI LƯỢNG</span> </div>
                 <div className='card-child card-1'>Căn cứ khối lượng thực tế<br />
@@ -125,7 +127,7 @@ const PrintStatistic = (props: Props) => {
                             </div>
                         </div>
                     </div>
-                    <span className='font-bold'>BÊN B (BÊN MUA): {sellerData.companyName}</span><br />
+                    <span className='font-bold'>BÊN B (BÊN BÁN): {sellerData.companyName}</span><br />
                     <div>
                         <div className='flex'>
                             <div className='w-20'>
@@ -183,7 +185,7 @@ const PrintStatistic = (props: Props) => {
                                                 {parentItem.proName}
                                             </td>
                                             <td className='text-center'>{item.unit}</td>
-                                            <td>{item.materialWeight}</td>
+                                            <td className='text-center'>{item.materialWeight}</td>
                                             <td>{item.price}
                                             </td>
                                             <td className='text-center'>{formatNumberWithDot((item.materialWeight * item.price), 2)}</td>

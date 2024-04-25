@@ -9,7 +9,7 @@ type Props = {
 }
 const PrintComponent = (props: Props) => {
     const componentRef = useRef(null);
-    // console.log(props.data);
+    console.log(props.data);
     const today = new Date(props.data.createAt);
     const signingDate = new Date(props.data.signingDate);
     const left = props.data.leftAmount ? props.data.leftAmount : 0;
@@ -22,14 +22,14 @@ const PrintComponent = (props: Props) => {
                 content={() => componentRef.current}
             />
             <div ref={componentRef} className="a4-sheet lg:block document">
-                <div className="card-child cardb-1">
+                <div className="paymentCard cardb-1">
                     --------o0o--------
                 </div>
-                <div className="card-child cardb-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM </span> <br /><span className='underline decoration-solid'>Độc lập - Tự do - Hạnh phúc</span></div>
-                <div className="card-child cardb-3"><span>GIẤY ĐỀ NGHỊ THANH TOÁN</span> </div>
-                <div className='card-child cardb-12 text-right'>Hà Nội, ngày {today.getDate()} tháng {today.getMonth()+1} năm  {today.getFullYear()}</div>
-                <span className='card-child cardb-34'>Hạng mục: &#34;Thi công Trục đường Âu Cơ, phường Tứ Liêm, quận Tây Hồ, Tp. Hà Nội&#34;</span>
-                <div className="card-child cardb-4">
+                <div className="paymentCard cardb-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM </span> <br /><span className='underline decoration-solid'>Độc lập - Tự do - Hạnh phúc</span></div>
+                <div className="paymentCard cardb-3"><span>GIẤY ĐỀ NGHỊ THANH TOÁN</span> </div>
+                <div className='paymentCard cardb-12 text-right'>Hà Nội, ngày {today.getDate()} tháng {today.getMonth()+1} năm  {today.getFullYear()}</div>
+                <span className='paymentCard cardb-34'>Hạng mục: &#34;Thi công Trục đường Âu Cơ, phường Tứ Liêm, quận Tây Hồ, Tp. Hà Nội&#34;</span>
+                <div className="paymentCard cardb-4">
                     <span className='font-bold'><span className='underline'>Kính gửi:</span> {props.data.customer.companyName} </span><br />
                     <span>  - Căn cứ hợp đồng nguyên tắc {props.data.contractCode} /HĐNT/AK-TĐ  - Ký ngày {signingDate.getDate()} tháng {signingDate.getMonth()} năm {signingDate.getFullYear()} giữa {sellerData.companyName} và {props.data.customer.companyName}</span> <br />
                     <span>- Căn cứ Bảng xác nhận giá trị khối lượng công việc hoàn thành.</span>
@@ -39,7 +39,7 @@ const PrintComponent = (props: Props) => {
                     <br />
                     <span className='span-cardb1'>
                         1. Giá trị khối lượng hoàn thành: <br />
-                        2. Đã tạm ứng: <br />
+                        2. Giá trị đã thanh toán: <br />
                         3. Giá trị đề nghị thanh toán:</span>
                     <span className='span-cardb2'>
                         <span className='font-bold'>{formatNumberToDot(props.data.totalAmount)} Đồng</span><br />
@@ -53,7 +53,7 @@ const PrintComponent = (props: Props) => {
                     <br />
                     <span>- Số tài khoản ngân hàng: <span className='font-bold'>{sellerData.accountBankNumber}</span></span>
                     <br />
-                    <span>- Tên ngân hàng:  <span className='font-bold'>{sellerData.accountBankNumber}</span>  </span>
+                    <span>- Tên ngân hàng:  <span className='font-bold'>{sellerData.bankName}</span>  </span>
                     <br />
                     <span className='ml-28 font-bold'>Xin trân trọng cảm ơn!</span>
                     <br />

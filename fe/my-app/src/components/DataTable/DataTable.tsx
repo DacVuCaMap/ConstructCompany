@@ -15,15 +15,16 @@ type Props = {
   rows: object[],
   slug: string,
   validValueSchema: any,
-  componentEditData: any
+  componentEditData: any,
+  nameSlug:any
 }
 
 const DataTable = (props: Props) => {
   const [openEdit, setOpenEdit] = useState(false);
   const [items, setItems] = useState<any>([]);
   const handleDelete = async (id: string) => {
-    console.log(id);
-    console.log(props.rows, props.slug)
+    // console.log(id);
+    // console.log(props.rows, props.slug)
     if (props.slug == 'product') {
       let url = process.env.NEXT_PUBLIC_API_URL + `/api/${props.slug}/delete/` + id
       const response = await DeletePattern(url, {});
@@ -37,7 +38,7 @@ const DataTable = (props: Props) => {
     window.location.reload();
   };
   const handleEdit = async (items: any) => {
-    console.log(items);
+    // console.log(items);
     setItems(items);
     setOpenEdit(true);
   }
@@ -58,10 +59,10 @@ const DataTable = (props: Props) => {
       );
     }
   }
-  console.log(window.innerWidth)
+  // console.log(window.innerWidth)
   return (
     <div className="dataTable flex-1 m-2">
-      {openEdit && <EditComponent items={items} componentData={props.componentEditData} validValueSchema={props.validValueSchema} slug={props.slug} apiUrl="" setOpen={setOpenEdit} />}
+      {openEdit && <EditComponent nameSlug={props.nameSlug} items={items} componentData={props.componentEditData} validValueSchema={props.validValueSchema} slug={props.slug} apiUrl="" setOpen={setOpenEdit} />}
       <DataGrid
         className="dataGrid"
         rows={props.rows}

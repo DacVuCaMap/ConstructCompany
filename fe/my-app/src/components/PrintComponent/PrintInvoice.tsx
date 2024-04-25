@@ -40,13 +40,13 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
     return (
       <div >
         <div  className="a4-sheet lg:block document">
-          <div className="card-child card-1">
-            <span className='underline font-bold'>CTY TNHH XÂY DỰNG <br /> VÀ THƯƠNG MẠI TIẾN ĐÔNG</span><br />
+          <div className="invoiceCard invoiceCard-1">
+            <span className='font-bold'>CTY TNHH XÂY DỰNG <br /> VÀ THƯƠNG MẠI TIẾN ĐÔNG</span><br />
             <span className='font-light'>Số:{data.contractCode}/BBNT</span>
           </div>
-          <div className="card-child card-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM </span> <br /><span className='underline decoration-solid'>Độc lập - Tự do - Hạnh phúc</span></div>
-          <div className="card-child card-3"><span>BIÊN BẢN NGHIỆM THU VÀ XÁC NHẬN KHỐI LƯỢNG</span> </div>
-          <div className="card-child card-4"><span>- Căn cứ HĐKT Số: {data.contractCode}/HĐNT/AK-TĐ </span><br />
+          <div className="invoiceCard invoiceCard-2"><span>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM </span> <br /><span className='underline decoration-solid'>Độc lập - Tự do - Hạnh phúc</span></div>
+          <div className="invoiceCard invoiceCard-3"><span>BIÊN BẢN NGHIỆM THU VÀ XÁC NHẬN KHỐI LƯỢNG</span> </div>
+          <div className="invoiceCard invoiceCard-4"><span>- Căn cứ HĐKT Số: {data.contractCode}/HĐNT/AK-TĐ </span><br />
             <span>Hôm nay, ngày {data.createAt.getDate()} tháng {data.createAt.getMonth()+1} năm {data.createAt.getFullYear()}. Chúng tôi gồm:</span> <br />
             <span style={{ fontWeight: 'bolder' }}>Đại diện bên mua:{data.companyName}</span>
             <br />
@@ -81,28 +81,16 @@ export const PrintInvoice = forwardRef<HTMLDivElement, PrintableContentProps>(
               </tbody>
               <tfoot className='font-bold'>
                 <tr>
-                  <td></td>
-                  <td>Tổng tiền hàng</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td className='text-align:right'>{numberWithDots(handleCalculator(), 0)}</td>
+                  <td colSpan={5} className='text-left pl-4'>Tổng tiền hàng</td>
+                  <td className='text-right'>{numberWithDots(handleCalculator(), 0)}</td>
                 </tr>
                 <tr>
-                  <td></td>
-                  <td>Thuế GTGT 10%</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td className='text-align:right'>{numberWithDots(handleCalculator() * data.tax, 0)}</td>
+                  <td colSpan={5} className='text-left pl-4'>Thuế GTGT {data.tax*100}%</td>
+                  <td className='text-right'>{numberWithDots(handleCalculator() * data.tax, 0)}</td>
                 </tr>
                 <tr>
-                  <td></td>
-                  <td>Tổng thành tiền</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td className='text-align:right'>{numberWithDots(handleCalculator() * (1 - data.tax), 0)}</td>
+                  <td colSpan={5} className='text-left pl-4'>Tổng thành tiền</td>
+                  <td className='text-right'>{numberWithDots(handleCalculator() * (1 + data.tax), 0)}</td>
                 </tr>
               </tfoot>
             </table>

@@ -31,10 +31,10 @@ export default function GetListInvoice() {
     <div className="flex flex-col">
       <h2 className='text-gray-700 font-bold lg:text-3xl text-lg mb-4'>Danh sách biên bản NT và xác nhận KL</h2>
       <Link
-        className="bg-blue-500 hover:bg-blue-700 w-24 text-white font-bold py-2 px-4 rounded inline-flex items-center"
+        className="bg-blue-500 hover:bg-blue-700 w-32 text-white font-bold py-2 px-4 rounded inline-flex items-center"
         href={"/invoice/add-order-product"}
       >
-        <span className="flex-shrink-0">Tạo</span>
+        <span className="flex-shrink-0">Tạo mới</span>
         <Plus className="ml-2 flex-shrink-0" />
       </Link>
       

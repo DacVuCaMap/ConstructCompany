@@ -1,10 +1,17 @@
-import { GridColDef } from "@mui/x-data-grid";
 
+import { GridColDef } from "@mui/x-data-grid";
+import { promises as fs } from 'fs';
+import sellerJson from './sellerData.json';
 export const sideBarAdmin = [
     {
         id: 1,
-        title: "Biên Bản",
+        title: "Chức Năng Chính",
         listItems: [
+            {
+                id: 10,
+                title: "HOME",
+                url: "/",
+            },
             {
                 id: 11,
                 title: "BBNT và XNKL",
@@ -16,9 +23,9 @@ export const sideBarAdmin = [
                 url: "/payment/list?size=10&page=0",
             },
             {
-                id:13,
+                id: 13,
                 title: "BBNT và GT",
-                url:"/statistic/list?size=10&page=0"
+                url: "/statistic/list?size=10&page=0"
             }
         ],
     },
@@ -51,7 +58,7 @@ export const sideBarAdmin = [
             {
                 id: 31,
                 title: "Config",
-                url: "/seller",
+                url: "/get-config",
             },
         ],
     },
@@ -82,22 +89,16 @@ export const testData = [
         inventory: 23.2,
         price: 12.1,
         description: "oke con de",
-        create_At: 12-1-20,
-        update_At: 12-1-20
+        create_At: 12 - 1 - 20,
+        update_At: 12 - 1 - 20
     }
 ]
 
-export const sellerData = {
-    id:1
-    ,companyName:"CÔNG TY TNHH XÂY DỰNG VÀ THƯƠNG MẠI TIẾN ĐÔNG",
-    address:"Thôn Thuận An 1, xã Hữu Văn, Huyện Chương Mỹ, TP Hà Nội",
-    taxCode:"0110128690",
-    representativeSeller:"Nguyễn Văn Tiến",
-    positionSeller:"Giám đốc",
-    accountBankName:"Công ty TNHH Xây dựng và thương mại Tiến Đông",
-    accountBankNumber:'222123999',
-    bankName:"TMCP Quân đội - Chi nhánh Thanh Xuân"
+export let sellerData :any= sellerJson;
+export const setSeller=(data:any)=>{
+    sellerData = data;
 }
+
 export const toltalPageGlobal = {
     value: 0,
 }

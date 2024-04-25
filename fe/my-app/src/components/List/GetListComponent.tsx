@@ -46,7 +46,7 @@ export default function GetListComponent(props: Props) {
           Thêm {props.nameSlug}
         </button>
       </div>
-      {loading ? <LoadingScene /> : <DataTable componentEditData={props.EditDataField} validValueSchema={props.dataSchema} columns={props.columnData} rows={data} slug={props.slug} />}
+      {loading ? <LoadingScene /> : <DataTable nameSlug={props.nameSlug} componentEditData={props.EditDataField} validValueSchema={props.dataSchema} columns={props.columnData} rows={data} slug={props.slug} />}
       <div>
         {openAdd && <AddComponent nameSlug={props.nameSlug} componentData={props.AddDataField} validValueSchema={props.dataSchema} slug={props.slug} setOpen={setOpenAdd} apiUrl={props.apiAddData} />}
       </div>

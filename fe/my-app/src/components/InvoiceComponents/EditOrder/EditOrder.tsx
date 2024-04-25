@@ -79,6 +79,7 @@ export default function EditOrder(props: Props) {
             setCreateAt(props.orderData.order.createAt);
             setSigningDate(new Date(props.orderData.order.signingDate));
             setContractCode(props.orderData.order.contractCode);
+            setCost({...cost,tax:props.orderData.order.tax})
         }
     }, [props.orderData])
     useEffect(() => {

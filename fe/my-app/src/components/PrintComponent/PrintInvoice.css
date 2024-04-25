@@ -9,26 +9,26 @@
     font-family: 'Times New Roman', Times, serif;
 }
 
-.card-child {
+.invoiceCard {
     position: absolute;
     display: inline-block;
 }
 
-.card-1 {
+.invoiceCard-1 {
     top: 50px;
     left: 70px;
     text-align: center;
     font-weight: bold;
 }
 
-.card-2 {
+.invoiceCard-2 {
     top: 50px;
     right: 70px;
     text-align: center;
     font-weight: bold;
 }
 
-.card-3 {
+.invoiceCard-3 {
     top: 150px;
     left: 0;
     width: 100%;
@@ -36,7 +36,7 @@
     font-weight: bold;
     z-index: 60;
 }
-.card-4 {
+.invoiceCard-4 {
     top: 180px;
     left: 0;
     width: 100%;

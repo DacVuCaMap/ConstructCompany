@@ -17,7 +17,7 @@ type Cost = { totalCost: number, tax: number, totalAmount: number }
 export default function AddOrderProduct() {
     const sellerDt = sellerData;
     const router = useRouter();
-    const [isDisable,setDisable] = useState(false);
+    const [isDisable, setDisable] = useState(false);
     const {
         register,
         handleSubmit,
@@ -43,11 +43,11 @@ export default function AddOrderProduct() {
     const inpRef = useRef(null);
     useEffect(() => {
         if (customer && customer.id) {
-            console.log(customer)
+            // console.log(customer)
             setValue('customerId', customer.id);
             setValue('representativeCustomer', customer.representativeCustomer)
             setValue('positionCustomer', customer.positionCustomer)
-            console.log(customer)
+            // console.log(customer)
         }
     }, [customer]);
     const handleOpenWindow = () => {
@@ -56,31 +56,42 @@ export default function AddOrderProduct() {
     // update cost
     const onSubmit = async (data: any) => {
         setDisable(true);
+        //get contractCode
+        const contractCode  = genContractCode();
+        // console.log(contractCode);
         let urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/order/add-order'
         let month = data.signingDateForm.getMonth() + 1;
-        console.log(urlPost);
+        // console.log(urlPost);
         let signingDate = `${data.signingDateForm.getFullYear()}-${month < 10 ? '0' + month : month}-${data.signingDateForm.getDate()}`;
-        const dataPost = { order: { ...data, signingDate: signingDate, ...cost, contractCode: formattedDate }, orderDetails: orderDetail }
-        console.log("dataPost", dataPost)
+        const dataPost = { order: { ...data, signingDate: signingDate, ...cost, contractCode: contractCode }, orderDetails: orderDetail }
+        // console.log("dataPost", dataPost)
 
         const post = await postData(urlPost, dataPost, {});
-        console.log(post);
+        // console.log(post);
         router.push('/invoice/list?size=10&page=0');
     };
-
+    const genContractCode = () => {
+        // Lấy ngày, tháng và năm hiện tại
+        const day = currentDate.getDate();
+        const month = currentDate.getMonth() + 1; // Tháng được đếm từ 0, nên cần cộng thêm 1
+        const year = currentDate.getFullYear();
+        const hours = formatTimeAddZero(currentDate.getHours());
+        const minutes =  formatTimeAddZero(currentDate.getMinutes());
+        const seconds =  formatTimeAddZero(currentDate.getSeconds());
+        // Chuyển đổi ngày và tháng thành chuỗi có định dạng "DDMM/YYYY"
+        return `${year}${month < 10 ? '0' + month : month}${day < 10 ? '0' + day : day}${hours}${minutes}${seconds}`;
+    }
     const data = [
         [{ value: "vnila" }, { value: "conccas" }]
     ]
+    const formatTimeAddZero=(num:any)=>{
+        return num < 10 ? '0'+num : num;
+    }
     //build contractCode
     const currentDate = new Date();
 
-    // Lấy ngày, tháng và năm hiện tại
-    const day = currentDate.getDate();
-    const month = currentDate.getMonth() + 1; // Tháng được đếm từ 0, nên cần cộng thêm 1
-    const year = currentDate.getFullYear();
 
-    // Chuyển đổi ngày và tháng thành chuỗi có định dạng "DDMM/YYYY"
-    const formattedDate = `${day < 10 ? '0' + day : day}${month < 10 ? '0' + month : month}/${year}`;
+
     return (
         <div className="flex justify-center items-center h-full  ">
             <form
@@ -226,7 +237,7 @@ export default function AddOrderProduct() {
                         type="submit"
                         disabled={isDisable}
                     >
-                        {isDisable ? <MoonLoader size={20} color="rgba(0, 0, 0, 1)" /> :'Lưu Dữ Liệu'}
+                        {isDisable ? <MoonLoader size={20} color="rgba(0, 0, 0, 1)" /> : 'Lưu Dữ Liệu'}
                     </button>
                 </div>
             </form>
