@@ -118,7 +118,7 @@ export default function EditComponent(props: Props) {
               return (
                 <div className={`mb-2 pr-2 ${item.width==='1/6' && 'lg:w-1/6'} ${item.width==='3/4' && 'lg:w-3/4'}  
                 ${item.width==='1/4' && 'lg:w-1/4'} ${item.width==='1/2' && 'lg:w-1/2'}`} key={item.id}>
-                  {item.width}
+                  {/* {item.width} */}
                   <label
                     className="block text-gray-700 font-bold mb-2"
                   >

@@ -6,10 +6,12 @@ import PaginationComponent from "@/components/List/PaginationComponent/Paginatio
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import postData from "@/ApiPattern/PostPattern";
+import { formatNumberWithDot } from "@/data/listData";
 type Props = {
     columns: GridColDef[],
     rows: object[],
     slug: string,
+    totalLeft:number
 }
 
 export default function StatisticDataTable(props: Props) {
@@ -40,7 +42,7 @@ export default function StatisticDataTable(props: Props) {
         }
     }
     return (
-        <div className="dataTable flex-1 m-2 ">
+        <div className="dataTable flex-1 m-2 relative">
             <DataGrid
                 className="dataGrid hover:cursor-pointer"
                 rows={props.rows}
@@ -62,6 +64,10 @@ export default function StatisticDataTable(props: Props) {
                 disableColumnFilter
                 onRowClick={handleRowClick}
             />
+            <div className="absolute border-b top-4 left-4">
+                <span>Tổng Công Nợ: </span>
+                <span className="font-bold text-lg">{formatNumberWithDot(props.totalLeft,2)} vnđ</span>
+            </div>
             <div>
                 <PaginationComponent />
             </div>

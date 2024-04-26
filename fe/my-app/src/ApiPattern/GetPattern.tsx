@@ -21,7 +21,6 @@ export default async function GetPattern(url: any, thirdValue: any) {
         const axiosError = error as AxiosError;
         console.log("error: ", error)
         console.error('Error :', axiosError.response?.data);
-        // notFound();
-        return null;
+        notFound();
     }
 }

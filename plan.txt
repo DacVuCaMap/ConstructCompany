@@ -1,14 +1,7 @@
-
-------------------------
-* fe: truy cập link ví dụ cusomters/asdjaskl -> trả về notFound()
-*fix number to words
-* giảm re render trong các trang edit
-* fix lại list
-bổ sung quản lí công nợ
-xoa tai khoan
-sua mat khau
-vao web di thang vao login
------
+* buildocker fe be 1
+* search engine 3
+* filter 2
+* pdf print 4 
 
 
 

@@ -9,8 +9,10 @@ import StatisticDataTable from '../StatisticDataTable/StatisticDataTable';
 import { columnStatistic } from '@/data/listData';
 import GetPattern from '@/ApiPattern/GetPattern';
 import { Plus } from 'lucide-react';
-
-export default function StatisticList() {
+type Props={
+  totalLeft:number
+}
+export default function StatisticList(props:Props) {
   const searchParams = useSearchParams();
   let size = searchParams.get('size');
   let page = searchParams.get('page');
@@ -28,7 +30,6 @@ export default function StatisticList() {
         setData([]);
       }
     };
-
     fetchData();
     setLoading(false);
   }, []);
@@ -39,7 +40,7 @@ export default function StatisticList() {
         Tạo mới
         <Plus className="ml-2 flex-shrink-0" />
         </Link>
-      {!loading && <StatisticDataTable columns={columnStatistic} rows={data} slug={'statistic'} />}
+      {!loading && <StatisticDataTable totalLeft={props.totalLeft} columns={columnStatistic} rows={data} slug={'statistic'} />}
     </div>
   )
 }
