@@ -20,13 +20,14 @@ export default function GetListComponent(props: Props) {
   const searchParams = useSearchParams();
   const size = searchParams.get('size');
   const page = searchParams.get('page');
+  const search = searchParams.get('search');
   const [data, setData] = useState<object[]>([])
   const [loading,setLoading] = useState(true);
   let firstParams = props.slug==="product" ? props.slug : 'customers';
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getData(firstParams,props.querySlug, size, page);
+        const result = await getData(firstParams,props.querySlug, size, page,search);
         console.log("result",result)
         setData(result);
       } catch (error) {

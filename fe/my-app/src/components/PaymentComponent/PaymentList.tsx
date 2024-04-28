@@ -12,12 +12,13 @@ export default function PaymentList() {
   const searchParams = useSearchParams();
   let size = searchParams.get('size');
   let page = searchParams.get('page');
+  let search = searchParams.get('search');
   const [data, setData] = useState<object[]>([])
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getData('order', 'list', size, page);
+        const result = await getData('order', 'list', size, page,search);
         console.log("result", result)
         setData(result);
       } catch (error) {

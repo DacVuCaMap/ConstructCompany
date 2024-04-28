@@ -12,7 +12,10 @@ export default function PaginationComponent() {
   const urlCurPage = curPage-1;
   const pageSize = searchParams.get('size');
   const totalPage = toltalPageGlobal.value;
-  const urlPagination = slugPath+`/get?size=${pageSize}&page=`
+  //search
+  let searchKey = searchParams.get('search');
+  searchKey = searchKey ? searchKey : '';
+  const urlPagination = slugPath+`/get?size=${pageSize}&search=${searchKey}&page=`
   return (
     <div className="flex w-full items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
       <div className="sm:flex sm:flex-1 sm:items-center sm:justify-between">

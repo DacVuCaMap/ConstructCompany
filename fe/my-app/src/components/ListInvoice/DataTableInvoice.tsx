@@ -64,6 +64,9 @@ const DataTable = (props: Props) => {
         slots={{ toolbar: GridToolbar }}
         disableColumnFilter
         onRowClick={handleRowClick}
+        columnVisibilityModel={{
+          id: false,
+        }}
       />
       <div>
         <PaginationComponent />

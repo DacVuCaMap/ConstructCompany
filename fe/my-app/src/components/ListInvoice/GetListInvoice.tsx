@@ -6,18 +6,20 @@ import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import LoadingScene from '../LoadingScene';
 
 
 export default function GetListInvoice() {
   const searchParams = useSearchParams();
   let size = searchParams.get('size');
   let page = searchParams.get('page');
+  let search = searchParams.get('search');
   const [data, setData] = useState<object[]>([])
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getData('order', 'list', size, page);
+        const result = await getData('order', 'list', size, page,search);
         console.log("result", result)
         setData(result);
       } catch (error) {
@@ -38,7 +40,8 @@ export default function GetListInvoice() {
         <Plus className="ml-2 flex-shrink-0" />
       </Link>
       
-      <DataTableInvoice columns={columnOrder} rows={data} slug={'order'} validValueSchema={undefined} componentEditData={undefined} />
+      {!loading ? <DataTableInvoice columns={columnOrder} rows={data} slug={'order'} validValueSchema={undefined} componentEditData={undefined}/> 
+      : <LoadingScene/>}
     </div>
   )
 }

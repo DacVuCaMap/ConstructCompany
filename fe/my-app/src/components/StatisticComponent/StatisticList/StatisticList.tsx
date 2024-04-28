@@ -16,12 +16,14 @@ export default function StatisticList(props:Props) {
   const searchParams = useSearchParams();
   let size = searchParams.get('size');
   let page = searchParams.get('page');
+  let search = searchParams.get('search');
+  search = search ? search : '';
   const [data, setData] = useState<object[]>([])
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let url = process.env.NEXT_PUBLIC_API_URL + `/api/statistic/get?page=${page}&size=${size}`
+        let url = process.env.NEXT_PUBLIC_API_URL + `/api/statistic/get?page=${page}&size=${size}&search=${search}`
         const result = await GetPattern(url, {});
         console.log("result", result.content)
 

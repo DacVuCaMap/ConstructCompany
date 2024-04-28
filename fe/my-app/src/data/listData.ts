@@ -69,19 +69,22 @@ export const columnProduct: GridColDef[] = [
 ];
 
 export const columnOrder: GridColDef[] = [
-    { field: 'id', headerName: "ID", flex: 0.2 },
-    { field: 'contractCode', headerName: "Mã biên bản", flex: 1 },
+    { field: 'id' },
+    { field: 'contractCode', headerName: "Mã biên bản", flex: 0.5 },
+    { field: 'customer', headerName: "Khách hàng", flex: 1, valueGetter:(value:any)=>{
+        return value.companyName;
+    } },
     {
         field: 'totalAmount', headerName: "Tổng Thành tiền", flex: 1, valueGetter: (value: number) => {
             return formatNumberWithDot(value, 0)
         }
     },
-    {
-        field:'s',headerName: "Tiền đã thanh toán", flex: 1, valueGetter: (value, row) => {
-            const rs = row.totalAmount - row.leftAmount;
-            return formatNumberWithDot(rs, 0)
-        }
-    },
+    // {
+    //     field:'s',headerName: "Tiền đã thanh toán", flex: 1, valueGetter: (value, row) => {
+    //         const rs = row.totalAmount - row.leftAmount;
+    //         return formatNumberWithDot(rs, 0)
+    //     }
+    // },
     {
         field: 'leftAmount', headerName: "Chưa Thanh Toán", flex: 1, valueGetter: (value) => {
             return formatNumberWithDot(value, 0)
@@ -129,7 +132,9 @@ export const columnAccount: GridColDef[] = [
             return formatDateData(value);
         }
     },
-    { field: 'admin', headerName: "Quyền", flex: 0.5 }
+    { field: 'admin', headerName: "Quyền", flex: 0.5, valueGetter : (value:boolean)=>{
+        return value ? "ADMIN" : "NHÂN VIÊN";
+    } }
 ]
 export const formatDateData = (dateString: string) => {
     if (!dateString) {
