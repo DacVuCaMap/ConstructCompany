@@ -1,54 +1,12 @@
-.a4-sheet {
-    width: 210mm;
-    height: 279mm;
+.document {
     background-color: white;
-    box-sizing: border-box;
-    position: relative;
-  }
-.document{
+    width: 794px;
+    min-height: 1123px;
     font-family: 'Times New Roman', Times, serif;
 }
 
-.invoiceCard {
-    position: absolute;
-    display: inline-block;
-}
-
-.invoiceCard-1 {
-    top: 50px;
-    left: 70px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.invoiceCard-2 {
-    top: 50px;
-    right: 70px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.invoiceCard-3 {
-    top: 150px;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-    z-index: 60;
-}
-.invoiceCard-4 {
-    top: 180px;
-    left: 0;
-    width: 100%;
-    padding-left: 40px;
-}
-
-.spanInvoice-card1 {
-    margin-right: 100px;
-}
-
 .custom-table {
-    width: 90%;
+    width: 100%;
     border-collapse: collapse;
 }
 

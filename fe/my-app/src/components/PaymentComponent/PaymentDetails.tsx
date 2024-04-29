@@ -209,13 +209,13 @@ export default function PaymentDetails(props: Props) {
             type='button'
           >
             <div className='flex'>
-              <ClipboardMinus /> Xem Trước PDF
+              <ClipboardMinus /> Xem Trước Tài Liệu
             </div>
           </button>
         </div>
       </form>
 
-      {openPDF && <div onClick={() => closePDFView()} className="fixed pt-64 overflow-auto top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 flex justify-center items-center">
+      {openPDF && <div onClick={() => closePDFView()} className="fixed overflow-auto top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 flex justify-center ">
         <div className='mt-20'>
           <PrintPayment data={order} />
         </div>

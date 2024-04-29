@@ -270,15 +270,15 @@ export default function EditOrder(props: Props) {
                         type='button'
                     >
                         <div className='flex'>
-                            <ClipboardMinus /> Xem Trước PDF
+                            <ClipboardMinus /> Xem Trước Tài Liệu
                         </div>
                     </button>
                 </div>
 
             </form>
-            {openPDF && <div onClick={() => closePDFView()} className="fixed pt-64 overflow-auto top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 flex justify-center items-center">
+            {openPDF && <div onClick={() => closePDFView()} className="fixed overflow-auto top-0 left-0 w-screen h-screen bg-black bg-opacity-80 z-50 flex justify-center">
                 <div className='mt-20'>
-                    <ReactToPrint trigger={() => <button className="z-99 absolute top-10 left-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <ReactToPrint trigger={() => <button className="fixed z-99 top-10 left-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Export PDF
                     </button>
                     }

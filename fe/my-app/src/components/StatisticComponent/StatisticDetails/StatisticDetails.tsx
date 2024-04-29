@@ -236,11 +236,11 @@ export default function StatisticDetails(param: any) {
             type='button'
           >
             <div className='flex'>
-              <ClipboardMinus /> Xem Trước PDF
+              <ClipboardMinus /> Xem Trước Tài Liệu
             </div>
           </button>
         </div>
-        {openPDF && dataEdit ? <div onClick={() => closePDFView()} className="fixed pt-64 overflow-auto top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 flex justify-center items-center">
+        {openPDF && dataEdit ? <div onClick={() => closePDFView()} className="fixed overflow-auto top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 flex justify-center">
           <div className='mt-20'>
             <PrintStatistic data={dataEdit} />
           </div>
