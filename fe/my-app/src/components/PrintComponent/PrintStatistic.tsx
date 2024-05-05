@@ -186,7 +186,7 @@ const PrintStatistic = (props: Props) => {
                                     </tr>
                                     <tr>
                                         <td><span>Mã số thuế:</span></td>
-                                        <td><span>{props.data.statistic.customer.debt}</span></td>
+                                        <td><span>{props.data.statistic.customer.taxCode}</span></td>
                                         <td></td>
                                     </tr>
                                 </table>
@@ -194,17 +194,16 @@ const PrintStatistic = (props: Props) => {
                                 <table>
                                     <tr>
                                         <td><span>Đại diện: </span></td>
-                                        <td className='w-48'><span className='font-bold'>{props.data.statistic.customer.representativeCustomer}</span></td>
-                                        <td><span>Chức Vụ: <span className='font-bold'>{props.data.statistic.customer.positionCustomer}</span></span></td>
+                                        <td className='w-48'><span className='font-bold'>{sellerData.representativeSeller}</span></td>
+                                        <td><span>Chức Vụ: <span className='font-bold'>{sellerData.positionSeller}</span></span></td>
                                     </tr>
                                     <tr>
                                         <td><span>Địa chỉ:</span></td>
-                                        <td><span>{props.data.statistic.customer.address}</span></td>
-                                        <td></td>
+                                        <td colSpan={2}><span>{sellerData.address}</span></td>
                                     </tr>
                                     <tr>
                                         <td><span>Mã số thuế:</span></td>
-                                        <td><span>{props.data.statistic.customer.debt}</span></td>
+                                        <td><span>{sellerData.taxCode}</span></td>
                                         <td></td>
                                     </tr>
                                 </table>

@@ -17,15 +17,15 @@ export const columnCus: GridColDef[] = [
         headerName: "Công ty",
         flex: 2
     },
-    {
-        field: 'debt',
-        headerName: "Chưa thanh toán",
-        flex: 1,
-        valueGetter: (value: number) => {
+    // {
+    //     field: 'debt',
+    //     headerName: "Chưa thanh toán",
+    //     flex: 1,
+    //     valueGetter: (value: number) => {
 
-            return !value ? 0 : formatNumberWithDot(value, 0);
-        }
-    },
+    //         return !value ? 0 : formatNumberWithDot(value, 0);
+    //     }
+    // },
     {
         field: 'address',
         headerName: "Địa chỉ",
@@ -39,7 +39,6 @@ export const columnCus: GridColDef[] = [
             return formatDateData(value);
         }
     }
-
 ]
 export const columnProduct: GridColDef[] = [
     { field: 'id', headerName: "ID", flex: 0.5 },
@@ -91,7 +90,7 @@ export const columnOrder: GridColDef[] = [
         }
     },
     {
-        field: 'isPaymented', headerName: "Trạng thái", flex: 1, valueGetter: (value: boolean) => {
+        field: 'isPaymented', headerName: "Trạng thái thanh toán", flex: 1, valueGetter: (value: boolean) => {
             return !value ? 'Chưa hoàn thành' : 'Hoàn Thành'
         }
     },
@@ -99,6 +98,26 @@ export const columnOrder: GridColDef[] = [
         field: 'createAt', headerName: "Ngày tạo", flex: 1, valueGetter: (value: string) => {
             return formatDateData(value)
         }
+    },
+]
+export const columnQLCN : GridColDef[] = [
+    {field:'id',headerName:"ID",flex:0.2,valueGetter:(value:any,row:any)=>{
+        value=row.customer.id;
+        return row.customer.id;
+    }},
+    {field:"taxCode",headerName:"Mã số thuế",flex:1,valueGetter:(value:any,row:any)=>{
+        return row.customer.taxCode;
+    }},
+    {field:"company",headerName:"Tên Công Ty",flex:1,valueGetter:(value:any,row:any)=>{
+        return row.customer.companyName;
+    }},
+    {field:"orderCount",headerName:"Số lượng",flex:0.5,align:"center"},
+    {field:"totalLeftAmount",headerName:"Chưa thanh toán(vnd)",flex:1,valueGetter:(value:any)=>{
+        return formatNumberToDot(value);
+    }},
+    {field:"status",headerName:"Trạng thái",flex:1,valueGetter:(value:any,row:any)=>{
+        return row.totalLeftAmount===0 ? "Hoàn thành" : "Chưa Hoàn Thành"
+    }
     },
 ]
 export const columnStatistic: GridColDef[] = [

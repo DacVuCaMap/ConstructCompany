@@ -126,7 +126,7 @@ export default function TableOrderDetails(props: Props) {
     useEffect(() => {
 
         props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost+(props.cost.totalCost * props.cost.tax) })
-    }, [items])
+    }, [items,props.cost.tax])
     return (
         <div>
             <h2 className='block text-gray-700 font-bold mb-2'>Bảng số liệu</h2>

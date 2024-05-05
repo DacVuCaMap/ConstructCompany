@@ -6,7 +6,7 @@ import { columnProduct } from '@/data/listData';
 import GetListComponent from '@/components/List/GetListComponent';
 
 
-export default function page({ params }: { params: { slug: string } }) {
+export default function page() {
   return (
     <div>
       <GetListComponent

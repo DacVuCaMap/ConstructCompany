@@ -9,14 +9,17 @@ import PostPattern from '../../../public/ApiPattern/PostPattern';
 import postData from '@/ApiPattern/PostPattern';
 import { numberWithoutDots } from '@/data/listData';
 import { useRouter } from 'next/navigation';
+import PrintQLCN from '../PrintComponent/PrintQLCN';
 type Props = {
   data: any
 }
 type Payment = { orderId: any, price: number, day: Date, itemId: any, id: any }
 export default function PaymentDetails(props: Props) {
+  console.log(props.data);
   const [order, setOrder] = useState<any>();
   const [items, setItems] = useState<Payment[]>([]);
   const [openPDF, setOpenPDF] = useState(false);
+  const [openPDFDCCN,setOpenPDFDCCN] = useState(false);
   const [error, setError] = useState('');
   const route = useRouter();
   useEffect(() => {
@@ -97,6 +100,7 @@ export default function PaymentDetails(props: Props) {
   }
   const closePDFView = () => {
     setOpenPDF(false);
+    setOpenPDFDCCN(false);
     document.body.style.overflow = 'unset';
   }
   const calLeftAmount = () => {
@@ -135,7 +139,7 @@ export default function PaymentDetails(props: Props) {
         <h2 className='block text-3xl text-gray-900 font-bold mb-4'>Công nợ</h2>
         {error && <span className='bg-red-500 text-white border border-red-700 rounded px-4 py-2'>{error}</span>}
         <div className='mb-8 mt-4'>
-          <Link className='underline text-blue-500' href={`/invoice/get/${order.id}`}>CODE Biên Bản: {order.orderCode} (nhấn vào đây để xem chi tiết biên bản)</Link>
+          <Link className='underline text-blue-500' href={`/invoice/get/${order.id}`}>Mã Biên Bản: {order.orderCode} (nhấn vào đây để xem chi tiết biên bản)</Link>
           <div>
             Tên Công ty: <span className='font-bold'>{order.customer.companyName}</span>
           </div>
@@ -209,7 +213,16 @@ export default function PaymentDetails(props: Props) {
             type='button'
           >
             <div className='flex'>
-              <ClipboardMinus /> Xem Trước Tài Liệu
+              <ClipboardMinus /> Xem Trước ĐNTT
+            </div>
+          </button>
+          <button
+            className=" hover:text-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            onClick={() => setOpenPDFDCCN(true)}
+            type='button'
+          >
+            <div className='flex'>
+              <ClipboardMinus /> Xem Trước ĐCCN
             </div>
           </button>
         </div>
@@ -218,6 +231,11 @@ export default function PaymentDetails(props: Props) {
       {openPDF && <div onClick={() => closePDFView()} className="fixed overflow-auto top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 flex justify-center ">
         <div className='mt-20'>
           <PrintPayment data={order} />
+        </div>
+      </div>}
+      {openPDFDCCN && <div onClick={() => closePDFView()} className="fixed overflow-auto top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 flex justify-center ">
+        <div className='mt-20'>
+          <PrintQLCN data={order} payments={props.data.payments} />
         </div>
       </div>}
     </div>

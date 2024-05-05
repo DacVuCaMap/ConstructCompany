@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import OpenWindowPro from '../OpenWindowSearchCus/OpenWindowPro'
+import PasteData from '../PasteData'
 type Detail = { id: number, productId: number, proName: string, unit: string, materialWeight: number, price: number, isOpen: boolean }
 type Cost = { totalCost: number, tax: number, totalAmount: number }
 type Props = {
@@ -10,6 +11,7 @@ type Props = {
 }
 
 export default function TableOrder(props: Props) {
+    const [openPasteData,setPasteData] = useState(false);
     const [items, setItems] = useState<Detail[]>([
         { id: 1, productId: -1, proName: '', unit: '', materialWeight: 0, price: 0, isOpen: false },
     ]);
@@ -100,9 +102,11 @@ export default function TableOrder(props: Props) {
     useEffect(() => {
         // console.log('eff3')
         props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost+(props.cost.totalCost * props.cost.tax) })
-    }, [items])
+    }, [items,props.cost.tax])
     return (
         <div>
+            <button type='button' onClick={()=>setPasteData(true)}>Dán dữ liệu</button>
+            {openPasteData && <PasteData/>}
             <h2 className='block text-gray-700 font-bold mb-2'>Bảng số liệu</h2>
             <table border={1} className='w-full table-auto text-sm '>
                 <thead className='bg-neutral-900 h-10 text-white'>

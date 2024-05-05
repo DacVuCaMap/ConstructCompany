@@ -13,9 +13,9 @@ export default async function Home() {
     redirect('/login');
   }
   let url = process.env.NEXT_PUBLIC_API_URL + '/api/home/getNbr'
-  console.log(url);
+  // console.log(url);
   const response = await GetPattern(url,{});
-  console.log(response);
+  // console.log(response);
   if (response.status && response.status===400) {
     redirect('/login');
   }

@@ -1,0 +1,21 @@
+.document {
+    background-color: white;
+    width: 794px;
+    min-height: 1123px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.QLCN-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.QLCN-table th {
+    border: 1px solid black;
+    font-weight: bold;
+    text-align: center;
+}
+
+.QLCN-table td {
+    border: 1px solid black;
+}

@@ -5,6 +5,7 @@ import "./dataTable.scss"
 import { useRef, useState } from "react";
 import PrintPayment from "../PrintComponent/PrintPayment";
 import { useRouter } from "next/navigation";
+import { formatNumberWithDot } from "@/data/listData";
 type Props = {
     columns: GridColDef[],
     rows: object[],

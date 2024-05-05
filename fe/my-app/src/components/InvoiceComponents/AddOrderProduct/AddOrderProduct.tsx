@@ -99,6 +99,7 @@ export default function AddOrderProduct() {
                 className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full lg:max-w-5xl  "
             >
                 <h2 className='block text-3xl text-gray-900 font-bold mb-4'>Biên bản nghiệm thu và xác nhận khối lượng</h2>
+                
                 <div className={`flex lg:flex-row flex-col`}>
                     <div className='flex-auto m-1'>
                         <div className='mb-2'>

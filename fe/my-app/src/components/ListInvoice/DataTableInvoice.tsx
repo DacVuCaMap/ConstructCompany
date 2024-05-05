@@ -13,10 +13,12 @@ type Props = {
   rows: object[],
   slug: string,
   validValueSchema: any,
-  componentEditData: any
+  componentEditData: any,
+  pag:boolean
 }
 
 const DataTable = (props: Props) => {
+
   const router = useRouter();
   const handleDelete = async (id: string) => {
     let url = process.env.NEXT_PUBLIC_API_URL + `/api/${props.slug}/delete-order?id=` + id

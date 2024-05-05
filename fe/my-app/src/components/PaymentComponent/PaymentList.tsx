@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import PaymentDataTable from './PaymentDataTable';
 
 
-export default function PaymentList() {
+export default function PaymentList({slug}:any) {
   const searchParams = useSearchParams();
   let size = searchParams.get('size');
   let page = searchParams.get('page');
@@ -18,7 +18,7 @@ export default function PaymentList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getData('order', 'list', size, page,search);
+        const result = await getData('order', 'list', size, page,"cus"+slug);
         console.log("result", result)
         setData(result);
       } catch (error) {
@@ -27,10 +27,10 @@ export default function PaymentList() {
     };
     fetchData();
     setLoading(false);
-  }, []);
+  }, [page]);
+  
   return (
     <div className="flex flex-col">
-      <h2 className='text-gray-700 font-bold lg:text-3xl text-lg mb-4'>Quản lí Công nợ</h2>
       <PaymentDataTable columns={columnOrder} rows={data} slug={'order'} validValueSchema={undefined} componentEditData={undefined} />
     </div>
   )

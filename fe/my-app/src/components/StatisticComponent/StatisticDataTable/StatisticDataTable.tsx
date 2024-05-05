@@ -64,10 +64,6 @@ export default function StatisticDataTable(props: Props) {
                 disableColumnFilter
                 onRowClick={handleRowClick}
             />
-            <div className="absolute border-b top-4 left-4">
-                <span>Tổng Công Nợ: </span>
-                <span className="font-bold text-lg">{formatNumberWithDot(props.totalLeft,2)} vnđ</span>
-            </div>
             <div>
                 <PaginationComponent />
             </div>

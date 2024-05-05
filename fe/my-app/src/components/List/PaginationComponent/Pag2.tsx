@@ -2,13 +2,14 @@ import { toltalPageGlobal } from "@/data/data";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+type Props={
+    pag:boolean
+}
 
-
-export default function PaginationComponent() {
+export default function Pag2() {
   const searchParams = useSearchParams();
   const urlPath = usePathname();
-  // const slugPath = urlPath.substring(0, urlPath.indexOf('/', 2))
-  const slugPath = urlPath.substring(0,urlPath.indexOf('/list'));
+  const slugPath = urlPath.substring(0, urlPath.indexOf('/', 2))
   const curPage = Number(searchParams.get('page')) + 1;
   const urlCurPage = curPage-1;
   const pageSize = searchParams.get('size');

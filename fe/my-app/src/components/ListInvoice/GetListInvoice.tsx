@@ -11,12 +11,15 @@ import LoadingScene from '../LoadingScene';
 
 export default function GetListInvoice() {
   const searchParams = useSearchParams();
+  const [data, setData] = useState<object[]>([])
+  const [loading, setLoading] = useState(true);
+  const [pag,setPag] = useState(false);
   let size = searchParams.get('size');
   let page = searchParams.get('page');
   let search = searchParams.get('search');
-  const [data, setData] = useState<object[]>([])
-  const [loading, setLoading] = useState(true);
   useEffect(() => {
+   
+    console.log(page);
     const fetchData = async () => {
       try {
         const result = await getData('order', 'list', size, page,search);
@@ -28,7 +31,8 @@ export default function GetListInvoice() {
     };
     fetchData();
     setLoading(false);
-  }, []);
+    setPag(false);
+  }, [page]);
   return (
     <div className="flex flex-col">
       <h2 className='text-gray-700 font-bold lg:text-3xl text-lg mb-4'>Danh sách biên bản NT và xác nhận KL</h2>
@@ -40,7 +44,7 @@ export default function GetListInvoice() {
         <Plus className="ml-2 flex-shrink-0" />
       </Link>
       
-      {!loading ? <DataTableInvoice columns={columnOrder} rows={data} slug={'order'} validValueSchema={undefined} componentEditData={undefined}/> 
+      {!loading ? <DataTableInvoice pag={pag} columns={columnOrder} rows={data} slug={'order'} validValueSchema={undefined} componentEditData={undefined}/> 
       : <LoadingScene/>}
     </div>
   )

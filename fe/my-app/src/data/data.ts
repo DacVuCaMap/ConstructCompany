@@ -20,7 +20,7 @@ export const sideBarAdmin = [
             {
                 id: 12,
                 title: "Quản Lí Công nợ",
-                url: "/payment/list?size=10&page=0",
+                url: "/quanlicongno/list?size=10&page=0",
             },
             {
                 id: 13,
@@ -36,12 +36,12 @@ export const sideBarAdmin = [
             {
                 id: 21,
                 title: "Sản Phẩm",
-                url: "/product/get?size=10&page=0",
+                url: "/product/list?size=10&page=0",
             },
             {
                 id: 22,
                 title: "Khách Hàng",
-                url: "/customer/get?size=10&page=0",
+                url: "/customer/list?size=10&page=0",
             },
             {
                 id: 24,

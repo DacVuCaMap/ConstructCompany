@@ -10,6 +10,7 @@ type Props = {
 }
 const PrintComponent = (props: Props) => {
     const componentRef = useRef(null);
+    document.body.style.overflow = 'hidden';
     console.log(props.data);
     const today = new Date(props.data.createAt);
     const signingDate = new Date(props.data.signingDate);
