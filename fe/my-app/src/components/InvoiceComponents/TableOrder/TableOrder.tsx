@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import OpenWindowPro from '../OpenWindowSearchCus/OpenWindowPro'
 import PasteData from '../PasteData'
+import { CircleCheck } from 'lucide-react'
 type Detail = { id: number, productId: number, proName: string, unit: string, materialWeight: number, price: number, isOpen: boolean }
 type Cost = { totalCost: number, tax: number, totalAmount: number }
 type Props = {
@@ -11,7 +12,8 @@ type Props = {
 }
 
 export default function TableOrder(props: Props) {
-    const [openPasteData,setPasteData] = useState(false);
+    const [openPasteData, setPasteData] = useState(false);
+    const [pasteSuccess, setPasteSuccess] = useState(false);
     const [items, setItems] = useState<Detail[]>([
         { id: 1, productId: -1, proName: '', unit: '', materialWeight: 0, price: 0, isOpen: false },
     ]);
@@ -96,17 +98,20 @@ export default function TableOrder(props: Props) {
         let num = parseFloat(number.toFixed(fixed));
         return num.toLocaleString('de-DE');
     };
-    const  formatNumber= (number:any)=> {
+    const formatNumber = (number: any) => {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    } 
+    }
     useEffect(() => {
         // console.log('eff3')
-        props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost+(props.cost.totalCost * props.cost.tax) })
-    }, [items,props.cost.tax])
+        props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost + (props.cost.totalCost * props.cost.tax) })
+    }, [items, props.cost.tax])
     return (
         <div>
-            <button type='button' onClick={()=>setPasteData(true)}>Dán dữ liệu</button>
-            {openPasteData && <PasteData/>}
+            <div className='flex flex-row items-center space-x-2'>
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='button' onClick={() => setPasteData(!openPasteData)}>{openPasteData ? "Tắt X" : "Dán dữ liệu"}</button>
+                {pasteSuccess && <span className='text-green-500 flex flex-row space-x-1'> <CircleCheck /> <p>Dán thành công</p></span>}
+            </div>
+            {openPasteData && <PasteData items={items} setItems={setItems} setOpen={setPasteData} setPasteSuccess={setPasteSuccess}/>}
             <h2 className='block text-gray-700 font-bold mb-2'>Bảng số liệu</h2>
             <table border={1} className='w-full table-auto text-sm '>
                 <thead className='bg-neutral-900 h-10 text-white'>
@@ -171,7 +176,7 @@ export default function TableOrder(props: Props) {
                             />
                             %
                         </td>
-                        <td className='text-center font-bold'>{numberWithDots(props.cost.tax*props.cost.totalCost,2)}</td>
+                        <td className='text-center font-bold'>{numberWithDots(props.cost.tax * props.cost.totalCost, 2)}</td>
                     </tr>
                     <tr>
                         <td colSpan={5}>Tổng Thành Tiền:</td>
