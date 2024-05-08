@@ -9,10 +9,18 @@ import StatisticDataTable from '../StatisticDataTable/StatisticDataTable';
 import { columnStatistic } from '@/data/listData';
 import GetPattern from '@/ApiPattern/GetPattern';
 import { Plus } from 'lucide-react';
-type Props={
-  totalLeft:number
+import AddStatistic from '../AddStatistic/AddStatistic';
+import SearchOrder from '../SearchOrder';
+type Props = {
+  totalLeft: number
 }
-export default function StatisticList(props:Props) {
+type AddType = {
+  order: any,
+  endDay: Date ,
+  startDay: Date,
+
+}
+export default function StatisticList(props: Props) {
   const searchParams = useSearchParams();
   let size = searchParams.get('size');
   let page = searchParams.get('page');
@@ -24,25 +32,85 @@ export default function StatisticList(props:Props) {
     const fetchData = async () => {
       try {
         let url = process.env.NEXT_PUBLIC_API_URL + `/api/statistic/get?page=${page}&size=${size}&search=${search}`
-        const result = await GetPattern(url, {});
-        console.log("result", result.content)
-
-        setData(result.content);
+        const result = await getData('statistic', 'get', size, page, search);
+        setData(result);
       } catch (error) {
         setData([]);
       }
     };
     fetchData();
     setLoading(false);
-  }, []);
+  }, [page]);
+  const [nofErr,setNof] = useState("");
+  const [openAdd, setOpenAdd] = useState(false);
+  const [openConfirm, setConfirm] = useState(false);
+  const [dataAdd, setDataAdd] = useState<AddType>({ order: null, endDay: new Date(), startDay: new Date() });
+  const handleCancel = () => {
+    document.body.style.overflow = 'unset';
+    setConfirm(false);
+  }
+  const handleSetAdd = () =>{
+    if (!dataAdd.order || dataAdd.startDay>dataAdd.endDay) {
+      setNof("Order null hoặc ngày bắt đầu sau ngày kết thúc")
+      return;
+    }
+    setOpenAdd(true);
+  }
   return (
     <div className="flex flex-col">
-      <h2 className='text-gray-700 font-bold lg:text-3xl text-lg mb-4'>DANH SÁCH BIÊN BẢN NGHIỆM THU VÀ GIÁ TRỊ</h2>
-      <Link className="bg-blue-500 hover:bg-blue-700 w-32 text-white font-bold py-2 px-4 rounded inline-flex items-center" href={"/statistic/add-statistic"}>
-        Tạo mới
-        <Plus className="ml-2 flex-shrink-0" />
-        </Link>
-      {!loading && <StatisticDataTable totalLeft={props.totalLeft} columns={columnStatistic} rows={data} slug={'statistic'} />}
+      {openAdd ?
+        <div className=''>
+          <AddStatistic order={dataAdd.order} endDay={dataAdd.endDay} startDay={dataAdd.startDay} />
+        </div>
+        :
+        <div>
+          <h2 className='text-gray-700 font-bold lg:text-3xl text-lg mb-4'>DANH SÁCH BIÊN BẢN NGHIỆM THU VÀ GIÁ TRỊ</h2>
+          {openConfirm &&
+            <div onClick={handleCancel} className='fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-90 z-50 '>
+              <div onClick={(e) => e.stopPropagation()} className='bg-white p-10 rounded-lg flex flex-col justify-center lg:w-1/2 w-full'>
+                <h2 className='text-gray-700 font-bold text-2xl border-b'>Khởi tạo</h2>
+                <p className='text-red-500'>{nofErr}</p>
+                <SearchOrder dataAdd={dataAdd} setDataAdd={setDataAdd} />
+                <div>
+                  <label
+                    className="block text-gray-700 font-bold my-2"
+                  >
+                    Từ Ngày:
+                  </label><input
+                    className={`shadow appearance-none border rounded w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+                    id="s"
+                    type="date"
+                    placeholder='Từ ngày...'
+                    required
+                    onChange={(e) => setDataAdd({ ...dataAdd, startDay: new Date(e.target.value) })}
+                  />
+                </div>
+                <div>
+                  <label
+                    className="block text-gray-700 font-bold my-2"
+                  >
+                    Đến Ngày:
+                  </label><input
+                    className={`shadow appearance-none border rounded w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+                    id="l"
+                    type="date"
+                    placeholder='Từ ngày...'
+                    required
+                    onChange={(e) => setDataAdd({ ...dataAdd, endDay: new Date(e.target.value) })}
+                  />
+                </div>
+                <button onClick={handleSetAdd} className='mt-10 bg-blue-500 hover:bg-blue-700 w-32 text-white font-bold py-2 px-4 rounded inline-flex items-center'>Confirm</button>
+              </div>
+            </div>}
+          <button className="bg-blue-500 hover:bg-blue-700 w-32 text-white font-bold py-2 px-4 rounded inline-flex items-center" onClick={() => setConfirm(true)}>
+            Tạo mới
+            <Plus className="ml-2 flex-shrink-0" />
+          </button>
+
+          {!loading && <StatisticDataTable totalLeft={props.totalLeft} columns={columnStatistic} rows={data} slug={'statistic'} />}
+        </div>
+      }
+
     </div>
   )
 }

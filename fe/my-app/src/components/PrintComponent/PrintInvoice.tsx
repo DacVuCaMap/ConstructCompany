@@ -45,16 +45,16 @@ export default function PrintInvoice(props: Props) {
   const exportToWord = () => {
     const htmlContent = document.querySelector('.document');
     const styles = Array.from(document.styleSheets)
-        .map((sheet) => {
-          try {
-            return Array.from(sheet.cssRules).map((rule) => rule.cssText).join('');
-          } catch (e) {
-            console.error('Error reading CSS rules:', e);
-            return '';
-          }
-        })
-        .join('');
-      const cssStyle = `
+      .map((sheet) => {
+        try {
+          return Array.from(sheet.cssRules).map((rule) => rule.cssText).join('');
+        } catch (e) {
+          console.error('Error reading CSS rules:', e);
+          return '';
+        }
+      })
+      .join('');
+    const cssStyle = `
       .document {
         background-color: white;
         width: 794px;
@@ -75,13 +75,13 @@ export default function PrintInvoice(props: Props) {
       .custom-table td {
         border: 1px solid black;
       }`
-      ExportToWord(htmlContent,styles,cssStyle);
+    ExportToWord(htmlContent, styles, cssStyle);
   };
 
   return (
     <div >
-      <button type='button' className='fixed z-99 top-10 left-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' 
-      onClick={exportToWord}>Export to Word</button>
+      <button type='button' className='fixed z-99 top-10 left-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+        onClick={exportToWord}>Export to Word</button>
       <div ref={props.componentRef} className="document pt-10 overflow-auto">
         <table className=' w-full'>
           <tbody>
@@ -102,9 +102,7 @@ export default function PrintInvoice(props: Props) {
             </tr>
             <tr className=''>
               <td colSpan={2}>
-                <div className="text-center font-bold pt-8 text-lg">
-                  <span>BIÊN BẢN NGHIỆM THU VÀ XÁC NHẬN KHỐI LƯỢNG</span>
-                </div>
+                <h4 className='text-center font-bold pt-8 text-lg'>BIÊN BẢN NGHIỆM THU VÀ XÁC NHẬN KHỐI LƯỢNG</h4>
               </td>
             </tr>
             <tr>
@@ -114,11 +112,21 @@ export default function PrintInvoice(props: Props) {
                   <span>Hôm nay, ngày {data.createAt.getDate()} tháng {data.createAt.getMonth() + 1} năm {data.createAt.getFullYear()}. Chúng tôi gồm:</span> <br />
                   <span className='font-bold'>Đại diện bên mua: {data.companyName}</span>
                   <br />
-                  <span className="mr-20">Người đại diện: {data.representativeCustomer} </span><span>Chức vụ: {data.positionCustomer}</span><br />
+                  <table className='w-3/4'>
+                    <tr>
+                      <td><span className="">Người đại diện: {data.representativeCustomer} </span></td>
+                      <td><span>Chức vụ: {data.positionCustomer}</span><br /></td>
+                    </tr>
+                  </table>
+                  
                   <span className='font-bold'>Đại diện bên bán: {seller.companyName}</span>
                   <br />
-                  <span className="mr-20">Người đại diện: {seller.representativeSeller}</span><span>Chức vụ: {seller.positionSeller}</span>
-                  <br />
+                  <table className='w-3/4'>
+                    <tr>
+                      <td><span className="">Người đại diện: {seller.representativeSeller}</span></td>
+                      <td><span>Chức vụ: {seller.positionSeller}</span></td>
+                    </tr>
+                  </table>
                   <span>Đã cùng nhau đối chiếu và nghiệm thu xác nhận khối lượng giao nhận cụ thể như sau : </span>
                   <table className="custom-table">
                     <thead>
@@ -134,7 +142,7 @@ export default function PrintInvoice(props: Props) {
                     <tbody>
                       {data.orderDetails.map((item) => (
                         <tr key={count}>
-                          <td>{count++}</td>
+                          <td className='text-center'>{count++}</td>
                           <td>{item.proName}</td>
                           <td className='text-center'>{item.unit}</td>
                           <td className='text-center w-1/12'>{item.materialWeight}</td>
@@ -163,10 +171,12 @@ export default function PrintInvoice(props: Props) {
                   <br />
                   <span>- Bên mua có trách nhiệm thanh toán toàn bộ số tiền trên cho Bên bán theo đúng điều khoản trong hợp đồng. <br />
                     - Biên bản được lập thành 02 (hai) bản có giá trị pháp lý như nhau, mỗi bên giữ 01 (một) bản.</span><br />
-                  <span className='font-bold mr-64 ml-20'>ĐẠI DIỆN BÊN MUA</span>
-                  <span className='font-bold'>ĐẠI DIỆN BÊN MUA</span>
                 </div>
               </td>
+            </tr>
+            <tr className='text-center'>
+              <td><span className='font-bold'>ĐẠI DIỆN BÊN MUA</span></td>
+              <td><span className='font-bold'>ĐẠI DIỆN BÊN MUA</span></td>
             </tr>
           </tbody>
         </table>

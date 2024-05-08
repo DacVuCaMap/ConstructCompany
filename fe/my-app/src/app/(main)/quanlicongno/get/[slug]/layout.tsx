@@ -9,12 +9,14 @@ export default async function layout({ children, params }: Readonly<{ children: 
     const customer = await GetPattern(url, {});
     console.log(customer);
     return (
-        <div>
-            <div className='p-4'>
-                <QuanLiCNDetail data={customer} />
-            </div>
-            <div className='p-4'>
-                <div className='p-4 bg-white'>
+        <div className='lg:p-4'>
+            <div className='p-4 flex lg:flex-row flex-col bg-white'>
+                <div className='border-r'>
+                    <QuanLiCNDetail data={customer} />
+                </div>
+
+                <div className='p-4 bg-white flex-1'>
+                    <span className='border-b font-bold pr-4'>Danh sách Biên Bản Thanh Toán</span>
                     {children}
                 </div>
             </div>

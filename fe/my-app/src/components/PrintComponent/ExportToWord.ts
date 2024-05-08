@@ -21,7 +21,7 @@ export default function ExportToWord(htmlContent: any, styles: any, cssStyle: an
         })
             .then((result) => {
                 if (result instanceof Blob) {
-                    saveAs(result, 'invoice.docx');
+                    saveAs(result, 'doc.docx');
                 } else {
                     console.error('Unexpected result from asBlob:', result);
                 }

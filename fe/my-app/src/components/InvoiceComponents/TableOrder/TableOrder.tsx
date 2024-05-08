@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import OpenWindowPro from '../OpenWindowSearchCus/OpenWindowPro'
 import PasteData from '../PasteData'
 import { CircleCheck } from 'lucide-react'
+import { formatNumberWithDot } from '@/data/listData'
 type Detail = { id: number, productId: number, proName: string, unit: string, materialWeight: number, price: number, isOpen: boolean }
 type Cost = { totalCost: number, tax: number, totalAmount: number }
 type Props = {
@@ -176,7 +177,7 @@ export default function TableOrder(props: Props) {
                             />
                             %
                         </td>
-                        <td className='text-center font-bold'>{numberWithDots(props.cost.tax * props.cost.totalCost, 2)}</td>
+                        <td className='text-center font-bold'>{formatNumberWithDot(props.cost.tax * props.cost.totalCost, 0)}</td>
                     </tr>
                     <tr>
                         <td colSpan={5}>Tổng Thành Tiền:</td>

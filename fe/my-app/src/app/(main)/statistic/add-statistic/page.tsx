@@ -5,7 +5,7 @@ import React from 'react'
 export default function page() {
   return (
     <div>
-      <AddStatistic />
+      <AddStatistic order={undefined} endDay={new Date()} startDay={new Date()} />
     </div>
   )
 }

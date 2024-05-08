@@ -1,6 +1,8 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import OpenWindowPro from '../OpenWindowSearchCus/OpenWindowPro'
+import { CircleCheck } from 'lucide-react'
+import PasteData from '../PasteData'
 type Detail = { id: number, productId: number, proName: string, unit: string, materialWeight: number, price: number, isOpen: boolean }
 type Cost = { totalCost: number, tax: number, totalAmount: number }
 type Props = {
@@ -12,10 +14,10 @@ type Props = {
 
 export default function TableOrderDetails(props: Props) {
     const [items, setItems] = useState<Detail[]>([]);
-    useEffect(()=>{
+    useEffect(() => {
         if (props.orderDetailsProps) {
             setItems([]);
-            props.orderDetailsProps.map((item: any,index) => {
+            props.orderDetailsProps.map((item: any, index) => {
                 setItems(prevItems => [...prevItems, {
                     id: index,
                     productId: item.product.id,
@@ -24,16 +26,16 @@ export default function TableOrderDetails(props: Props) {
                     materialWeight: item.materialWeight,
                     price: item.price,
                     isOpen: false,
-                    orderDetailId:item.orderDetailId
+                    orderDetailId: item.orderDetailId
                 }])
             })
-            if (items[items.length-1]) {
-                setCountItemId(items[items.length-1].id+1)
+            if (items[items.length - 1]) {
+                setCountItemId(items[items.length - 1].id + 1)
 
             }
             // console.log('item',items[2].id)
         }
-    },[props.orderDetailsProps])
+    }, [props.orderDetailsProps])
     const [product, setProduct] = useState<any>(null);
     let count = 1;
     const [countItemId, setCountItemId] = useState<number>(0);
@@ -125,10 +127,20 @@ export default function TableOrderDetails(props: Props) {
     }
     useEffect(() => {
 
-        props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost+(props.cost.totalCost * props.cost.tax) })
-    }, [items,props.cost.tax])
+        props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost + (props.cost.totalCost * props.cost.tax) })
+    }, [items, props.cost.tax])
+    //new update
+    const [pasteSuccess,setPasteSuccess] = useState(false);
+    const [openPasteData,setPasteData] = useState(false);
     return (
         <div>
+            <div className='flex flex-row items-center space-x-2'>
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='button' onClick={() => setPasteData(!openPasteData)}>{openPasteData ? "Tắt X" : "Dán dữ liệu"}</button>
+                {pasteSuccess && <span className='text-green-500 flex flex-row space-x-1'> <CircleCheck /> <p>Dán thành công</p></span>}
+            </div>
+            {openPasteData && <PasteData items={items} setItems={setItems} setOpen={setPasteData} setPasteSuccess={setPasteSuccess} />}
+
+
             <h2 className='block text-gray-700 font-bold mb-2'>Bảng số liệu</h2>
             <table border={1} className='w-full table-auto text-sm '>
                 <thead className='bg-neutral-900 h-10 text-white'>
@@ -193,7 +205,7 @@ export default function TableOrderDetails(props: Props) {
                             />
                             %
                         </td>
-                        <td className='text-center font-bold'>{numberWithDots(props.cost.tax*props.cost.totalCost,2)}</td>
+                        <td className='text-center font-bold'>{numberWithDots(props.cost.tax * props.cost.totalCost, 2)}</td>
                     </tr>
                     <tr>
                         <td colSpan={5}>Tổng Thành Tiền:</td>

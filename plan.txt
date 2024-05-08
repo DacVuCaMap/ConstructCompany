@@ -1,15 +1,8 @@
 * buildocker fe be 1
-* filter 2
-* pdf print 4 	
 
-mã kh,tên kh tổng tiền, trạng thái,
-
-
-
-thuế trừ tiền luôn
-xây dựng copy y nghuyên list khách hàng nhưng bỏ order nếu k còn tiền thanh toán
-bổ sung click list khách hàng này sẽ vào 1 trang detail payment
-payment bổ sung in ra word
+* bổ sung statistic vào payment khi xóa statistic phải delete các payment 
+từ đó + leftamount
+* add payment duyệt ngày để chọn statisticId
 
 
 

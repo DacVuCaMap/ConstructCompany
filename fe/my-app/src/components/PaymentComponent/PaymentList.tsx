@@ -1,7 +1,7 @@
 "use client"
 import getData from '@/components/List/getData';
 import DataTableInvoice from '@/components/ListInvoice/DataTableInvoice';
-import { columnOrder } from '@/data/listData';
+import { columnOrder, columnPayment } from '@/data/listData';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -31,7 +31,8 @@ export default function PaymentList({slug}:any) {
   
   return (
     <div className="flex flex-col">
-      <PaymentDataTable columns={columnOrder} rows={data} slug={'order'} validValueSchema={undefined} componentEditData={undefined} />
+      <Link href={'/invoice/add-order-product'} className='w-36 bg-red-400'>Tạo BBNT và XNKL</Link>
+      <PaymentDataTable columns={columnPayment} rows={data} slug={'order'} validValueSchema={undefined} componentEditData={undefined} />
     </div>
   )
 }

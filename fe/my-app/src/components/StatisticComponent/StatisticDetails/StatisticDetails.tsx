@@ -11,6 +11,8 @@ import StatisticDetailsData from './StatisticDetailsData';
 import TableEditStatistic from '../TableAddStatistic/TableEditStatistic';
 import { ClipboardMinus } from 'lucide-react';
 import PrintStatistic from '@/components/PrintComponent/PrintStatistic';
+import Link from 'next/link';
+import { convertDay } from '@/data/listData';
 type Customer = {
   id: number,
   companyName: string,
@@ -25,7 +27,13 @@ export default function StatisticDetails(param: any) {
   const [customer, setCustomer] = useState<Customer>({} as Customer);
   const [totalAmount, setTotalAmount] = useState<any>();
   const [statisticDetails, setStatisticDetails] = useState<any[]>([]);
+  //new update
+  const [startDay, setStartDay] = useState<Date>();
+  const [endDay, setEndDay] = useState<Date>();
+  const [NofError,setNofError] = useState(false);
   //getData
+
+
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -45,9 +53,13 @@ export default function StatisticDetails(param: any) {
     if (dataEdit && dataEdit.statistic && dataEdit.statisticDetails) {
       setCustomer(dataEdit.statistic.customer);
       setStatisticDetails(dataEdit.statisticDetails);
+      setStartDay(new Date(dataEdit.statistic.startDay));
+      setEndDay(new Date(dataEdit.statistic.endDay));
+      console.log(startDay);
+      console.log(endDay);
     }
-  }, [dataEdit])
 
+  }, [dataEdit])
   const router = useRouter();
   const {
     register,
@@ -70,10 +82,10 @@ export default function StatisticDetails(param: any) {
   }, [customer]);
   //submit form data
   const onSubmit = async (data: any) => {
-    const dataPost = { statistic: { id:dataEdit.statistic.id,...data, totalAmount: totalAmount }, statisticDetails: [...statisticDetails] }
+    const dataPost = { statistic: { id: dataEdit.statistic.id, ...data, totalAmount: totalAmount,startDay:startDay,endDay:endDay }, statisticDetails: [...statisticDetails] }
 
     const urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/statistic/edit';
-    // console.log(dataPost)
+    console.log(dataPost)
     const post = await postData(urlPost, dataPost, {});
     // console.log(post)
     router.push('/statistic/list?size=10&page=0');
@@ -84,6 +96,14 @@ export default function StatisticDetails(param: any) {
     setOpenPDF(false);
     document.body.style.overflow = 'unset';
   }
+  const setDay=(val:any,key:string)=>{
+    if (key==='startDay') {
+        setStartDay(new Date(val));
+    }
+    else{
+        setEndDay(new Date(val));
+    }
+}
   return (
     <div className="flex justify-center items-center h-full  ">
       <form
@@ -219,6 +239,51 @@ export default function StatisticDetails(param: any) {
                 </div>
 
             </div> */}
+          <div>
+            {dataEdit && dataEdit.statistic.order ? <Link href={"/invoice/get/" + dataEdit.statistic.order.id} className='text-blue-500 hover:text-blue-800 border-b'> Mã Biên Bản: {dataEdit.statistic.order.contractCode}</Link> : "Không tồn tại mã"}
+            <div className='flex flex-row space-x-2'>
+              <div>
+                <label
+                  className="block text-gray-700 font-bold my-2"
+                >
+                  Từ Ngày:
+                </label><input
+                  className={`shadow appearance-none border rounded w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+                  id="k"
+                  type="date"
+                  placeholder='Từ ngày...'
+                  required
+                  value={startDay ? startDay.toISOString().split('T')[0] : ''}
+                  onChange={(e) => setDay(e.target.value, 'startDay')}
+                />
+
+              </div>
+              <div>
+                <div className='h-12'></div>
+                <div>
+                  -
+                </div>
+              </div>
+              <div>
+                <label
+                  className="block text-gray-700 font-bold my-2"
+                >
+                  Đến Ngày:
+                </label><input
+                  className={`shadow appearance-none border rounded w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+                  id="k"
+                  type="date"
+                  placeholder='đến ngày...'
+                  required
+                  value={endDay ? endDay.toISOString().split('T')[0] : ''}
+                  onChange={(e) => setDay(e.target.value, 'endDay')} />
+
+              </div>
+            </div>
+            <br />
+
+          </div>
+
           {dataEdit && dataEdit.statisticDetails ? <TableEditStatistic setTotalAmount={setTotalAmount} editData={dataEdit.statisticDetails} setStatisticDetails={setStatisticDetails} /> : ''}
         </div>
 

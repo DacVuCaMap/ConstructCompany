@@ -262,9 +262,9 @@ const PrintStatistic = (props: Props) => {
                                         <tr>
                                             <td></td>
                                             <td colSpan={6} className='text-center'>Tổng phát sinh chi phí </td>
-                                            <td className='text-center'>{HandletotalWeight() === 0 ? '' : HandletotalWeight()}</td>
+                                            <td className='text-center'>{HandletotalWeight() === 0 ? '' : formatNumberWithDot(HandletotalWeight(),2)}</td>
                                             <td></td>
-                                            <td>{formatNumberToDot(HandleTotalAmount())}</td>
+                                            <td>{formatNumberWithDot(HandleTotalAmount(),2)}</td>
                                             <td></td>
                                         </tr>
                                         <tr>

@@ -3,12 +3,16 @@ import OpenWindowStatisticPro from '@/components/InvoiceComponents/OpenWindowSea
 import { formatNumberToDot, formatNumberWithDot, numberWithoutDots } from '@/data/listData';
 import React, { useEffect, useState } from 'react'
 import './TableAddStatistic.css'
-type StatisticItem = {
-    id: number, day: string, licensePlate: string
-    , trailer: string, ticket: string, typeProduct: string, proId: number, unit: string, price: number
-    , materialWeight: number, note: string, statisticDetailId: any
-}
-type ParentStatisticItem = { proName: string, proUnit: string, proPrice: number, proId: number, statisticItems: StatisticItem[] }
+import PasteStatistic from '../PasteStatistic';
+import { CircleCheck } from 'lucide-react';
+import { ParentStatisticItem } from '@/model/ParentStatisticItem';
+import { StatisticItem } from '@/model/StatisticItem';
+// type StatisticItem = {
+//     id: number, day: string, licensePlate: string
+//     , trailer: string, ticket: string, typeProduct: string, proId: number, unit: string, price: number
+//     , materialWeight: number, note: string, statisticDetailId: any
+// }
+// type ParentStatisticItem = { proName: string, proUnit: string, proPrice: number, proId: number, statisticItems: StatisticItem[] }
 type Props = {
     setTotalAmount: React.Dispatch<React.SetStateAction<any>>,
     setStatisticDetails: React.Dispatch<React.SetStateAction<any>>,
@@ -140,7 +144,7 @@ export default function TableAddStatistic(props: Props) {
     let totalCost: number[] = [];
     let weightRs: number = 0;
     let costRs: number = 0
-    let count =0;
+    let count = 0;
     const TotalMaterialWeight = (index: number) => {
         const total: number = items[index].statisticItems.reduce((total, item) => { return total + Number(item.materialWeight) }, 0)
         const arrWeight = [...totalWeight]
@@ -176,8 +180,16 @@ export default function TableAddStatistic(props: Props) {
         items.map(item => { item.statisticItems.map(it => { arr.push(it) }) });
         props.setStatisticDetails(arr);
     }, [items])
+    //new update
+    const [openPasteData, setPasteData] = useState(false);
+    const [pasteSuccess, setSuccess] = useState(false);
     return (
         <div>
+            <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='button' onClick={() => setPasteData(!openPasteData)}>{openPasteData ? "Tắt X" : "Dán dữ liệu"}</button>
+            {pasteSuccess && <span className='text-green-500 flex flex-row space-x-1'> <CircleCheck /> <p>Dán thành công</p></span>}
+            {openPasteData && <PasteStatistic items={items} setItems={setItems} setOpen={setPasteData} setPasteSuccess={setSuccess} />}
+
+
             <h2 className='block text-gray-700 font-bold mb-2'>Bảng số liệu</h2>
             <table border={1} className='w-full table-auto text-sm staTable'>
                 <thead className='bg-neutral-900 h-10 text-white'>
@@ -238,15 +250,13 @@ export default function TableAddStatistic(props: Props) {
                                 <td colSpan={2}><button type='button' className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                     onClick={() => addChildItem(index)}>+ Thêm hàng mới</button></td>
                                 <td className='text-center' colSpan={4}>{parentItem.proName}</td>
-                                <td className='text-center'>{formatNumberToDot(TotalMaterialWeight(index))}</td>
+                                <td className='text-center'>{formatNumberWithDot(TotalMaterialWeight(index),2)}</td>
                                 <td></td>
-                                <td className='text-center \'>{formatNumberToDot(HandleTotalCost(index))}</td>
+                                <td className='text-center \'>{formatNumberWithDot(HandleTotalCost(index),2)}</td>
                                 <td></td>
                                 <td>
-                                    <td>
-                                        <button type='button' className="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                            onClick={() => handleDelParentItem(parentItem.proId)}>xóa</button>
-                                    </td>
+                                    <button type='button' className="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                        onClick={() => handleDelParentItem(parentItem.proId)}>xóa</button>
                                 </td>
                             </tr>
                         </>
@@ -263,7 +273,7 @@ export default function TableAddStatistic(props: Props) {
                     <tr className='font-bold'>
                         <td></td>
                         <td colSpan={6} className='text-center'>Tổng phát sinh chi phí </td>
-                        <td className='text-center'>{HandletotalWeight() === 0 ? '' : HandletotalWeight()}</td>
+                        <td className='text-center'>{HandletotalWeight() === 0 ? '' : formatNumberWithDot(HandletotalWeight(),2)}</td>
                         <td></td>
                         <td>{formatNumberToDot(HandleTotalAmount())}</td>
                         <td></td>

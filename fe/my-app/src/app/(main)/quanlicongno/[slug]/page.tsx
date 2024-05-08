@@ -1,5 +1,6 @@
 import GetPattern from '@/ApiPattern/GetPattern';
 import QuanLiCNList from '@/components/QuanLiCongNoComponents/QuanLiCNList';
+import { Plus } from 'lucide-react';
 import React from 'react'
 
 export default async function page() {

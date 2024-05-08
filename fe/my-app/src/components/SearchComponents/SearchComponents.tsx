@@ -11,7 +11,7 @@ export default function SearchComponents(props: Props) {
         { id: 1, name: "order", title: "BBNT và XNKL", placeHolder: "Nhập tên khách hàng hoặc mã biên bản", linkApi: "/invoice/list?page=0&size=10&search=" },
         { id: 2, name: "payment", title: "Công nợ", placeHolder: "Nhập tên khách hàng hoặc mã biên bản", linkApi: "/payment/list?page=0&size=10&search=" },
         { id: 3, name: "statistic", title: "BBNT và GT", placeHolder: "Nhập tên khách hàng", linkApi: "/statistic/get?page=0&size=10&search=" },
-        { id: 4, name: "Customer", title: "Khách hàng", placeHolder: "Nhập tên khách hàng", linkApi: "/customer/get?page=0&size=10&search=" },
+        { id: 4, name: "Customer", title: "Khách hàng", placeHolder: "Nhập tên khách hàng hoặc mã số thuế", linkApi: "/customer/get?page=0&size=10&search=" },
         { id: 5, name: "Product", title: "Sản phẩm", placeHolder: "Nhập tên sản phẩm", linkApi: "/product/search?page=0&size=10&search=" }
     ]
     const [wordsKey, setWordsKey] = useState('');

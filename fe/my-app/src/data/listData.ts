@@ -70,9 +70,11 @@ export const columnProduct: GridColDef[] = [
 export const columnOrder: GridColDef[] = [
     { field: 'id' },
     { field: 'contractCode', headerName: "Mã biên bản", flex: 0.5 },
-    { field: 'customer', headerName: "Khách hàng", flex: 1, valueGetter:(value:any)=>{
-        return value.companyName;
-    } },
+    {
+        field: 'customer', headerName: "Khách hàng", flex: 1, valueGetter: (value: any) => {
+            return value.companyName;
+        }
+    },
     {
         field: 'totalAmount', headerName: "Tổng Thành tiền", flex: 1, valueGetter: (value: number) => {
             return formatNumberWithDot(value, 0)
@@ -100,24 +102,57 @@ export const columnOrder: GridColDef[] = [
         }
     },
 ]
-export const columnQLCN : GridColDef[] = [
-    {field:'id',headerName:"ID",flex:0.2,valueGetter:(value:any,row:any)=>{
-        value=row.customer.id;
-        return row.customer.id;
-    }},
-    {field:"taxCode",headerName:"Mã số thuế",flex:1,valueGetter:(value:any,row:any)=>{
-        return row.customer.taxCode;
-    }},
-    {field:"company",headerName:"Tên Công Ty",flex:1,valueGetter:(value:any,row:any)=>{
-        return row.customer.companyName;
-    }},
-    {field:"orderCount",headerName:"Số lượng",flex:0.5,align:"center"},
-    {field:"totalLeftAmount",headerName:"Chưa thanh toán(vnd)",flex:1,valueGetter:(value:any)=>{
-        return formatNumberToDot(value);
-    }},
-    {field:"status",headerName:"Trạng thái",flex:1,valueGetter:(value:any,row:any)=>{
-        return row.totalLeftAmount===0 ? "Hoàn thành" : "Chưa Hoàn Thành"
-    }
+export const columnPayment: GridColDef[] = [
+    { field: 'id', headerName: "ID", flex: 0.2 },
+    { field: 'contractCode', headerName: "Mã biên bản", flex: 1 },
+    {
+        field: 'totalAmount', headerName: "Tổng Thành tiền", flex: 1, valueGetter: (value: number) => {
+            return formatNumberWithDot(value, 0)
+        }
+    },
+    {
+        field: 'leftAmount', headerName: "Chưa Thanh Toán", flex: 1, valueGetter: (value) => {
+            return formatNumberWithDot(value, 0)
+        }
+    },
+    {
+        field: 'isPaymented', headerName: "Trạng thái", flex: 1, valueGetter: (value: boolean) => {
+            return !value ? 'Chưa hoàn thành' : 'Hoàn Thành'
+        }
+    },
+    {
+        field: 'createAt', headerName: "Ngày tạo", flex: 1, valueGetter: (value: string) => {
+            return formatDateData(value)
+        }
+    },
+]
+export const columnQLCN: GridColDef[] = [
+    {
+        field: 'id', headerName: "ID", flex: 0.2, valueGetter: (value: any, row: any) => {
+            value = row.customer.id;
+            return row.customer.id;
+        }
+    },
+    {
+        field: "taxCode", headerName: "Mã số thuế", flex: 1, valueGetter: (value: any, row: any) => {
+            return row.customer.taxCode;
+        }
+    },
+    {
+        field: "company", headerName: "Tên Công Ty", flex: 1, valueGetter: (value: any, row: any) => {
+            return row.customer.companyName;
+        }
+    },
+    { field: "orderCount", headerName: "Số lượng", flex: 0.5, align: "center" },
+    {
+        field: "totalLeftAmount", headerName: "Chưa thanh toán(vnd)", flex: 1, valueGetter: (value: any) => {
+            return formatNumberToDot(value);
+        }
+    },
+    {
+        field: "status", headerName: "Trạng thái", flex: 1, valueGetter: (value: any, row: any) => {
+            return row.totalLeftAmount === 0 ? "Hoàn thành" : "Chưa Hoàn Thành"
+        }
     },
 ]
 export const columnStatistic: GridColDef[] = [
@@ -151,9 +186,11 @@ export const columnAccount: GridColDef[] = [
             return formatDateData(value);
         }
     },
-    { field: 'admin', headerName: "Quyền", flex: 0.5, valueGetter : (value:boolean)=>{
-        return value ? "ADMIN" : "NHÂN VIÊN";
-    } }
+    {
+        field: 'admin', headerName: "Quyền", flex: 0.5, valueGetter: (value: boolean) => {
+            return value ? "ADMIN" : "NHÂN VIÊN";
+        }
+    }
 ]
 export const formatDateData = (dateString: string) => {
     if (!dateString) {
@@ -177,4 +214,24 @@ export const formatNumberToDot = (number: any) => {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
     return 0;
-} 
+}
+export function convertDay(isoDate: string): string {
+    // Tạo một đối tượng Date từ chuỗi ISO 8601
+    var date = new Date(isoDate);
+
+    // Lấy các thành phần ngày, tháng và năm
+    var ngay = date.getDate().toString();
+    var thang = (date.getMonth() + 1).toString(); // Tháng bắt đầu từ 0 nên cần +1
+    var nam = date.getFullYear().toString();
+
+    // Đảm bảo ngày và tháng có hai chữ số
+    if (ngay.length === 1) {
+        ngay = '0' + ngay;
+    }
+    if (thang.length === 1) {
+        thang = '0' + thang;
+    }
+
+    // Trả về ngày ở định dạng dd-MM-yyyy
+    return ngay + '-' + thang + '-' + nam;
+}

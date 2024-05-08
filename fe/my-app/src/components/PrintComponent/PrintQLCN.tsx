@@ -13,13 +13,19 @@ export default function PrintQLCN(props: Props) {
   const componentRef = useRef(null);
   document.body.style.overflow = 'hidden';
   const today = new Date();
-  const signingDate = new Date(props.data.signingDate);
-  const left = props.data.leftAmount ? props.data.leftAmount : 0;
+  //value
+  const statistic = props.data;
+  const order = statistic.order;
+  const signingDate = new Date(order.signingDate);
+  const customer = statistic.customer;
   const items = props.payments;
   const calcuTotal = () => {
     return items.reduce((accumulator, currentItem) => {
       return accumulator + currentItem.price;
     }, 0);
+  }
+  const calCashLeft = () => {
+    return statistic.cashLeft + calcuTotal() - statistic.totalAmount;
   }
   const exportToWord = () => {
     const htmlContent = document.querySelector('.document');
@@ -100,26 +106,26 @@ export default function PrintQLCN(props: Props) {
             <tr>
               <td colSpan={2}>
                 <div className='ml-10 mr-10'>
-                  <span>  - Căn cứ vào hợp đồng số: {props.data.contractCode} /HĐNT/LĐ-PA  - Ký ngày {signingDate.getDate()} tháng {signingDate.getMonth() + 1} năm {signingDate.getFullYear()} giữa {sellerData.companyName} với {props.data.customer.companyName}</span> <br />
+                  <span>  - Căn cứ vào hợp đồng số: {order.contractCode} /HĐNT/LĐ-PA  - Ký ngày {signingDate.getDate()} tháng {signingDate.getMonth() + 1} năm {signingDate.getFullYear()} giữa {sellerData.companyName} với {customer.companyName}</span> <br />
                   <span>- Căn cứ Biên bản giao nhận thực tế giữa hai bên</span>
                   <br />
                   <span>   Hôm nay ngày 29  tháng  04 năm 2024, tại {sellerData.companyName} chúng tôi gồm có:</span>
                   <br />
-                  <span className='font-bold'>BÊN A (BÊN MUA): {props.data.customer.companyName}</span><br />
+                  <span className='font-bold'>BÊN A (BÊN MUA): {customer.companyName}</span><br />
                   <table>
                     <tr>
                       <td><span>Đại diện: </span></td>
-                      <td className='w-48'><span className='font-bold'>{props.data.customer.representativeCustomer}</span></td>
-                      <td><span>Chức Vụ: <span className='font-bold'>{props.data.customer.positionCustomer}</span></span></td>
+                      <td className='w-48'><span className='font-bold'>{customer.representativeCustomer}</span></td>
+                      <td><span>Chức Vụ: <span className='font-bold'>{customer.positionCustomer}</span></span></td>
                     </tr>
                     <tr>
                       <td><span>Địa chỉ:</span></td>
-                      <td><span>{props.data.customer.address}</span></td>
+                      <td><span>{customer.address}</span></td>
                       <td></td>
                     </tr>
                     <tr>
                       <td><span>Mã số thuế:</span></td>
-                      <td><span>{props.data.customer.debt}</span></td>
+                      <td><span>{customer.debt}</span></td>
                       <td></td>
                     </tr>
                   </table>
@@ -150,49 +156,72 @@ export default function PrintQLCN(props: Props) {
                     <thead>
                       <tr >
                         <th>STT</th>
-                        <th>Ngày</th>
                         <th>Nội Dung</th>
                         <th>Số tiền</th>
+                        <th>Còn lại</th>
                       </tr>
                     </thead>
                     <tbody>
+                      <tr key={"n1"}>
+                        <td className="text-center"><p><strong>I</strong></p></td>
+                        <td><p><strong>Số dư đầu kỳ</strong></p></td>
+                        <td className='text-center'><p><strong>{statistic.cashLeft}</strong></p></td>
+                        <td></td>
+                      </tr>
+                      <tr key={"n2"}>
+                        <td className="text-center"><p><strong>II</strong></p></td>
+                        <td><p><strong>Số tiền đã thanh toán trong kỳ</strong></p></td>
+                        <td className='text-center'><p><strong>{formatNumberWithDot(calcuTotal(), 2)}</strong></p></td>
+                        <td></td>
+                      </tr>
                       {items.map((item, index) => (
                         <tr key={index}>
-                          <td className='text-center'>{index + 1}</td>
                           <td className='text-center'>{formatDateData(item.day.substring(0, 10))}</td>
-                          <td>Công ty Chuyển tiền thanh toán</td>
-                          <td className='text-center'>{formatNumberToDot(item.price)}</td>
+                          <td ><p>{item.description}</p></td>
+                          <td className='text-center'>{formatNumberWithDot(item.price, 2)}</td>
+                          <td></td>
                         </tr>
                       ))}
+                      <tr key={"3n"}>
+                        <td className="text-center"><p><strong>III</strong></p></td>
+                        <td><p><strong>Phát sinh trong kỳ</strong></p></td>
+                        <td className='text-center'><p><strong>{formatNumberWithDot(statistic.totalAmount, 2)}</strong></p></td>
+                        <td></td>
+                      </tr>
+                      <tr key={"4n"}>
+                        <td></td>
+                        <td><p>Từ ngày {formatDateData(statistic.startDay)} đến ngày {formatDateData(statistic.endDay)}</p></td>
+                        <td className='text-center'><p>{formatNumberWithDot(statistic.totalAmount, 2)}</p></td>
+                        <td></td>
+                      </tr>
                     </tbody >
                     <tfoot className='font-bold text-center'>
-                      <tr>
-                        <td colSpan={3} className='text-center'>Số tiền đã thanh toán</td>
-                        <td>{formatNumberWithDot(calcuTotal(), 2)}</td>
-                      </tr>
-                      <tr>
-                        <td colSpan={3} className='text-center'>Tổng thành tiền</td>
-                        <td>{formatNumberWithDot(props.data.totalAmount, 2)}</td>
-                      </tr>
-                      <tr>
-                        <td colSpan={3} className='text-center'>Số tiền còn lại</td>
-                        <td>{formatNumberWithDot(props.data.leftAmount, 2)}</td>
+                      <tr key={"5n"}>
+                        <td className="text-center"><p><strong>IV</strong></p></td>
+                        <td><p><strong>Đối trừ công nợ (IV=I+II-III)</strong></p></td>
+                        <td></td>
+                        <td><p>{formatNumberWithDot(calCashLeft(), 2)}</p></td>
                       </tr>
                     </tfoot>
                   </table>
-                  <p className='text-center font-bold'>(Bằng chữ: {numberToWords(props.data.leftAmount)})</p>
-                  <p>Số liệu trên đây hoàn toàn là chính xác. Đây là số liệu có giá trị pháp lý làm cơ sở thanh toán giữa hai bên.</p>
-                  <p>Biên bản được lập thành 04 bản, mỗi bên giữ 02 bản có giá trị như nhau .</p>
+                  <br />
+                  <p style={{ "textIndent":"30px" }}> Sau khi đối chiếu sổ sách giữa công ty Tiến Đông và công ty CP khai khoáng Long 
+                    Đạt từ ngày 29/01/2024 đến   ngày 28/04/2024 Công ty Tiến Đông còn dư tiền tại 
+                    công ty CP khai khoáng Long Đạt số tiền là:  <strong>{formatNumberWithDot(calCashLeft(), 2)}</strong> </p>
+                  <p className='text-center font-bold'>(Bằng chữ: {numberToWords(calCashLeft())})</p>
+                  <p>Số liệu trên đây hoàn toàn là chính xác. Đây là số liệu có giá trị pháp lý làm cơ sở thanh toán giữa hai bên.
+                    <br />Biên bản được lập thành 04 bản, mỗi bên giữ 02 bản có giá trị như nhau .
+                  </p>
                   <br />
                 </div>
               </td>
             </tr>
             <tr className='font-bold'>
               <td className='text-center'>
-                XÁC NHẬN BÊN MUA
+                <p>XÁC NHẬN BÊN MUA</p>
               </td>
               <td className='text-center'>
-                XÁC NHẬN BÊN BÁN
+                <p>XÁC NHẬN BÊN BÁN</p>
               </td>
             </tr>
           </tbody>

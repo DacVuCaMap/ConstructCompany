@@ -6,15 +6,24 @@ import { numberWithoutDots } from '@/data/listData'
 import Spreadsheet, { Matrix } from 'react-spreadsheet'
 import { BeatLoader } from 'react-spinners'
 import { Clipboard } from 'lucide-react';
+import { ParentStatisticItem } from '@/model/ParentStatisticItem'
+import { StatisticItem } from '@/model/StatisticItem'
+// type StatisticItem = {
+//     id: number, day: string, licensePlate: string
+//     , trailer: string, ticket: string, typeProduct: string
+//     , proId: number, unit: string, price: number
+//     , materialWeight: number, note: string
+// }
+
+// type ParentStatisticItem = { proName: string, proUnit: string, proPrice: number, proId: number, statisticItems: StatisticItem[] }
 type Props = {
     items: any,
-    setItems: React.Dispatch<React.SetStateAction<Detail[]>>,
+    setItems: React.Dispatch<React.SetStateAction<ParentStatisticItem[]>>,
     setOpen: React.Dispatch<React.SetStateAction<boolean>>,
     setPasteSuccess: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-type Detail = { id: number, productId: number, proName: string, unit: string, materialWeight: number, price: number, isOpen: boolean }
-export default function PasteData(props: Props) {
+export default function PasteStatistic(props: Props) {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [valueText, setValueText] = useState<any>();
@@ -26,49 +35,40 @@ export default function PasteData(props: Props) {
         setError("");
         let flag = false;
         let uniqueCode = Date.now();
-        // let rs = valueText.split('\n')
-        //     .filter((line: any) => line.trim() !== '')
-        //     .map((line: any, index: number) => {
-        //         const [id, productName, unit, materialWeight, price] = line.split("\t");
-        //         if (!id || !productName || !unit || !materialWeight || !price) {
-        //             setError("Form bảng không hợp lệ (copy từ stt kéo xuống)")
-        //             flag = true;
-        //             console.log(error)
-        //             return;
-        //         }
-        //         return {
-        //             id: uniqueCode++,
-        //             productId: null,
-        //             proName: productName.trim(),
-        //             unit: unit,
-        //             materialWeight: parseFloat(materialWeight.replace(",", ".")),
-        //             price: numberWithoutDots(price),
-        //             isOpen: false
-        //         };
-        //     });
-        // console.log(rs);
         const rs = data.map((items: any[]) => {
-            // if (items.some(item => item.value === undefined)) {
-            //     return;
-            // }
-            if (!items[0] || !items[0].value|| !items[1] || !items[1].value || !items[2] || !items[2].value) {
-                return;
+            for (let i = 0; i < items.length; i++) {
+                if (i === 3 || i === 7) {
+                    continue; // Bỏ qua các index là 3 và 7
+                }
+            
+                if (!items[i].value) {
+                    console.log("items " + i + ": null");
+                    return;
+                }
             }
-            console.log(items)
-            let materialWeight = parseFloat(items[2].value.replace(",", "."))
+            let trailer = items[3] ? items[3].value : "";
+            let note = items[7] ? items[7].value : "";
+            let materialWeight = parseFloat(items[5].value.replace(",", "."))
             if (isNaN(materialWeight)) {
                 setError("Khối lượng không phải số");
                 flag = true;
                 return;
             }
+            //set date
+            let [day,month,year] = items[0].value.split('/');
+            const date = new Date(year,month-1,day);
             return {
                 id: uniqueCode++,
-                productId: null,
-                proName: items[0].value.trim(),
-                unit: items[1].value,
+                day: date,
+                licensePlate: items[2].value,
+                trailer: trailer,
+                ticket: items[1].value,
+                typeProduct: items[4].value,
+                proId: null,
+                unit: null,
+                price: numberWithoutDots(items[6].value),
                 materialWeight: materialWeight,
-                price: items[3].value ? numberWithoutDots(items[3].value) : null,
-                isOpen: false
+                note: note
             }
         })
         console.log(rs);
@@ -77,36 +77,44 @@ export default function PasteData(props: Props) {
             setLoading(false);
             return;
         }
-        console.log(error)
+        // console.log(error)
         if (!flag) {
             const promises = rs.map(async (item: any) => {
                 if (item) {
-                    let url = process.env.NEXT_PUBLIC_API_URL + "/api/product/find-cus/" + item.proName;
+                    let url = process.env.NEXT_PUBLIC_API_URL + "/api/product/find-cus/" + item.typeProduct;
                     const response = await GetPatternMinh(url, {});
-                    console.log(response);
+                    // console.log(response);
                     if (!response) {
                         setError("Lỗi không tìm thấy product: " + item.proName)
                         flag = true
                         return null;
                     }
-                    if (item.price) {
-                        return { ...item, productId: response.id }
-                    }
-                    else{
-                        return {...item,productId:response.id,price:response.price}
-                    }
+                    return { ...item, proId: response.id, unit: response.unit }
                 }
             })
             if (!flag) {
-                let updateData: Detail[] = await Promise.all(promises);
+                let updateData: StatisticItem[] = await Promise.all(promises);
+                // console.log(updateData);
                 const temp = props.items;
-                updateData.map((item: Detail) => {
+                updateData.map((item: StatisticItem) => {
                     if (item) {
-                        temp.push(item);
+                        let parent = temp.find((obj: ParentStatisticItem) => obj.proId == item.proId);
+                        // console.log(parent,item.proId);
+                        if (parent) {
+                            let index = temp.findIndex((obj: ParentStatisticItem) => obj.proId == item.proId)
+                            parent.statisticItems.push(item);
+                            temp[index] = parent;
+                        }
+                        else {
+                            let newParent: ParentStatisticItem = {
+                                proName: item.typeProduct, proId: item.proId, proUnit: item.unit, proPrice: item.price, statisticItems: [item]
+                            }
+                            temp.push(newParent);
+                        }
                     }
                 })
                 props.setItems(temp);
-                console.log(props.items);
+                // console.log(props.items);
                 props.setPasteSuccess(true);
                 props.setOpen(false);
             }
@@ -114,7 +122,7 @@ export default function PasteData(props: Props) {
         setLoading(false);
 
     }
-    const columnLabels = ["Tên Vật Tư", "Đơn vị", "Khối Lượng", "Đơn giá"];
+    const columnLabels = ["Ngày", "Số phiếu", "Biển xe", "Rơ moóc", "Loại hàng", "Khối lượng", "Đơn giá","Ghi chú"];
     const [data, setData] = useState<Matrix<never>>([[]]);
     const handleDataChange = (newData: Matrix<never>) => {
         console.log(newData);
@@ -123,13 +131,16 @@ export default function PasteData(props: Props) {
     const handlePast = async () => {
         try {
             const clipboardText = await navigator.clipboard.readText();
-
-            if (/^[\p{L}\p{N}\s\.,!?]+$/u.test(clipboardText)) {
+            if (clipboardText) {
+                // console.log(clipboardText)
                 let rs: any;
                 rs = clipboardText.split('\n').filter((line: any) => line.trim() !== '')
                     .map((line: any, index: number) => {
                         let arr = line.split("\t");
-                        return [{ value: arr[0] }, { value: arr[1] }, { value: arr[2] }, { value: arr[3] }];
+                        let rs : any[] = [];
+                        arr.map((val:string)=>{rs.push({value:val})})
+                        // console.log(rs);
+                        return rs;
                     });
                 // console.log(rs);
                 setData(rs);
@@ -164,8 +175,3 @@ export default function PasteData(props: Props) {
         </div>
     )
 }
-{/* <textarea
-                className={`${error ? 'border-red-500' : 'border-gray-300'} w-full min-h-40 h-auto border-2 rounded-lg p-2 `}
-                placeholder="Dán vào đây (copy từ số thứ tự)"
-                onChange={(e) => handleTextArea(e.target.value)}
-            ></textarea> */}
