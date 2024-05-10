@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import OpenWindowPro from '../OpenWindowSearchCus/OpenWindowPro'
 import { CircleCheck } from 'lucide-react'
 import PasteData from '../PasteData'
+import UploadOrderExcel from '../UploadOrderExcel'
 type Detail = { id: number, productId: number, proName: string, unit: string, materialWeight: number, price: number, isOpen: boolean }
 type Cost = { totalCost: number, tax: number, totalAmount: number }
 type Props = {
@@ -130,17 +131,21 @@ export default function TableOrderDetails(props: Props) {
         props.setCost({ totalCost: props.cost.totalCost, tax: props.cost.tax, totalAmount: props.cost.totalCost + (props.cost.totalCost * props.cost.tax) })
     }, [items, props.cost.tax])
     //new update
-    const [pasteSuccess,setPasteSuccess] = useState(false);
-    const [openPasteData,setPasteData] = useState(false);
+    const [pasteSuccess, setPasteSuccess] = useState(false);
+    const [openPasteData, setPasteData] = useState(false);
+    const [uploadExcel, setUploadExcel] = useState(false);
     return (
         <div>
+
             <div className='flex flex-row items-center space-x-2'>
-                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='button' onClick={() => setPasteData(!openPasteData)}>{openPasteData ? "Tắt X" : "Dán dữ liệu"}</button>
-                {pasteSuccess && <span className='text-green-500 flex flex-row space-x-1'> <CircleCheck /> <p>Dán thành công</p></span>}
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='button' onClick={() => { setPasteData(!openPasteData); setUploadExcel(false) }}>{openPasteData ? "Tắt X" : "Dán dữ liệu"}</button>
+                <span>or</span>
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='button' onClick={() => { setUploadExcel(!uploadExcel); setPasteData(false) }}>{uploadExcel ? "Tắt X" : "Đọc từ Excel"}</button>
             </div>
+            {uploadExcel && <UploadOrderExcel items={items} setItems={setItems} setOpen={setUploadExcel} setPasteSuccess={setPasteSuccess} />}
             {openPasteData && <PasteData items={items} setItems={setItems} setOpen={setPasteData} setPasteSuccess={setPasteSuccess} />}
 
-
+            {pasteSuccess && <span className='text-green-500 flex flex-row space-x-1'> <CircleCheck /> <p>Thành công</p></span>}
             <h2 className='block text-gray-700 font-bold mb-2'>Bảng số liệu</h2>
             <table border={1} className='w-full table-auto text-sm '>
                 <thead className='bg-neutral-900 h-10 text-white'>

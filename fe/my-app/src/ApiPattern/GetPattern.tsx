@@ -3,7 +3,7 @@ import { userData } from '@/data/authenticate';
 import axios, { AxiosError } from 'axios'
 import React from 'react'
 import { cookies } from 'next/headers';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 export default async function GetPattern(url: any, thirdValue: any) {
     const cookie = cookies();
@@ -21,6 +21,11 @@ export default async function GetPattern(url: any, thirdValue: any) {
         const axiosError = error as AxiosError;
         console.log("error: ", error)
         console.error('Error :', axiosError.response?.data);
+        const mess : any = axiosError.response?.data
+        if(mess.message=='tai khoan khong ton tai hoac het phien'){
+            console.log("vao day")
+            redirect('/login');
+        }
         notFound();
     }
 }

@@ -7,6 +7,7 @@ import PasteStatistic from '../PasteStatistic';
 import { CircleCheck } from 'lucide-react';
 import { ParentStatisticItem } from '@/model/ParentStatisticItem';
 import { StatisticItem } from '@/model/StatisticItem';
+import UploadStatisticExcel from '../UploadStatisticExcel';
 // type StatisticItem = {
 //     id: number, day: string, licensePlate: string
 //     , trailer: string, ticket: string, typeProduct: string, proId: number, unit: string, price: number
@@ -183,13 +184,20 @@ export default function TableAddStatistic(props: Props) {
     //new update
     const [openPasteData, setPasteData] = useState(false);
     const [pasteSuccess, setSuccess] = useState(false);
+    const [uploadExcel,setUploadExcel] = useState(false);
     return (
         <div>
-            <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='button' onClick={() => setPasteData(!openPasteData)}>{openPasteData ? "Tắt X" : "Dán dữ liệu"}</button>
-            {pasteSuccess && <span className='text-green-500 flex flex-row space-x-1'> <CircleCheck /> <p>Dán thành công</p></span>}
+            <div className='flex flex-row items-center space-x-2'>
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='button' onClick={() => { setPasteData(!openPasteData); setUploadExcel(false) }}>{openPasteData ? "Tắt X" : "Dán dữ liệu"}</button>
+                <span>or</span>
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='button' onClick={() => { setUploadExcel(!uploadExcel); setPasteData(false) }}>{uploadExcel ? "Tắt X" : "Đọc từ Excel"}</button>
+            </div>
+
+            {uploadExcel && <UploadStatisticExcel items={items} setItems={setItems} setOpen={setUploadExcel} setPasteSuccess={setSuccess} />}
+
             {openPasteData && <PasteStatistic items={items} setItems={setItems} setOpen={setPasteData} setPasteSuccess={setSuccess} />}
 
-
+            {pasteSuccess && <span className='text-green-500 flex flex-row space-x-1'> <CircleCheck /> <p>Thành công</p></span>}
             <h2 className='block text-gray-700 font-bold mb-2'>Bảng số liệu</h2>
             <table border={1} className='w-full table-auto text-sm staTable'>
                 <thead className='bg-neutral-900 h-10 text-white'>
@@ -250,9 +258,9 @@ export default function TableAddStatistic(props: Props) {
                                 <td colSpan={2}><button type='button' className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                     onClick={() => addChildItem(index)}>+ Thêm hàng mới</button></td>
                                 <td className='text-center' colSpan={4}>{parentItem.proName}</td>
-                                <td className='text-center'>{formatNumberWithDot(TotalMaterialWeight(index),2)}</td>
+                                <td className='text-center'>{formatNumberWithDot(TotalMaterialWeight(index), 2)}</td>
                                 <td></td>
-                                <td className='text-center \'>{formatNumberWithDot(HandleTotalCost(index),2)}</td>
+                                <td className='text-center \'>{formatNumberWithDot(HandleTotalCost(index), 2)}</td>
                                 <td></td>
                                 <td>
                                     <button type='button' className="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -273,7 +281,7 @@ export default function TableAddStatistic(props: Props) {
                     <tr className='font-bold'>
                         <td></td>
                         <td colSpan={6} className='text-center'>Tổng phát sinh chi phí </td>
-                        <td className='text-center'>{HandletotalWeight() === 0 ? '' : formatNumberWithDot(HandletotalWeight(),2)}</td>
+                        <td className='text-center'>{HandletotalWeight() === 0 ? '' : formatNumberWithDot(HandletotalWeight(), 2)}</td>
                         <td></td>
                         <td>{formatNumberToDot(HandleTotalAmount())}</td>
                         <td></td>

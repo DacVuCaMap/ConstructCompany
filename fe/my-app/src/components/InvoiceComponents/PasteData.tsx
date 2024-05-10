@@ -15,6 +15,7 @@ type Props = {
 
 type Detail = { id: number, productId: number, proName: string, unit: string, materialWeight: number, price: number, isOpen: boolean }
 export default function PasteData(props: Props) {
+    props.setPasteSuccess(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [valueText, setValueText] = useState<any>();

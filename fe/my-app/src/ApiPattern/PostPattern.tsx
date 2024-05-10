@@ -4,11 +4,16 @@ import axios, { AxiosError } from "axios";
 
 const postData = async (url: any, data: any, thirdValue: any): Promise<any> => {
     const token = userData()?.token;
+    const headers = {
+        Authorization: `Bearer ${token}`,
+        ...thirdValue
+
+    }
     try {
         const response = await axios.post(url, data, {
             headers: {
-                Authorization: `Bearer ${token}`
-            }
+                Authorization: `Bearer ${token}`,
+            },
         })
         console.log(response.data)
         return response.data;

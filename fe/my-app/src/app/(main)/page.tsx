@@ -9,7 +9,8 @@ import GetPattern from "@/ApiPattern/GetPattern";
 export default async function Home() {
   const cookie = cookies();
   let userMail = cookie.get('email')?.value
-  if (!userMail) {
+  let check = cookie.get('jwt')?.value
+  if (!userMail || !check) {
     redirect('/login');
   }
   let url = process.env.NEXT_PUBLIC_API_URL + '/api/home/getNbr'
