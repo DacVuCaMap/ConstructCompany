@@ -57,8 +57,8 @@ export default function UploadOrderExcel(props: Props) {
             return detail;
         })
         // console.log(itemTemp);
-        if (itemErr.length>0) {
-            let errStr = "Lỗi không tồn tại gồm :"+itemErr.join(", ");
+        if (itemErr.length > 0) {
+            let errStr = "Lỗi không tồn tại gồm :" + itemErr.join(", ");
             setErr(errStr);
             setLoading(false);
             return;
@@ -80,25 +80,31 @@ export default function UploadOrderExcel(props: Props) {
                     <label className="flex flex-col items-center justify-center w-full lg:w-1/2 h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-200 hover:bg-gray-300">
 
                         {file ?
-                            <div className='flex flex-col items-center justify-center pt-5 pb-6'>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-10 h-10 mb-3 text-gray-400 lucide lucide-folder-check"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
-                                    <path d="m9 13 2 2 4-4" />
-                                </svg>
-                                <p className="mb-2 text-sm text-gray-500 truncate">
-                                    <span className="font-semibold">File đã chọn: </span> {file.name}
-                                </p>
-                                <p className="text-xs text-gray-500">Nhấn để chọn lại</p>
-                            </div>
+                            <label htmlFor='file-upload' className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-lg cursor-pointer bg-green-200 hover:bg-green-300 border-green-300">
+                                <div className='flex flex-col items-center justify-center pt-5 pb-6'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-10 h-10 mb-3 text-gray-400 lucide lucide-folder-check"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
+                                        <path d="m9 13 2 2 4-4" />
+                                    </svg>
+                                    <p className="mb-2 text-sm text-gray-500 truncate">
+                                        <span className="font-semibold">File đã chọn: </span> {file.name}
+                                    </p>
+                                    <p className="text-xs text-gray-500">Nhấn để chọn lại</p>
+                                </div>
+                            </label>
+
                             :
-                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                                </svg>
-                                <p className="mb-2 text-sm text-gray-500 truncate">
-                                    <span className="font-semibold">Nhấn vào đây để chọn file</span> hoặc kéo thả
-                                </p>
-                                <p className="text-xs text-gray-500">file excel.xlsx</p>
-                            </div>
+                            <label htmlFor='file-upload' className="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-200 hover:bg-gray-300">
+                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                    </svg>
+                                    <p className="mb-2 text-sm text-gray-500 truncate">
+                                        <span className="font-semibold">Nhấn vào đây để chọn file</span> hoặc kéo thả
+                                    </p>
+                                    <p className="text-xs text-gray-500">file excel.xlsx</p>
+                                </div>
+                            </label>
+
                         }
                         <input id="file-upload" name="file-upload" accept='.xlsx' type="file" className="hidden" onChange={(e) => handleFile(e)} />
                     </label>

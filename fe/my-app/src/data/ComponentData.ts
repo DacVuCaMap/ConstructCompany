@@ -45,8 +45,8 @@ export const AddProductField = [
 export const AddCustomerField = [
     { id: 1, field: "companyName", title: "Tên Công Ty", type: "text",width:'3/4' },
     { id: 7, field: "email", title: "Email", type: "text",width:'3/4' },
-    { id: 5, field: "positionCustomer", title: "Người đại diện(hiện tại)", type: "text",width:'1/4' },
-    { id: 6, field: "representativeCustomer", title: "Chức vụ(hiện tại)", type: "text",width:'1/4' },
+    { id: 5, field: "positionCustomer", title: "Chức vụ(hiện tại)", type: "text",width:'1/4' },
+    { id: 6, field: "representativeCustomer", title: "Người đại diện(hiện tại)", type: "text",width:'1/4' },
     { id: 2, field: "address", title: "Địa chỉ", type: "text",width:'1/2' },
     { id: 3, field: "taxCode", title: "Mã số Thuế", type: "text",width:'1/4' },
     { id: 4, field: "phoneNumber", title: "Số điện thoại", type: "text",width:'1/4' },
