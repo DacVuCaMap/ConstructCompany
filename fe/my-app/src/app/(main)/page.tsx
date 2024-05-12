@@ -26,7 +26,7 @@ export default async function Home() {
     { id:2,title: "Khách Hàng", val: 29, link: "/customer/get?size=10&page=0" },
     { id:3,title: "BBNT và XNKL", val: 29, link: "/invoice/list?size=10&page=0" },
     { id:4,title: "BBNT và GT", val: 29, link: "/statistic/list?size=10&page=0" },
-    { id:5,title: "Công Nợ", val: 29, link: "/payment/list?size=10&page=0" },
+    { id:5,title: "Công Nợ", val: 29, link: "/quanlicongno/list?size=10&page=0" },
   ]
   for (let i = 0; i < items.length; i++) {
     items[i].val=response[i].value    

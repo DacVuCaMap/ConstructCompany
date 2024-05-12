@@ -33,6 +33,7 @@ export default function ShowListStatistic(props: Props) {
                 const response = await GetPattern(url, {});
                 setItems(response);
             } catch (error) {
+                setItems([]);
                 console.log(error)
             }
         }
@@ -68,10 +69,10 @@ export default function ShowListStatistic(props: Props) {
         e.preventDefault();
         // console.log(items)
         // console.log(props.data)
-        if (checkKyDay(paymentAddData.day)) {
-            setNof("Ngày không nằm trong các kỳ")
-            return;
-        }
+        // if (checkKyDay(paymentAddData.day)) {
+        //     setNof("Ngày không nằm trong các kỳ")
+        //     return;
+        // }
         let url = process.env.NEXT_PUBLIC_API_URL + "/api/payment/addone"
         const dataPost = { orderId: props.data.id, price: price, day: paymentAddData.day, description: paymentAddData.description };
         const response = await postData(url,dataPost,{});
@@ -249,6 +250,15 @@ export default function ShowListStatistic(props: Props) {
                                     </tr>
                                 }
                             </tbody>
+                            <tfoot>
+                                <tr className='font-bold'>
+                                    <td></td>
+                                    <td colSpan={3} className='text-center'>Tổng tiền chưa thanh toán (tổng dư)</td>
+                                    <td className='text-center'>{formatNumberWithDot(props.data.leftAmount,2)}</td>
+                                    <td colSpan={2}></td>
+
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>}
             </div>
