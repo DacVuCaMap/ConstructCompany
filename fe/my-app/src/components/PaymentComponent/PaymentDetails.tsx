@@ -121,10 +121,6 @@ export default function PaymentDetails(props: Props) {
     e.preventDefault();
     setLoading(true);
     setError("");
-    if (calLeftAmount() < 0) {
-      setError("Tiền thanh toán còn lại âm")
-      return;
-    }
     const url = process.env.NEXT_PUBLIC_API_URL + '/api/payment/add'
     const dataToPost = { payments: [...items], statisticId: statistic.id }
     console.log(dataToPost);
@@ -200,11 +196,11 @@ export default function PaymentDetails(props: Props) {
                       <input
                         required
                         className='h-10 w-20 lg:w-32'
-                        placeholder='Nhập đơn giá'
+                        placeholder='Nhập thanh toán'
                         type="text"
                         value={item.price === 0 ? '' : formatNumber(item.price)}
                         onChange={(e) => handleInputChange(e, item.itemId, 'price')} />
-                      <button type='button' className='text-center w-20 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={() => handleClickPrice(item.itemId)}>Còn lại</button>
+                      {/* <button type='button' className='text-center w-20 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={() => handleClickPrice(item.itemId)}>Còn lại</button> */}
                     </div>
 
                   </td>

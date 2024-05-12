@@ -68,7 +68,7 @@ export default function AddOrderProduct() {
 
         const post = await postData(urlPost, dataPost, {});
         // console.log(post);
-        router.push('/invoice/list?size=10&page=0');
+        router.back();
     };
     const genContractCode = () => {
         // Lấy ngày, tháng và năm hiện tại

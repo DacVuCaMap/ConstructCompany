@@ -172,18 +172,16 @@ export default function TableAddStatistic(props: Props) {
         return total;
     }
     //get max min day
+    const [pasteSuccess, setSuccess] = useState(false);
     useEffect(() => {
         let total = totalCost.reduce((total, item) => { return total + item }, 0)
         props.setTotalAmount(total);
-    }, [items])
-    useEffect(() => {
         let arr: StatisticItem[] = [];
         items.map(item => { item.statisticItems.map(it => { arr.push(it) }) });
         props.setStatisticDetails(arr);
-    }, [items])
+    }, [items,pasteSuccess])
     //new update
     const [openPasteData, setPasteData] = useState(false);
-    const [pasteSuccess, setSuccess] = useState(false);
     const [uploadExcel,setUploadExcel] = useState(false);
     return (
         <div>

@@ -22,7 +22,7 @@ export default async function GetPattern(url: any, thirdValue: any) {
         console.log("error: ", error)
         console.error('Error :', axiosError.response?.data);
         const mess : any = axiosError.response?.data
-        if(mess.message=='tai khoan khong ton tai hoac het phien'){
+        if(mess && mess.message!=undefined && mess.message=='tai khoan khong ton tai hoac het phien'){
             console.log("vao day")
             redirect('/login');
         }

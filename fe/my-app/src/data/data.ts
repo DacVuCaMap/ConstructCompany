@@ -13,26 +13,27 @@ export const sideBarAdmin = [
                 url: "/",
             },
             {
-                id: 11,
-                title: "BBNT và XNKL",
-                url: "/invoice/list?size=10&page=0",
-            },
-            {
                 id: 12,
                 title: "Quản Lí Công nợ",
                 url: "/quanlicongno/list?size=10&page=0",
-            },
-            {
-                id: 13,
-                title: "BBNT và GT",
-                url: "/statistic/list?size=10&page=0"
             }
+
         ],
     },
     {
         id: 2,
         title: "Quản Lí",
         listItems: [
+            {
+                id: 11,
+                title: "BBNT và XNKL",
+                url: "/invoice/list?size=10&page=0",
+            },
+            {
+                id: 13,
+                title: "BBNT và GT",
+                url: "/statistic/list?size=10&page=0"
+            },
             {
                 id: 21,
                 title: "Sản Phẩm",

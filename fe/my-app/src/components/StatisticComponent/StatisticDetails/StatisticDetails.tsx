@@ -82,13 +82,13 @@ export default function StatisticDetails(param: any) {
   }, [customer]);
   //submit form data
   const onSubmit = async (data: any) => {
-    const dataPost = { statistic: { id: dataEdit.statistic.id, ...data, totalAmount: totalAmount,startDay:startDay,endDay:endDay }, statisticDetails: [...statisticDetails] }
+    const dataPost = { statistic: { id: dataEdit.statistic.id,orderId:dataEdit.statistic.order.id, ...data, totalAmount: totalAmount,startDay:startDay,endDay:endDay }, statisticDetails: [...statisticDetails] }
 
     const urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/statistic/edit';
     console.log(dataPost)
     const post = await postData(urlPost, dataPost, {});
-    // console.log(post)
-    router.push('/statistic/list?size=10&page=0');
+    console.log(post)
+    // router.push('/statistic/list?size=10&page=0');
   }
   //PDF
   const [openPDF, setOpenPDF] = useState(false);
@@ -241,7 +241,7 @@ export default function StatisticDetails(param: any) {
             </div> */}
           <div>
             {dataEdit && dataEdit.statistic.order ? <Link href={"/invoice/get/" + dataEdit.statistic.order.id} className='text-blue-500 hover:text-blue-800 border-b'> Mã Biên Bản: {dataEdit.statistic.order.contractCode}</Link> : "Không tồn tại mã"}
-            <div className='flex flex-row space-x-2'>
+            {/* <div className='flex flex-row space-x-2'>
               <div>
                 <label
                   className="block text-gray-700 font-bold my-2"
@@ -279,7 +279,7 @@ export default function StatisticDetails(param: any) {
                   onChange={(e) => setDay(e.target.value, 'endDay')} />
 
               </div>
-            </div>
+            </div> */}
             <br />
 
           </div>

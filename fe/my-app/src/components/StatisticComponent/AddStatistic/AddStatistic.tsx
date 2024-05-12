@@ -59,12 +59,11 @@ export default function AddStatistic(props: Props) {
     const onSubmit = async (data: any) => {
         console.log(startDay,endDay);
         const dataPost = { statistic: { ...data, totalAmount: totalAmount,startDay:startDay,endDay:endDay,orderId:props.order.id }, statisticDetails: [...statisticDetails] }
-
+        console.log(dataPost);
         const urlPost = process.env.NEXT_PUBLIC_API_URL + '/api/statistic/add';
-        // console.log(dataPost)
+        console.log(dataPost)
         const post = await postData(urlPost, dataPost, {});
-        console.log(post)
-        // router.push('/statistic/list?size=10&page=0');
+        // console.log(post)
         window.location.reload();
     }
     const setDay=(val:any,key:string)=>{
@@ -214,7 +213,7 @@ export default function AddStatistic(props: Props) {
                     </div> */}
                     <div>
                         {props.order ? <Link href={"/invoice/get/" + props.order.id} className='text-blue-500 hover:text-blue-800 border-b'> Mã Biên Bản: {props.order.contractCode}</Link> : "Không tồn tại mã"}
-                        <div className='flex flex-row space-x-2'>
+                        {/* <div className='flex flex-row space-x-2'>
                             <div>
                                 <label
                                     className="block text-gray-700 font-bold my-2"
@@ -252,7 +251,7 @@ export default function AddStatistic(props: Props) {
                                     onChange={(e)=>setDay(e.target.value,'endDay')}/>
 
                             </div>
-                        </div>
+                        </div> */}
                         <br />
 
                     </div>

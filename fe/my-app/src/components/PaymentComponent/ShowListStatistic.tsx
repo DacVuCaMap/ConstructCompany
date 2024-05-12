@@ -24,7 +24,7 @@ export default function ShowListStatistic(props: Props) {
     const [price, setPrice] = useState<number>(0);
     const [paymentAddData, setPaymentAddData] = useState<any>({
         price: 0
-        , day: new Date(), description: `${props.data.customer.companyName} Chuyển Tiền Thanh Toán`
+        , day: new Date(), description: `${props.data.customer.companyName} chuyển tiền thanh toán`
     })
     useEffect(() => {
         let url = process.env.NEXT_PUBLIC_API_URL + "/api/statistic/listbyorder?id=" + props.data.id;
@@ -87,11 +87,17 @@ export default function ShowListStatistic(props: Props) {
         }
         return 0;
     }
+    const handleDelete=async (id : any)=>{
+        let url = process.env.NEXT_PUBLIC_API_URL + `/api/statistic/delete?id=` + id
+        const response = await postData(url, {}, {});
+        console.log(response)
+        window.location.reload();
+    }
     return (
         <div onClick={(e) => e.stopPropagation()} className='bg-white p-10 rounded-lg flex flex-col justify-center lg:w-3/4 w-full'>
             {!offTabs &&
                 <div className='fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-90 z-51 '>
-                    {openAddKy &&
+                    {/* {openAddKy &&
                         <div onClick={(e) => e.stopPropagation()} className='bg-white p-10 rounded-lg flex flex-col justify-center'>
                             <h2 className='text-gray-700 font-bold text-2xl border-b'>Khởi tạo</h2>
                             <p className='text-red-500'>{errorNof}</p>
@@ -135,11 +141,11 @@ export default function ShowListStatistic(props: Props) {
                             </div>
 
                         </div>
-                    }
-                    {formKyAdd && <AddStatistic order={props.data} endDay={dataKyAdd.endDay} startDay={dataKyAdd.startDay} />}
+                    } */}
+                    {formKyAdd && <AddStatistic order={props.data} endDay={new Date()} startDay={new Date()} />}
                     {openAddPay &&
                         <div onClick={(e) => e.stopPropagation()} className='bg-white p-10 rounded-lg flex flex-col justify-center'>
-                            <h2 className='text-gray-700 font-bold text-2xl border-b'>Tạo Payment</h2>
+                            <h2 className='text-gray-700 font-bold text-2xl border-b'>Thêm Thanh Toán</h2>
                             <p className='text-red-500'>{errorNof}</p>
                             <form onSubmit={handlePostPayment}>
                                 <div>
@@ -204,45 +210,44 @@ export default function ShowListStatistic(props: Props) {
             <div>
                 <h2 className='font-bold text-gray-700 text-2xl mb-4'>Danh sách Biên bản đối chiếu công nợ</h2>
                 <div className='space-x-4'>
-                    <button onClick={() => { setOffTabs(false); setAddKy(true) }} type='button' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center'>Thêm Kỳ</button>
+                    <button onClick={() => { setOffTabs(false); setFormKyAdd(true) }} type='button' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center'>Thêm Kỳ</button>
                     <button onClick={() => { setOffTabs(false); setAddPay(true) }} type='button' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center'>Thêm Thanh toán</button>
                 </div>
                 {loading ? <LoadingScene /> :
                     <div>
                         <table className='w-full'>
-                            <thead className='border-b'>
+                            <thead className='border-b text-right'>
                                 <tr>
-                                    <th>Kỳ</th>
-                                    <th>Từ ngày</th>
-                                    <th>Đến ngày</th>
-                                    <th>Chi phí phát sinh</th>
-                                    <th>Dư đầu kỳ</th>
-                                    <th>Action</th>
-                                    <th>Link</th>
+                                    <th className='text-center'>Kỳ</th>
+                                    <th className='text-center' >Từ ngày</th>
+                                    <th className='text-center' >Đến ngày</th>
+                                    <th className='text-center' >Chi phí phát sinh</th>
+                                    <th className='text-center' >Dư đầu kỳ</th>
+                                    <th className='text-center' >Link</th>
+                                    <th className='text-center' >Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {items.map((item: any, index) => (
-                                    <tr onClick={() => { route.push("/payment/get/" + item.id) }} key={index} className='text-center h-10 hover:cursor-pointer hover:bg-gray-300 border-b' >
+                                    <tr onClick={() => { window.location.href="/payment/get/" + item.id }} key={index} className='text-center h-10 hover:cursor-pointer hover:bg-gray-300 border-b' >
                                         <td>{index + 1}</td>
                                         <td>{convertDay(item.startDay)}</td>
                                         <td>{convertDay(item.endDay)}</td>
                                         <td>{formatNumberWithDot(item.totalAmount, 2)}</td>
                                         <td>{formatNumberWithDot(item.cashLeft, 2)}</td>
-                                        <td>
-                                            <div className='flex flex-row justify-center space-x-1'>
-                                                <span><Image src="/delete.svg" width={20} height={20} alt="" /></span>
-                                            </div>
-                                        </td>
                                         <td onClick={(e) => e.stopPropagation()}>
                                             <div >
                                                 <Link href={"/statistic/get/" + item.id} className='underline text-blue-500 hover:text-blue-700'>BBNTKL và GT</Link>
                                             </div>
-
+                                        </td>
+                                        <td onClick={(e) => e.stopPropagation()}>
+                                            <div className='flex flex-row justify-center space-x-1'>
+                                                <span><Image onClick={()=>handleDelete(item.id)} src="/delete.svg" width={20} height={20} alt="" /></span>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
-                                {!items &&
+                                {items.length<=0 &&
                                     <tr>
                                         <td colSpan={7}>
                                             <h2 className='text-center font-bold text-gray-700 py-10'> Không Có Kỳ Thanh Toán</h2>
@@ -253,7 +258,7 @@ export default function ShowListStatistic(props: Props) {
                             <tfoot>
                                 <tr className='font-bold'>
                                     <td></td>
-                                    <td colSpan={3} className='text-center'>Tổng tiền chưa thanh toán (tổng dư)</td>
+                                    <td colSpan={3} className='text-center'>{props.data.leftAmount>0 ? 'Tổng tiền chưa thanh toán (tổng dư)' : "Tổng tiền chưa thanh toán (tổng dư)"}</td>
                                     <td className='text-center'>{formatNumberWithDot(props.data.leftAmount,2)}</td>
                                     <td colSpan={2}></td>
 
