@@ -111,8 +111,8 @@ export const columnPayment: GridColDef[] = [
         }
     },
     {
-        field: 'leftAmount', headerName: "Chưa Thanh Toán", flex: 1, valueGetter: (value) => {
-            return formatNumberWithDot(value, 0)
+        field: 'leftAmount', headerName: "Đã Thanh Toán", flex: 1, valueGetter: (value,row:any) => {
+            return formatNumberWithDot(row.totalAmount-value, 0);
         }
     },
     {

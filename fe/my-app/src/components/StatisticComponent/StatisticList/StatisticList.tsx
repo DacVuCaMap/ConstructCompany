@@ -71,34 +71,7 @@ export default function StatisticList(props: Props) {
                 <h2 className='text-gray-700 font-bold text-2xl border-b'>Khởi tạo</h2>
                 <p className='text-red-500'>{nofErr}</p>
                 <SearchOrder dataAdd={dataAdd} setDataAdd={setDataAdd} />
-                <div>
-                  <label
-                    className="block text-gray-700 font-bold my-2"
-                  >
-                    Từ Ngày:
-                  </label><input
-                    className={`shadow appearance-none border rounded w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    id="s"
-                    type="date"
-                    placeholder='Từ ngày...'
-                    required
-                    onChange={(e) => setDataAdd({ ...dataAdd, startDay: new Date(e.target.value) })}
-                  />
-                </div>
-                <div>
-                  <label
-                    className="block text-gray-700 font-bold my-2"
-                  >
-                    Đến Ngày:
-                  </label><input
-                    className={`shadow appearance-none border rounded w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    id="l"
-                    type="date"
-                    placeholder='Từ ngày...'
-                    required
-                    onChange={(e) => setDataAdd({ ...dataAdd, endDay: new Date(e.target.value) })}
-                  />
-                </div>
+
                 <button onClick={handleSetAdd} className='mt-10 bg-blue-500 hover:bg-blue-700 w-32 text-white font-bold py-2 px-4 rounded inline-flex items-center'>Confirm</button>
               </div>
             </div>}

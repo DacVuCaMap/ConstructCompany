@@ -7,11 +7,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import postData from '@/ApiPattern/PostPattern';
+import PrintQLCN from '../PrintComponent/PrintQLCN';
 type Props = {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>,
     data: any
 }
 export default function ShowListStatistic(props: Props) {
+    console.log('data', props.data)
     const route = useRouter();
     const [items, setItems] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -75,9 +77,9 @@ export default function ShowListStatistic(props: Props) {
         // }
         let url = process.env.NEXT_PUBLIC_API_URL + "/api/payment/addone"
         const dataPost = { orderId: props.data.id, price: price, day: paymentAddData.day, description: paymentAddData.description };
-        const response = await postData(url,dataPost,{});
+        const response = await postData(url, dataPost, {});
         console.log(dataPost);
-        console.log(response); 
+        console.log(response);
         setAddPay(false);
         setOffTabs(true);
     }
@@ -87,61 +89,39 @@ export default function ShowListStatistic(props: Props) {
         }
         return 0;
     }
-    const handleDelete=async (id : any)=>{
+    const handleDelete = async (id: any) => {
         let url = process.env.NEXT_PUBLIC_API_URL + `/api/statistic/delete?id=` + id
         const response = await postData(url, {}, {});
         console.log(response)
         window.location.reload();
     }
+    const handleShowDoc = async (id: any) => {
+        let url = process.env.NEXT_PUBLIC_API_URL + "/api/payment/get/" + id;
+        const response = await GetPattern(url, {});
+        setDCCNData(response);
+        setOpenPDFDCCN(true);
+    }
+    const [DCCNData, setDCCNData] = useState<any>();
+    const [openPDFDCCN, setOpenPDFDCCN] = useState(false);
+    const closePDFView = () =>{
+        setOpenPDFDCCN(false);
+        document.body.style.overflow = 'unset';
+    }
+    const total=(key:string)=>{
+        let tot = items.reduce((total,item)=>{
+            return total + item[key]
+        },0)
+        return tot;
+    }
     return (
         <div onClick={(e) => e.stopPropagation()} className='bg-white p-10 rounded-lg flex flex-col justify-center lg:w-3/4 w-full'>
+            {openPDFDCCN && <div onClick={() => closePDFView()} className="fixed overflow-auto top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 flex justify-center ">
+                <div className='mt-20'>
+                    <PrintQLCN data={DCCNData.statistic} payments={DCCNData.payments} />
+                </div>
+            </div>}
             {!offTabs &&
                 <div className='fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-90 z-51 '>
-                    {/* {openAddKy &&
-                        <div onClick={(e) => e.stopPropagation()} className='bg-white p-10 rounded-lg flex flex-col justify-center'>
-                            <h2 className='text-gray-700 font-bold text-2xl border-b'>Khởi tạo</h2>
-                            <p className='text-red-500'>{errorNof}</p>
-                            <div>
-                                <label
-                                    className="block text-gray-700 font-bold my-2"
-                                >
-                                    Từ Ngày:
-                                </label><input
-                                    className={`shadow appearance-none border rounded w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                                    id="s"
-                                    type="date"
-                                    placeholder='Từ ngày...'
-                                    required
-                                    onChange={(e) => setDataKyAdd({ ...dataKyAdd, startDay: new Date(e.target.value) })}
-                                />
-                            </div>
-                            <div>
-                                <label
-                                    className="block text-gray-700 font-bold my-2"
-                                >
-                                    Đến Ngày:
-                                </label><input
-                                    className={`shadow appearance-none border rounded w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                                    id="l"
-                                    type="date"
-                                    placeholder='Từ ngày...'
-                                    required
-                                    onChange={(e) => setDataKyAdd({ ...dataKyAdd, endDay: new Date(e.target.value) })}
-                                />
-                            </div>
-                            <div className='space-x-2'>
-                                <button onClick={handleSetKyAdd} className='mt-10 bg-blue-500 hover:bg-blue-700 w-32 text-white font-bold py-2 px-4 rounded inline-flex items-center'>Confirm</button>
-                                <button
-                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                    type="button"
-                                    onClick={() => { setOffTabs(true); setAddKy(false) }}
-                                >
-                                    Hủy
-                                </button>
-                            </div>
-
-                        </div>
-                    } */}
                     {formKyAdd && <AddStatistic order={props.data} endDay={new Date()} startDay={new Date()} />}
                     {openAddPay &&
                         <div onClick={(e) => e.stopPropagation()} className='bg-white p-10 rounded-lg flex flex-col justify-center'>
@@ -223,18 +203,26 @@ export default function ShowListStatistic(props: Props) {
                                     <th className='text-center' >Đến ngày</th>
                                     <th className='text-center' >Chi phí phát sinh</th>
                                     <th className='text-center' >Dư đầu kỳ</th>
+                                    <th className='text-center' >Đã thanh toán</th>
+                                    <th className='text-center' >Xem trước</th>
                                     <th className='text-center' >Link</th>
                                     <th className='text-center' >Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {items.map((item: any, index) => (
-                                    <tr onClick={() => { window.location.href="/payment/get/" + item.id }} key={index} className='text-center h-10 hover:cursor-pointer hover:bg-gray-300 border-b' >
+                                    <tr onClick={() => { window.location.href = "/payment/get/" + item.id }} key={index} className='text-center h-10 hover:cursor-pointer hover:bg-gray-300 border-b' >
                                         <td>{index + 1}</td>
                                         <td>{convertDay(item.startDay)}</td>
                                         <td>{convertDay(item.endDay)}</td>
                                         <td>{formatNumberWithDot(item.totalAmount, 2)}</td>
                                         <td>{formatNumberWithDot(item.cashLeft, 2)}</td>
+                                        <td>{formatNumberWithDot(item.totalPay, 2)}</td>
+                                        <td onClick={(e) => e.stopPropagation()}>
+                                            <div >
+                                                <h2 onClick={() => handleShowDoc(item.id)} className='underline text-blue-500 hover:text-blue-700'>BBĐC Công Nợ</h2>
+                                            </div>
+                                        </td>
                                         <td onClick={(e) => e.stopPropagation()}>
                                             <div >
                                                 <Link href={"/statistic/get/" + item.id} className='underline text-blue-500 hover:text-blue-700'>BBNTKL và GT</Link>
@@ -242,12 +230,12 @@ export default function ShowListStatistic(props: Props) {
                                         </td>
                                         <td onClick={(e) => e.stopPropagation()}>
                                             <div className='flex flex-row justify-center space-x-1'>
-                                                <span><Image onClick={()=>handleDelete(item.id)} src="/delete.svg" width={20} height={20} alt="" /></span>
+                                                <span><Image onClick={() => handleDelete(item.id)} src="/delete.svg" width={20} height={20} alt="" /></span>
                                             </div>
                                         </td>
                                     </tr>
                                 ))}
-                                {items.length<=0 &&
+                                {items.length <= 0 &&
                                     <tr>
                                         <td colSpan={7}>
                                             <h2 className='text-center font-bold text-gray-700 py-10'> Không Có Kỳ Thanh Toán</h2>
@@ -256,12 +244,15 @@ export default function ShowListStatistic(props: Props) {
                                 }
                             </tbody>
                             <tfoot>
-                                <tr className='font-bold'>
-                                    <td></td>
-                                    <td colSpan={3} className='text-center'>{props.data.leftAmount>0 ? 'Tổng tiền chưa thanh toán (tổng dư)' : "Tổng tiền chưa thanh toán (tổng dư)"}</td>
-                                    <td className='text-center'>{formatNumberWithDot(props.data.leftAmount,2)}</td>
+                                <tr className='font-bold h-14 text-center border-b'>
+                                    <td colSpan={3} className='text-center'>TỔNG</td>
+                                    <td className='text-center'>{formatNumberWithDot(total('totalAmount'), 2)}</td>
+                                    <td className='text-center'>{formatNumberWithDot(total('cashLeft'), 2)}</td>
+                                    <td className='text-center'>{formatNumberWithDot(total('totalPay'), 2)}</td>
                                     <td colSpan={2}></td>
-
+                                </tr>
+                                <tr className='font-bold h-14 text-center border-b'>
+                                    <td colSpan={3}>Tổng Thành Tiền: {formatNumberWithDot(props.data.totalAmount,2)}</td>
                                 </tr>
                             </tfoot>
                         </table>
