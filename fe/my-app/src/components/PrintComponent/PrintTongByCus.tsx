@@ -6,17 +6,20 @@ import { numberToWords } from '@/data/function';
 import { sellerData } from '@/data/data';
 import ExportToWord from './ExportToWord';
 type Props = {
-    statistics: any[],
+    data: any[],
+
 }
-export default function PrintTongDC(props: Props) {
+export default function PrintTongByCus(props: Props) {
     const componentRef = useRef(null);
     document.body.style.overflow = 'hidden';
     const today = new Date();
     //value
-    const statistics: any[] = props.statistics;
-    const order = statistics[0].order;
-    const signingDate = new Date(order.signingDate);
-    const customer = statistics[0].customer;
+    const data: any[] = props.data;
+    // const statistics: any[] = data[0].statistics;
+    // const order = statistics[0].order;
+    // const signingDate = new Date(order.signingDate);
+    // const orders = props.orders;
+    const customer = data[0].statistics[0].customer;
     const toDay = new Date();
     const calcuTotal = (items: any[]) => {
         if (Array.isArray(items)) {
@@ -68,11 +71,20 @@ export default function PrintTongDC(props: Props) {
         ExportToWord(htmlContent, styles, cssStyle);
 
     }
-    const total = (key: string) => {
+    const total = (key: string, statistics: any[]) => {
         let tot = statistics.reduce((total, item) => {
             return total + item[key]
         }, 0)
         return tot;
+    }
+    const countPayment = (statistics: any[]) => {
+        let count = 0;
+        statistics.map((statistic: any) => {
+            statistic.payments.map((payment: any) => {
+                count++;
+            });
+        })
+        return count;
     }
     return (
         <div>
@@ -116,7 +128,6 @@ export default function PrintTongDC(props: Props) {
                         <tr>
                             <td colSpan={2}>
                                 <div className='ml-10 mr-10'>
-                                    <span>  - Căn cứ vào hợp đồng số: {order.contractCode} /HĐNT/LĐ-PA  - Ký ngày {signingDate.getDate()} tháng {signingDate.getMonth() + 1} năm {signingDate.getFullYear()} giữa {sellerData.companyName} với {customer.companyName}</span> <br />
                                     <span>- Căn cứ Biên bản giao nhận thực tế giữa hai bên</span>
                                     <br />
                                     <span>   Hôm nay ngày {today.getDate()}  tháng  {today.getMonth() + 1} năm {today.getFullYear()}, tại {sellerData.companyName} chúng tôi gồm có:</span>
@@ -165,6 +176,7 @@ export default function PrintTongDC(props: Props) {
                                         <thead>
                                             <tr >
                                                 <th>STT</th>
+                                                <th>Mục</th>
                                                 <th>Nội Dung</th>
                                                 <th>Số tiền</th>
                                                 <th>Còn lại</th>
@@ -172,93 +184,116 @@ export default function PrintTongDC(props: Props) {
                                         </thead>
 
                                         <tbody>
-                                            {statistics.map((statistic: any, parentIndex) => (
+                                            {data.map((items: any, itemsIndex) => (
                                                 <>
-                                                    <tr>
-                                                        <td colSpan={4} className='text-center'><p><strong>Kỳ {parentIndex + 1}: Từ ngày {formatDateData(statistic.startDay.substring(0, 10))} đến ngày {formatDateData(statistic.endDay.substring(0, 10))}</strong></p></td>
+                                                    <tr key={itemsIndex}>
+                                                        <td rowSpan={6 + (6 * items.statistics.length) + countPayment(items.statistics)} className='text-center'><p><strong>{itemsIndex + 1}</strong></p></td>
+                                                        <td colSpan={4} className='text-center bg-yellow-200'><h3><strong>Biên Bản NT và XNKL (mã biên bản: {items.order.contractCode})</strong></h3></td>
                                                     </tr>
-                                                    <tr key={"n1" + parentIndex}>
-                                                        <td className="text-center"><p><strong>I</strong></p></td>
-                                                        <td><p><strong>Số dư đầu kỳ</strong></p></td>
-                                                        <td className='text-center'><p><strong>{formatNumberWithDot(statistic.cashLeft, 2)}</strong></p></td>
-                                                        <td></td>
+                                                    <tr className='bg-yellow-200'>
+                                                        <td colSpan={4}>
+                                                            <h3 className='text-center'><strong>Tổng thành tiền thanh toán: {formatNumberWithDot(items.order.totalAmount, 0)}</strong></h3>
+                                                        </td>
                                                     </tr>
-                                                    <tr key={"n2" + parentIndex}>
-                                                        <td className="text-center"><p><strong>II</strong></p></td>
-                                                        <td><p><strong>Số tiền đã thanh toán trong kỳ</strong></p></td>
-                                                        <td className='text-center'><p><strong>{formatNumberWithDot(calcuTotal(statistic.payments), 2)}</strong></p></td>
-                                                        <td></td>
+                                                    <tr className='bg-yellow-200'>
+                                                        <td colSpan={4}>
+                                                            <h3 className='text-center'><strong>Tổng tiền cần thanh toán còn lại: {formatNumberWithDot(items.order.totalAmount - total('totalPay', items.statistics), 0)}</strong></h3>
+                                                        </td>
                                                     </tr>
-                                                    {
-                                                        statistic.payments.map((item: any, index: number) => (
-                                                            <tr key={index}>
-                                                                <td className='text-center'><p>{formatDateData(item.day.substring(0, 10))}</p></td>
-                                                                <td ><p>{item.description}</p></td>
-                                                                <td className='text-center'><p>{formatNumberWithDot(item.price, 2)}</p></td>
+                                                    {items.statistics.map((statistic: any, parentIndex: number) => (
+                                                        <>
+                                                            <tr>
+                                                                <td className='text-center'><p><strong>Kỳ {parentIndex + 1}</strong></p></td>
+                                                                <td colSpan={3} ><p><strong> Từ ngày {formatDateData(statistic.startDay.substring(0, 10))} đến ngày {formatDateData(statistic.endDay.substring(0, 10))}</strong></p></td>
+                                                            </tr>
+                                                            <tr key={"n1" + parentIndex}>
+                                                                <td className="text-center"><p>I</p></td>
+                                                                <td><p>Số dư đầu kỳ</p></td>
+                                                                <td className='text-center'><p>{formatNumberWithDot(statistic.cashLeft, 2)}</p></td>
                                                                 <td></td>
                                                             </tr>
-                                                        ))
-                                                    }
-                                                    < tr key={"3n" + parentIndex} >
-                                                        <td className="text-center"><p><strong>III</strong></p></td>
-                                                        <td><p><strong>Phát sinh trong kỳ</strong></p></td>
-                                                        <td className='text-center'><p><strong>{formatNumberWithDot(statistic.totalAmount, 2)}</strong></p></td>
+                                                            <tr key={"n2" + parentIndex}>
+                                                                <td className="text-center"><p>II</p></td>
+                                                                <td><p>Số tiền đã thanh toán trong kỳ</p></td>
+                                                                <td className='text-center'><p>{formatNumberWithDot(calcuTotal(statistic.payments), 2)}</p></td>
+                                                                <td></td>
+                                                            </tr>
+                                                            {
+                                                                statistic.payments.map((item: any, index: number) => (
+                                                                    <tr key={index}>
+                                                                        <td className='text-center'><p>{formatDateData(item.day.substring(0, 10))}</p></td>
+                                                                        <td ><p>{item.description}</p></td>
+                                                                        <td className='text-center'><p>{formatNumberWithDot(item.price, 2)}</p></td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                ))
+                                                            }
+                                                            < tr key={"3n" + parentIndex} >
+                                                                <td className="text-center"><p>III</p></td>
+                                                                <td><p>Phát sinh trong kỳ</p></td>
+                                                                <td className='text-center'><p>{formatNumberWithDot(statistic.totalAmount, 2)}</p></td>
+                                                                <td></td>
+                                                            </tr>
+                                                            <tr key={"4n" + parentIndex}>
+                                                                <td></td>
+                                                                <td><p>Từ ngày {formatDateData(statistic.startDay)} đến ngày {formatDateData(statistic.endDay)}</p></td>
+                                                                <td className='text-center'><p>{formatNumberWithDot(statistic.totalAmount, 2)}</p></td>
+                                                                <td></td>
+                                                            </tr>
+                                                            <tr key={"5n" + parentIndex}>
+                                                                <td className="text-center"><p>IV</p></td>
+                                                                <td><p>Đối trừ công nợ (IV=I+II-III)</p></td>
+                                                                <td></td>
+                                                                <td className='text-center'><p>{formatNumberWithDot(calCashLeft(statistic), 2)}</p></td>
+                                                            </tr>
+                                                        </>
+                                                    ))}
+                                                    <tr>
+                                                        {/* <td className='border-r-0'></td> */}
+                                                        <td className='text-center' colSpan={2}><p>Tổng tiền dư đầu kỳ còn lại</p></td>
+                                                        <td className='text-center'><p><strong>{formatNumberWithDot(calCashLeft(items.statistics[items.statistics.length - 1]), 2)}</strong></p></td>
                                                         <td></td>
                                                     </tr>
-                                                    <tr key={"4n" + parentIndex}>
-                                                        <td></td>
-                                                        <td><p>Từ ngày {formatDateData(statistic.startDay)} đến ngày {formatDateData(statistic.endDay)}</p></td>
-                                                        <td className='text-center'><p>{formatNumberWithDot(statistic.totalAmount, 2)}</p></td>
+                                                    <tr>
+                                                        {/* <td className='border-r-0'></td> */}
+                                                        <td className='text-center' colSpan={2}><p>Tổng tiền đã thanh toán</p></td>
+                                                        <td className='text-center'><p><strong>{formatNumberWithDot(total('totalPay', items.statistics), 2)}</strong></p></td>
                                                         <td></td>
                                                     </tr>
-                                                    <tr key={"5n" + parentIndex}>
-                                                        <td className="text-center"><p><strong>IV</strong></p></td>
-                                                        <td><p><strong>Đối trừ công nợ (IV=I+II-III)</strong></p></td>
+                                                    <tr>
+                                                        {/* <td className='border-r-0'></td> */}
+                                                        <td className='text-center' colSpan={2}><p>Tổng tiền phát sinh trong kỳ</p></td>
+                                                        <td className='text-center'><p><strong>{formatNumberWithDot(total('totalAmount', items.statistics), 2)}</strong></p></td>
                                                         <td></td>
-                                                        <td className='text-center'><p>{formatNumberWithDot(calCashLeft(statistic), 2)}</p></td>
                                                     </tr>
                                                 </>
                                             ))}
                                         </tbody >
                                         <tfoot className='font-bold text-center'>
                                             <tr>
-                                                {/* <td className='border-r-0'></td> */}
-                                                <td className='text-center' colSpan={2}><p><strong>Tổng tiền dư đầu kỳ còn lại</strong></p></td>
-                                                <td className='text-center'><p><strong>{formatNumberWithDot(calCashLeft(statistics[statistics.length - 1]), 2)}</strong></p></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                {/* <td className='border-r-0'></td> */}
-                                                <td className='text-center' colSpan={2}><p><strong>Tổng tiền đã thanh toán</strong></p></td>
-                                                <td className='text-center'><p><strong>{formatNumberWithDot(total('totalPay'), 2)}</strong></p></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                {/* <td className='border-r-0'></td> */}
-                                                <td className='text-center' colSpan={2}><p><strong>Tổng tiền phát sinh trong kỳ</strong></p></td>
-                                                <td className='text-center'><p><strong>{formatNumberWithDot(total('totalAmount'), 2)}</strong></p></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td colSpan={4}>
-                                                    <p><strong>Tổng thành tiền thanh toán: {formatNumberWithDot(order.totalAmount, 0)}</strong></p>
+                                                <td colSpan={5}>
+                                                    <div>
+                                                        <h4 className='text-center leading-10'><strong>TỔNG THÀNH TIỀN CÁC HÓA ĐƠN THANH TOÁN: {formatNumberWithDot(customer.totalDebt,0)}</strong></h4>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colSpan={4}>
-                                                    <p><strong>Tổng tiền cần thanh toán còn lại: {formatNumberWithDot(order.totalAmount - total('totalPay'), 0)}</strong></p>
+                                                <td colSpan={5}>
+                                                    <div>
+                                                        <h4 className='text-center leading-10'><strong>TỔNG TIỀN CẦN THANH TOÁN CÒN LẠI CỦA CÔNG TY: {formatNumberWithDot(customer.payDebt,0)}</strong></h4>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tfoot>
                                     </table>
                                     <br />
-                                    <p style={{ "textIndent": "30px" }}>  Sau khi đối chiếu sổ sách giữa {sellerData.companyName} và {customer.companyName} từ
-                                        ngày {formatDateData(statistics[0].startDay)} đến ngày {formatDateData(statistics[statistics.length - 1].endDay)} {sellerData.companyName} còn 
+                                    {/* <p style={{ "textIndent": "30px" }}>  Sau khi đối chiếu sổ sách giữa {sellerData.companyName} và {customer.companyName} từ
+                                        ngày {formatDateData(statistics[0].startDay)} đến ngày {formatDateData(statistics[statistics.length - 1].endDay)} {sellerData.companyName} còn
                                         dư tiền tại {sellerData.companyName} số tiền là:  <strong>{formatNumberWithDot(order.totalAmount - total('totalPay'), 0)}</strong> </p>
                                     <p className='text-center font-bold'><strong>(Bằng chữ: {numberToWords(order.totalAmount - total('totalPay'))})</strong></p>
                                     <p>Số liệu trên đây hoàn toàn là chính xác. Đây là số liệu có giá trị pháp lý làm cơ sở thanh toán giữa hai bên.
                                         <br />Biên bản được lập thành 04 bản, mỗi bên giữ 02 bản có giá trị như nhau .
-                                    </p>
+                                    </p> */}
                                     <br />
                                 </div>
                             </td>

@@ -145,15 +145,15 @@ export const columnQLCN: GridColDef[] = [
     },
     { field: "orderCount", headerName: "Số lượng", flex: 0.5, align: "center" },
     {
-        field: "totalLeftAmount", headerName: "Chưa thanh toán(vnd)", flex: 1, valueGetter: (value: any) => {
-            return formatNumberToDot(value);
+        field: "payDebt", headerName: "Chưa thanh toán(vnd)", flex: 1, valueGetter: (value: any,row:any) => {
+            return formatNumberToDot(row.customer.payDebt);
         }
     },
-    {
-        field: "status", headerName: "Trạng thái", flex: 1, valueGetter: (value: any, row: any) => {
-            return row.totalLeftAmount === 0 ? "Hoàn thành" : "Chưa Hoàn Thành"
-        }
-    },
+    // {
+    //     field: "status", headerName: "Trạng thái", flex: 1, valueGetter: (value: any, row: any) => {
+    //         return row.totalLeftAmount === 0 ? "Hoàn thành" : "Chưa Hoàn Thành"
+    //     }
+    // },
 ]
 export const columnStatistic: GridColDef[] = [
     { field: 'id', headerName: "ID", flex: 0.2 },

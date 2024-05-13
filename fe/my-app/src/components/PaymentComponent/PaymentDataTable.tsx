@@ -82,7 +82,9 @@ export default function PaymentDataTable(props: Props) {
     }
     //print pdf
     const closePDFView=()=>{
+        document.body.style.overflow = 'unset';
         setOpenPDFDCCN(false);
+
     }
     
     return (

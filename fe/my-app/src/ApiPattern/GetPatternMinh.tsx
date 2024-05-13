@@ -16,6 +16,6 @@ export default async function GetPatternMinh(url: any, thirdValue: any) {
         return response.data;
     } catch (error) {
         const axiosError = error as AxiosError;
-        return null;
+        return axiosError;
     }
 }
