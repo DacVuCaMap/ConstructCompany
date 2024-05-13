@@ -52,7 +52,7 @@ export default function QuanLiCNList(props: Props) {
       <button onClick={()=>setSearchCus(true)} className='bg-blue-500 hover:bg-blue-700 w-32 text-white font-bold py-2 px-4 rounded inline-flex items-center'>
         Tạo mới <Plus className="ml-2 flex-shrink-0" />
       </button>
-      {searchCus && <SearchCusQLCN setOpen={setSearchCus} />}
+      {searchCus && <SearchCusQLCN setOpen={setSearchCus} />} 
       <div className='dataTable relative flex-1 m-2'>
         <DataGrid
           className="dataGrid hover:cursor-pointer"

@@ -115,11 +115,11 @@ export const columnPayment: GridColDef[] = [
             return formatNumberWithDot(row.totalAmount-value, 0);
         }
     },
-    {
-        field: 'isPaymented', headerName: "Trạng thái", flex: 1, valueGetter: (value: boolean) => {
-            return !value ? 'Chưa hoàn thành' : 'Hoàn Thành'
-        }
-    },
+    // {
+    //     field: 'isPaymented', headerName: "Trạng thái", flex: 1, valueGetter: (value: boolean) => {
+    //         return !value ? 'Chưa hoàn thành' : 'Hoàn Thành'
+    //     }
+    // },
     {
         field: 'createAt', headerName: "Ngày tạo", flex: 1, valueGetter: (value: string) => {
             return formatDateData(value)

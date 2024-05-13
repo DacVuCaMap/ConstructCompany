@@ -132,6 +132,7 @@ export default function PaymentDetails(props: Props) {
       setError(response.data.message);
       return;
     }
+    route.refresh();
     // route.push('/payment/list?size=10&page=0')
   }
   const sumPay = () => {

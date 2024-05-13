@@ -120,17 +120,16 @@ export default function PrintQLCN(props: Props) {
                     </tr>
                     <tr>
                       <td><span>Địa chỉ:</span></td>
-                      <td><span>{customer.address}</span></td>
-                      <td></td>
+                      <td colSpan={2}><span>{customer.address}</span></td>
                     </tr>
                     <tr>
                       <td><span>Mã số thuế:</span></td>
                       <td><span>{customer.debt}</span></td>
                       <td></td>
                     </tr>
-                  </table>
-                  <span className='font-bold'>BÊN B (BÊN BÁN): {sellerData.companyName}</span><br />
-                  <table>
+                    <tr>
+                      <td colSpan={3}><span className='font-bold'>BÊN B (BÊN BÁN): {sellerData.companyName}</span></td>
+                    </tr>
                     <tr>
                       <td><span>Đại diện: </span></td>
                       <td className='w-48'><span className='font-bold'>{sellerData.representativeSeller}</span></td>
@@ -165,7 +164,7 @@ export default function PrintQLCN(props: Props) {
                       <tr key={"n1"}>
                         <td className="text-center"><p><strong>I</strong></p></td>
                         <td><p><strong>Số dư đầu kỳ</strong></p></td>
-                        <td className='text-center'><p><strong>{statistic.cashLeft}</strong></p></td>
+                        <td className='text-center'><p><strong>{formatNumberWithDot(statistic.cashLeft,2)}</strong></p></td>
                         <td></td>
                       </tr>
                       <tr key={"n2"}>
@@ -200,15 +199,15 @@ export default function PrintQLCN(props: Props) {
                         <td className="text-center"><p><strong>IV</strong></p></td>
                         <td><p><strong>Đối trừ công nợ (IV=I+II-III)</strong></p></td>
                         <td></td>
-                        <td><p>{formatNumberWithDot(calCashLeft(), 2)}</p></td>
+                        <td className='text-center'><p>{formatNumberWithDot(calCashLeft(), 2)}</p></td>
                       </tr>
                     </tfoot>
                   </table>
                   <br />
-                  <p style={{ "textIndent":"30px" }}> Sau khi đối chiếu sổ sách giữa công ty Tiến Đông và công ty CP khai khoáng Long 
-                    Đạt từ ngày 29/01/2024 đến   ngày 28/04/2024 Công ty Tiến Đông còn dư tiền tại 
-                    công ty CP khai khoáng Long Đạt số tiền là:  <strong>{formatNumberWithDot(calCashLeft(), 2)}</strong> </p>
-                  <p className='text-center font-bold'>(Bằng chữ: {numberToWords(calCashLeft())})</p>
+                  <p style={{ "textIndent":"30px" }}> Sau khi đối chiếu sổ sách giữa {sellerData.companyName} và {customer.companyName} 
+                    từ ngày {statistic.startDay} đến   ngày {statistic.endDay} {sellerData.companyName} còn dư tiền tại 
+                    {sellerData.companyName} số tiền là:  <strong>{formatNumberWithDot(calCashLeft(), 2)}</strong> </p>
+                  <p className='text-center font-bold'><strong>(Bằng chữ: {numberToWords(calCashLeft())})</strong></p>
                   <p>Số liệu trên đây hoàn toàn là chính xác. Đây là số liệu có giá trị pháp lý làm cơ sở thanh toán giữa hai bên.
                     <br />Biên bản được lập thành 04 bản, mỗi bên giữ 02 bản có giá trị như nhau .
                   </p>
