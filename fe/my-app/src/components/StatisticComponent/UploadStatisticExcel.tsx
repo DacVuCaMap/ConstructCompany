@@ -58,7 +58,7 @@ export default function UploadStatisticExcel(props: Props) {
                 typeProduct: item.typeProduct,
                 proId: item.product.id,
                 unit: item.product.unit,
-                price: item.product.price,
+                price: item.price,
                 materialWeight: item.materialWeight,
                 note: "",
                 statisticDetailId: null
@@ -77,7 +77,7 @@ export default function UploadStatisticExcel(props: Props) {
         itemTemp.map((item: StatisticItem) => {
             if (item) {
                 let parent = temp.find((obj: ParentStatisticItem) => obj.proId == item.proId);
-                // console.log(parent,item.proId);
+                console.log(item);
                 if (parent) {
                     let index = temp.findIndex((obj: ParentStatisticItem) => obj.proId == item.proId)
                     parent.statisticItems.push(item);

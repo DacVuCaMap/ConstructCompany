@@ -99,7 +99,7 @@ export default function PasteStatistic(props: Props) {
                 updateData.map((item: StatisticItem) => {
                     if (item) {
                         let parent = temp.find((obj: ParentStatisticItem) => obj.proId == item.proId);
-                        // console.log(parent,item.proId);
+                        // console.log(item);
                         if (parent) {
                             let index = temp.findIndex((obj: ParentStatisticItem) => obj.proId == item.proId)
                             parent.statisticItems.push(item);

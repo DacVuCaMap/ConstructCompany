@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import './ConfigSellerCss/ConfigSellerCss.css'
 import postData from '@/ApiPattern/PostPattern'
 import WriteObjectToJson from './WriteObjectToJson'
-
+import path from 'path';
 type Seller = {
     id: any, companyName: string, address: string
     , taxCode: string, representativeSeller: string,
@@ -48,8 +48,11 @@ export default function ConfigSellerComponent({ data }: any) {
         let url = process.env.NEXT_PUBLIC_API_URL + '/api/seller/update';
         const response = await postData(url,items,{})
         //ghi de json
+        // console.log(response)
         if(response==='success'){
-            WriteObjectToJson('./src/data/sellerData.json',items);   
+            const sellerDataJsonPath = path.join(__dirname, '..', '..', 'src', 'data', 'sellerData.json');
+            console.log(sellerDataJsonPath);
+            WriteObjectToJson("./"+sellerDataJsonPath,items);   
             setSuccess(true);     
         }
     }

@@ -19,6 +19,7 @@ export default function AddComponent(props: Props) {
   const [errorForm, setErrorForm] = useState(false);
   const [change, setChange] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [errNof,setErrNof] = useState("");
   document.body.style.overflow = "hidden"
   const {
     register,
@@ -36,6 +37,12 @@ export default function AddComponent(props: Props) {
     const response = await postData(url, data, {});
     console.log("response: ", response)
     if (response == null || response.status === 400) {
+      if (props.slug=="product") {
+        setErrNof(response.data);
+        setErrorForm(true);
+        return;
+      }
+      setErrNof(response.message)
       setErrorForm(true);
       return;
     }
@@ -65,7 +72,7 @@ export default function AddComponent(props: Props) {
         >
           <h2 className='text-gray-700 font-bold text-4xl mb-4'>{props.nameSlug}</h2>
           {errorForm && (
-            <p className="text-red-500 text-xs italic">FAILED TO ADD {props.slug}</p>
+            <p className="text-red-500 text-xs italic">Lỗi Không thêm do: {errNof}</p>
           )}
           {success && (
             <p className="text-green-700 italic">Tạo thành công</p>
