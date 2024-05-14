@@ -3,7 +3,7 @@ import { HardHat } from 'lucide-react'
 import React, { useState } from 'react'
 import './ConfigSellerCss/ConfigSellerCss.css'
 import postData from '@/ApiPattern/PostPattern'
-import WriteObjectToJson from './WriteObjectToJson'
+// import WriteObjectToJson from './WriteObjectToJson'
 import path from 'path';
 type Seller = {
     id: any, companyName: string, address: string
@@ -13,7 +13,7 @@ type Seller = {
 }
 export default function ConfigSellerComponent({ data }: any) {
     const [errors, setError] = useState<string[]>([]);
-    const [success,setSuccess] = useState(false);
+    const [success, setSuccess] = useState(false);
     const [items, setItem] = useState<Seller>(
         {
             id: data.id,
@@ -46,14 +46,29 @@ export default function ConfigSellerComponent({ data }: any) {
             return;
         }
         let url = process.env.NEXT_PUBLIC_API_URL + '/api/seller/update';
-        const response = await postData(url,items,{})
+        const response = await postData(url, items, {})
         //ghi de json
         // console.log(response)
-        if(response==='success'){
-            const sellerDataJsonPath = path.join(__dirname, '..', '..', 'src', 'data', 'sellerData.json');
-            console.log(sellerDataJsonPath);
-            WriteObjectToJson("./"+sellerDataJsonPath,items);   
-            setSuccess(true);     
+        if (response === 'success') {
+            // const sellerDataJsonPath = path.join(__dirname, '..', '..', 'src', 'data', 'sellerData.json');
+            // console.log(sellerDataJsonPath);
+            // WriteObjectToJson("./"+sellerDataJsonPath,items);   
+            // setSuccess(true);
+
+            const apiUrl = '/api/WriteFile';
+            const res = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(items),
+            });
+
+            if (res.ok) {
+                setSuccess(true);
+            } else {
+                console.error('Error writing file');
+            }
         }
     }
     return (
@@ -122,12 +137,12 @@ export default function ConfigSellerComponent({ data }: any) {
                         >
                             Lưu Dữ Liệu
                         </button>
-                        {errors.length>0 && (
+                        {errors.length > 0 && (
                             <div className='text-red-600 font-bold'>
                                 <span>Lỗi: </span>
-                                    {errors.map((error, index) => (
-                                        <span key={index}>{error},</span>
-                                    ))}
+                                {errors.map((error, index) => (
+                                    <span key={index}>{error},</span>
+                                ))}
                             </div>
                         )}
                         {success && <span className='text-greend-500 font-bold'>Lưu thành công</span>}
