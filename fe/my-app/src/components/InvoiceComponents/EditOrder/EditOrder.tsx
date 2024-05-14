@@ -13,6 +13,7 @@ import PrintInvoice from '@/components/PrintComponent/PrintInvoice';
 import ReactToPrint from 'react-to-print';
 import { schemaOrder } from '@/data/schemaData';
 import { useRouter } from 'next/navigation';
+import GetSeller from '@/ApiPattern/GetSeller';
 type Cost = { totalCost: number, tax: number, totalAmount: number }
 type Props = {
     orderData: any
@@ -30,7 +31,14 @@ const schema = yup.object().shape({
 
 export default function EditOrder(props: Props) {
     const route = useRouter();
-    const sellerDt = sellerData;
+    const [sellerDt,setSellerDt] = useState(sellerData);
+    useEffect(()=>{
+        const fetch=async()=>{
+            const data = await GetSeller();
+            setSellerDt(data);
+        }
+        fetch();
+    },[])
     const [orderDetailsProps, setOrderDetailsProps] = useState<any[]>([]);
     const {
         register,

@@ -10,6 +10,7 @@ import postData from '@/ApiPattern/PostPattern';
 import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import GetSeller from '@/ApiPattern/GetSeller';
 type Customer = {
     id: number,
     companyName: string,
@@ -22,6 +23,14 @@ type Props = {
     startDay: Date
 }
 export default function AddStatistic(props: Props) {
+    const [seller,setSeller] = useState(sellerData);
+    useEffect(()=>{
+        const fetch=async()=>{
+            const data = await GetSeller();
+            setSeller(data);
+        }
+        fetch();
+    },[])
     const router = useRouter();
     const {
         register,
@@ -150,8 +159,8 @@ export default function AddStatistic(props: Props) {
                                 className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.sellerId ? 'border-red-500' : ''}`}
                                 id="4"
                                 type="text"
-                                value={sellerData.companyName} />
-                            <input type="hidden" id="5" value={sellerData.id} {...register('sellerId')} />
+                                value={seller.companyName} />
+                            <input type="hidden" id="5" value={seller.id} {...register('sellerId')} />
                             {errors.sellerId && (
                                 <p className="text-red-500 text-xs italic">{errors.sellerId.message}</p>
                             )}
@@ -166,7 +175,7 @@ export default function AddStatistic(props: Props) {
                                     className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.representativeSeller ? 'border-red-500' : ''}`}
                                     id="1"
                                     type="text"
-                                    value={sellerData.representativeSeller}
+                                    value={seller.representativeSeller}
                                     placeholder='Người đại diện'
                                     {...register('representativeSeller')} />
                                 {errors.representativeSeller && (
@@ -183,7 +192,7 @@ export default function AddStatistic(props: Props) {
                                     id="1"
                                     type="text"
                                     placeholder='Chức vụ'
-                                    value={sellerData.positionSeller}
+                                    value={seller.positionSeller}
                                     {...register('positionSeller')} />
                                 {errors.positionSeller && (
                                     <p className="text-red-500 text-xs italic">{errors.positionSeller.message}</p>

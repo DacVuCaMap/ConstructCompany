@@ -2,6 +2,9 @@
 import { GridColDef } from "@mui/x-data-grid";
 import { promises as fs } from 'fs';
 import sellerJson from './sellerData.json';
+import { use } from 'react';
+import GetPattern from "@/ApiPattern/GetPattern";
+import FetchSellerData from "@/components/FetchSellerData";
 export const sideBarAdmin = [
     {
         id: 1,
@@ -94,11 +97,7 @@ export const testData = [
         update_At: 12 - 1 - 20
     }
 ]
-
-export let sellerData :any= sellerJson;
-export const setSeller=(data:any)=>{
-    sellerData = data;
-}
+export let sellerData : any = sellerJson;
 
 export const toltalPageGlobal = {
     value: 0,

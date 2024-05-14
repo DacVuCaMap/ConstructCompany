@@ -12,10 +12,18 @@ import { schemaOrder } from '@/data/schemaData';
 import { useRouter } from 'next/navigation';
 import LoadingScene from '@/components/LoadingScene';
 import { MoonLoader } from 'react-spinners';
+import GetSeller from '@/ApiPattern/GetSeller';
 type Cost = { totalCost: number, tax: number, totalAmount: number }
 
 export default function AddOrderProduct() {
-    const sellerDt = sellerData;
+    const [sellerDt,setSellerDt] = useState(sellerData);
+    useEffect(()=>{
+        const fetch=async()=>{
+            const data = await GetSeller();
+            setSellerDt(data);
+        }
+        fetch();
+    },[])
     const router = useRouter();
     const [isDisable, setDisable] = useState(false);
     const {

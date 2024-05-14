@@ -8,13 +8,13 @@ export default function PaginationComponent() {
   const searchParams = useSearchParams();
   const urlPath = usePathname();
   // const slugPath = urlPath.substring(0, urlPath.indexOf('/', 2))
-  const slugPath = urlPath.substring(0,urlPath.indexOf('/list'));
-  const curPage = Number(searchParams.get('page')) + 1;
+  const slugPath = urlPath?.substring(0,urlPath.indexOf('/list'));
+  const curPage = Number(searchParams?.get('page')) + 1;
   const urlCurPage = curPage-1;
-  const pageSize = searchParams.get('size');
+  const pageSize = searchParams?.get('size');
   const totalPage = toltalPageGlobal.value;
   //search
-  let searchKey = searchParams.get('search');
+  let searchKey = searchParams?.get('search');
   searchKey = searchKey ? searchKey : '';
   const urlPagination = slugPath+`/list?size=${pageSize}&search=${searchKey}&page=`
   return (

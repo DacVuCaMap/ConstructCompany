@@ -12,6 +12,7 @@ type Seller = {
     accountBankNumber: string, bankName: string
 }
 export default function ConfigSellerComponent({ data }: any) {
+    console.log(data);
     const [errors, setError] = useState<string[]>([]);
     const [success, setSuccess] = useState(false);
     const [items, setItem] = useState<Seller>(
@@ -50,25 +51,7 @@ export default function ConfigSellerComponent({ data }: any) {
         //ghi de json
         // console.log(response)
         if (response === 'success') {
-            // const sellerDataJsonPath = path.join(__dirname, '..', '..', 'src', 'data', 'sellerData.json');
-            // console.log(sellerDataJsonPath);
-            // WriteObjectToJson("./"+sellerDataJsonPath,items);   
-            // setSuccess(true);
-
-            const apiUrl = '/api/WriteFile';
-            const res = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(items),
-            });
-
-            if (res.ok) {
-                setSuccess(true);
-            } else {
-                console.error('Error writing file');
-            }
+            setSuccess(true);
         }
     }
     return (

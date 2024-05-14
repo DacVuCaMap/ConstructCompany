@@ -16,9 +16,9 @@ import ConfirmWindow from '../ConfirmWindow';
 export default function AdminList() {
     const route = useRouter();
     const searchParam = useSearchParams();
-    const page = searchParam.get('page');
-    const size = searchParam.get('size');
-    let search = searchParam.get('search');
+    const page = searchParam?.get('page');
+    const size = searchParam?.get('size');
+    let search = searchParam?.get('search');
     search = search ? search : '';
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);

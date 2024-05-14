@@ -13,6 +13,7 @@ import { ClipboardMinus } from 'lucide-react';
 import PrintStatistic from '@/components/PrintComponent/PrintStatistic';
 import Link from 'next/link';
 import { convertDay } from '@/data/listData';
+import GetSeller from '@/ApiPattern/GetSeller';
 type Customer = {
   id: number,
   companyName: string,
@@ -20,6 +21,15 @@ type Customer = {
   positionCustomer: string
 }
 export default function StatisticDetails(param: any) {
+  //seller
+  const [seller,setSeller] = useState(sellerData);
+    useEffect(()=>{
+        const fetch=async()=>{
+            const data = await GetSeller();
+            setSeller(data);
+        }
+        fetch();
+    },[])
   const route = useRouter()
   const [dataEdit, setDataEdit] = useState<any>();
   //state
@@ -178,8 +188,8 @@ export default function StatisticDetails(param: any) {
                 className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.sellerId ? 'border-red-500' : ''}`}
                 id="4"
                 type="text"
-                value={sellerData.companyName} />
-              <input type="hidden" id="5" value={sellerData.id} {...register('sellerId')} />
+                value={seller.companyName} />
+              <input type="hidden" id="5" value={seller.id} {...register('sellerId')} />
               {errors.sellerId && (
                 <p className="text-red-500 text-xs italic">{errors.sellerId.message}</p>
               )}
@@ -194,7 +204,7 @@ export default function StatisticDetails(param: any) {
                   className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.representativeSeller ? 'border-red-500' : ''}`}
                   id="1"
                   type="text"
-                  value={sellerData.representativeSeller}
+                  value={seller.representativeSeller}
                   placeholder='Người đại diện'
                   {...register('representativeSeller')} />
                 {errors.representativeSeller && (
@@ -211,7 +221,7 @@ export default function StatisticDetails(param: any) {
                   id="1"
                   type="text"
                   placeholder='Chức vụ'
-                  value={sellerData.positionSeller}
+                  value={seller.positionSeller}
                   {...register('positionSeller')} />
                 {errors.positionSeller && (
                   <p className="text-red-500 text-xs italic">{errors.positionSeller.message}</p>

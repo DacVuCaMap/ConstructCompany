@@ -1,11 +1,14 @@
 
+import GetPattern from '@/ApiPattern/GetPattern';
+import GetSeller from '@/ApiPattern/GetSeller';
 import ConfigSellerComponent from '@/components/ConfigSellerComponent';
-import { sellerData } from '@/data/data';
+import getData from '@/components/List/getData';
 import React from 'react'
 
-export default function page() {
-    const data :any = sellerData;
+export default async function page() {
+    const data =await GetSeller();
+    console.log("data", data)
     return (
-        <ConfigSellerComponent data={data}/>
+        <ConfigSellerComponent data={data} />
     )
 }

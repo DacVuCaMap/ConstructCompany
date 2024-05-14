@@ -3,6 +3,7 @@ import './PrintInvoice.css'
 import { sellerData } from '@/data/data';
 import { numberToWords } from '@/data/function';
 import ExportToWord from './ExportToWord';
+import GetSeller from '@/ApiPattern/GetSeller';
 
 type Props = {
   data: {
@@ -24,7 +25,14 @@ export default function PrintInvoice(props: Props) {
   // console.log('dataPrint', data);
   const [loading, setLoading] = useState(true);
   const [totalCost, setTotalCost] = useState(0);
-  const seller = sellerData;
+  const [seller,setSeller] = useState(sellerData);
+  useEffect(()=>{
+    const fetch=async()=>{
+        const data = await GetSeller();
+        setSeller(data);
+    }
+    fetch();
+},[])
   let count = 1;
 
   useEffect(() => setLoading(false), [data]);

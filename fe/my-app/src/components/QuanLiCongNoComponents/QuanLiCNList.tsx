@@ -20,9 +20,9 @@ type Props = {
 export default function QuanLiCNList(props: Props) {
   const route = useRouter()
   const searchParams = useSearchParams();
-  let size = searchParams.get('size');
-  let page = searchParams.get('page');
-  let search = searchParams.get('search');
+  let size = searchParams?.get('size');
+  let page = searchParams?.get('page');
+  let search = searchParams?.get('search');
   const [data, setData] = useState<object[]>([])
   const [loading, setLoading] = useState(true);
   const [errorNof, setErrorNof] = useState("");

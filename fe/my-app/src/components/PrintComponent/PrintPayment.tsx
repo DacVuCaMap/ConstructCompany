@@ -1,17 +1,25 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactToPrint from 'react-to-print';
 import './PrintPayment.css'
 import { sellerData } from '@/data/data';
 import { numberToWords } from '@/data/function';
 import { formatNumberToDot } from '@/data/listData';
 import ExportToWord from './ExportToWord';
+import GetSeller from '@/ApiPattern/GetSeller';
 type Props = {
     data: any
 }
 const PrintComponent = (props: Props) => {
     const componentRef = useRef(null);
     document.body.style.overflow = 'hidden';
-    console.log(props.data);
+    const [seller,setSeller] = useState(sellerData);
+    useEffect(()=>{
+        const fetch=async()=>{
+            const data = await GetSeller();
+            setSeller(data);
+        }
+        fetch();
+    },[])
     const today = new Date(props.data.createAt);
     const signingDate = new Date(props.data.signingDate);
     const left = props.data.leftAmount ? props.data.leftAmount : 0;
@@ -91,7 +99,7 @@ const PrintComponent = (props: Props) => {
                         <tr>
                             <td colSpan={2}>
                                 <div className='ml-10 mr-10'>
-                                    <span>  - Căn cứ hợp đồng nguyên tắc {props.data.contractCode} /HĐNT/AK-TĐ  - Ký ngày {signingDate.getDate()} tháng {signingDate.getMonth() + 1} năm {signingDate.getFullYear()} giữa {sellerData.companyName} và {props.data.customer.companyName}</span> <br />
+                                    <span>  - Căn cứ hợp đồng nguyên tắc {props.data.contractCode} /HĐNT/AK-TĐ  - Ký ngày {signingDate.getDate()} tháng {signingDate.getMonth() + 1} năm {signingDate.getFullYear()} giữa {seller.companyName} và {props.data.customer.companyName}</span> <br />
                                     <span>- Căn cứ Bảng xác nhận giá trị khối lượng công việc hoàn thành.</span>
                                     <br />
                                     <span>  - Công ty TNHH Xây dựng và thương mại Tiến Đông đề nghị {props.data.customer.companyName} thanh toán khối
@@ -124,11 +132,11 @@ const PrintComponent = (props: Props) => {
                                     <p className='font-bold text-center text-red-600'>(Bằng chữ:   {numberToWords(props.data.leftAmount)}.)</p>
                                     <span>Toàn bộ số tiền trên xin chuyển vào tài khoản Ngân hàng của chúng tôi:</span>
                                     <br />
-                                    <span>- Tên tài khoản: <span className='font-bold'>{sellerData.accountBankName}</span></span>
+                                    <span>- Tên tài khoản: <span className='font-bold'>{seller.accountBankName}</span></span>
                                     <br />
-                                    <span>- Số tài khoản ngân hàng: <span className='font-bold'>{sellerData.accountBankNumber}</span></span>
+                                    <span>- Số tài khoản ngân hàng: <span className='font-bold'>{seller.accountBankNumber}</span></span>
                                     <br />
-                                    <span>- Tên ngân hàng:  <span className='font-bold'>{sellerData.bankName}</span>  </span>
+                                    <span>- Tên ngân hàng:  <span className='font-bold'>{seller.bankName}</span>  </span>
                                     <br />
                                     <span className='ml-28 font-bold'>Xin trân trọng cảm ơn!</span>
                                     <br />

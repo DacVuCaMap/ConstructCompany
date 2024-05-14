@@ -1,10 +1,11 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './PrintQLCN.css'
 import ReactToPrint from 'react-to-print';
 import { formatDateData, formatNumberToDot, formatNumberWithDot } from '@/data/listData';
 import { numberToWords } from '@/data/function';
 import { sellerData } from '@/data/data';
 import ExportToWord from './ExportToWord';
+import GetSeller from '@/ApiPattern/GetSeller';
 type Props = {
   data: any,
   payments: any[]
@@ -13,6 +14,15 @@ export default function PrintQLCN(props: Props) {
   const componentRef = useRef(null);
   document.body.style.overflow = 'hidden';
   const today = new Date();
+  //seller 
+  const [seller, setSeller] = useState(sellerData);
+  useEffect(() => {
+    const fetch = async () => {
+      const data = await GetSeller();
+      setSeller(data);
+    }
+    fetch();
+  }, [])
   //value
   const statistic = props.data;
   const order = statistic.order;
@@ -106,10 +116,10 @@ export default function PrintQLCN(props: Props) {
             <tr>
               <td colSpan={2}>
                 <div className='ml-10 mr-10'>
-                  <span>  - Căn cứ vào hợp đồng số: {order.contractCode} /HĐNT/LĐ-PA  - Ký ngày {signingDate.getDate()} tháng {signingDate.getMonth() + 1} năm {signingDate.getFullYear()} giữa {sellerData.companyName} với {customer.companyName}</span> <br />
+                  <span>  - Căn cứ vào hợp đồng số: {order.contractCode} /HĐNT/LĐ-PA  - Ký ngày {signingDate.getDate()} tháng {signingDate.getMonth() + 1} năm {signingDate.getFullYear()} giữa {seller.companyName} với {customer.companyName}</span> <br />
                   <span>- Căn cứ Biên bản giao nhận thực tế giữa hai bên</span>
                   <br />
-                  <span>   Hôm nay ngày 29  tháng  04 năm 2024, tại {sellerData.companyName} chúng tôi gồm có:</span>
+                  <span>   Hôm nay ngày 29  tháng  04 năm 2024, tại {seller.companyName} chúng tôi gồm có:</span>
                   <br />
                   <span className='font-bold'>BÊN A (BÊN MUA): {customer.companyName}</span><br />
                   <table>
@@ -128,20 +138,20 @@ export default function PrintQLCN(props: Props) {
                       <td></td>
                     </tr>
                     <tr>
-                      <td colSpan={3}><span className='font-bold'>BÊN B (BÊN BÁN): {sellerData.companyName}</span></td>
+                      <td colSpan={3}><span className='font-bold'>BÊN B (BÊN BÁN): {seller.companyName}</span></td>
                     </tr>
                     <tr>
                       <td><span>Đại diện: </span></td>
-                      <td className='w-48'><span className='font-bold'>{sellerData.representativeSeller}</span></td>
-                      <td><span>Chức Vụ: <span className='font-bold'>{sellerData.positionSeller}</span></span></td>
+                      <td className='w-48'><span className='font-bold'>{seller.representativeSeller}</span></td>
+                      <td><span>Chức Vụ: <span className='font-bold'>{seller.positionSeller}</span></span></td>
                     </tr>
                     <tr>
                       <td><span>Địa chỉ:</span></td>
-                      <td colSpan={2}><span>{sellerData.address}</span></td>
+                      <td colSpan={2}><span>{seller.address}</span></td>
                     </tr>
                     <tr>
                       <td><span>Mã số thuế:</span></td>
-                      <td><span>{sellerData.taxCode}</span></td>
+                      <td><span>{seller.taxCode}</span></td>
                       <td></td>
                     </tr>
                   </table>
@@ -164,7 +174,7 @@ export default function PrintQLCN(props: Props) {
                       <tr key={"n1"}>
                         <td className="text-center"><p><strong>I</strong></p></td>
                         <td><p><strong>Số dư đầu kỳ</strong></p></td>
-                        <td className='text-center'><p><strong>{formatNumberWithDot(statistic.cashLeft,2)}</strong></p></td>
+                        <td className='text-center'><p><strong>{formatNumberWithDot(statistic.cashLeft, 2)}</strong></p></td>
                         <td></td>
                       </tr>
                       <tr key={"n2"}>
@@ -204,9 +214,9 @@ export default function PrintQLCN(props: Props) {
                     </tfoot>
                   </table>
                   <br />
-                  <p style={{ "textIndent":"30px" }}> Sau khi đối chiếu sổ sách giữa {sellerData.companyName} và {customer.companyName} 
-                    từ ngày {statistic.startDay} đến   ngày {statistic.endDay} {sellerData.companyName} còn dư tiền tại 
-                    {sellerData.companyName} số tiền là:  <strong>{formatNumberWithDot(calCashLeft(), 2)}</strong> </p>
+                  <p style={{ "textIndent": "30px" }}> Sau khi đối chiếu sổ sách giữa {seller.companyName} và {customer.companyName}
+                    từ ngày {statistic.startDay} đến   ngày {statistic.endDay} {seller.companyName} còn dư tiền tại
+                    {seller.companyName} số tiền là:  <strong>{formatNumberWithDot(calCashLeft(), 2)}</strong> </p>
                   <p className='text-center font-bold'><strong>(Bằng chữ: {numberToWords(calCashLeft())})</strong></p>
                   <p>Số liệu trên đây hoàn toàn là chính xác. Đây là số liệu có giá trị pháp lý làm cơ sở thanh toán giữa hai bên.
                     <br />Biên bản được lập thành 04 bản, mỗi bên giữ 02 bản có giá trị như nhau .

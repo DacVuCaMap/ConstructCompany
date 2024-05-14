@@ -22,9 +22,9 @@ type AddType = {
 }
 export default function StatisticList(props: Props) {
   const searchParams = useSearchParams();
-  let size = searchParams.get('size');
-  let page = searchParams.get('page');
-  let search = searchParams.get('search');
+  let size = searchParams?.get('size');
+  let page = searchParams?.get('page');
+  let search = searchParams?.get('search');
   search = search ? search : '';
   const [data, setData] = useState<object[]>([])
   const [loading, setLoading] = useState(true);

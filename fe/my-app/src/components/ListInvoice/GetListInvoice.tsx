@@ -14,9 +14,9 @@ export default function GetListInvoice() {
   const [data, setData] = useState<object[]>([])
   const [loading, setLoading] = useState(true);
   const [pag,setPag] = useState(false);
-  let size = searchParams.get('size');
-  let page = searchParams.get('page');
-  let search = searchParams.get('search');
+  let size = searchParams?.get('size');
+  let page = searchParams?.get('page');
+  let search = searchParams?.get('search');
   useEffect(() => {
    
     console.log(page);

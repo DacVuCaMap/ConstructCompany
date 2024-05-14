@@ -5,7 +5,6 @@ import { userData } from "@/data/authenticate";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { useEffect } from "react";
-import { sellerData } from "@/data/data";
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   const cookie = cookies();

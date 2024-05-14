@@ -6,6 +6,7 @@ import { numberToWords } from '@/data/function';
 import LoadingScene from '../LoadingScene';
 import { formatNumberToDot, formatNumberWithDot } from '@/data/listData';
 import ExportToWord from './ExportToWord';
+import GetSeller from '@/ApiPattern/GetSeller';
 type Props = {
     data: any
 }
@@ -16,6 +17,15 @@ type StatisticItem = {
 }
 type ParentStatisticItem = { proName: string, proUnit: string, proPrice: number, proId: number, statisticItems: StatisticItem[] }
 const PrintStatistic = (props: Props) => {
+    //seller
+    const [seller,setSeller] = useState(sellerData);
+    useEffect(()=>{
+        const fetch=async()=>{
+            const data = await GetSeller();
+            setSeller(data);
+        }
+        fetch();
+    },[])
     document.body.style.overflow = 'hidden';
     const componentRef = useRef(null);
     const [loading, setLoading] = useState(true);
@@ -190,20 +200,20 @@ const PrintStatistic = (props: Props) => {
                                         <td></td>
                                     </tr>
                                 </table>
-                                <span className='font-bold'>BÊN B (BÊN BÁN): {sellerData.companyName}</span><br />
+                                <span className='font-bold'>BÊN B (BÊN BÁN): {seller.companyName}</span><br />
                                 <table>
                                     <tr>
                                         <td><span>Đại diện: </span></td>
-                                        <td className='w-48'><span className='font-bold'>{sellerData.representativeSeller}</span></td>
-                                        <td><span>Chức Vụ: <span className='font-bold'>{sellerData.positionSeller}</span></span></td>
+                                        <td className='w-48'><span className='font-bold'>{seller.representativeSeller}</span></td>
+                                        <td><span>Chức Vụ: <span className='font-bold'>{seller.positionSeller}</span></span></td>
                                     </tr>
                                     <tr>
                                         <td><span>Địa chỉ:</span></td>
-                                        <td colSpan={2}><span>{sellerData.address}</span></td>
+                                        <td colSpan={2}><span>{seller.address}</span></td>
                                     </tr>
                                     <tr>
                                         <td><span>Mã số thuế:</span></td>
-                                        <td><span>{sellerData.taxCode}</span></td>
+                                        <td><span>{seller.taxCode}</span></td>
                                         <td></td>
                                     </tr>
                                 </table>
