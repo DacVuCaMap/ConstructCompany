@@ -84,10 +84,10 @@ export default function AddStatistic(props: Props) {
         }
     }
     return (
-        <div className="flex justify-center items-center h-full ">
+        <div className="flex justify-center ">
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-screen-sm max-h-screen lg:max-w-7xl overflow-auto "
+                className="bg-white shadow-md rounded h-auto px-8 pt-6 pb-8 mb-4 max-w-screen-sm lg:max-w-7xl"
             >
                 <h2 className='block text-3xl text-gray-900 font-bold mb-4'>Biên bản nghiệm thu và giá trị</h2>
                 <div className={`flex lg:flex-row flex-col`}>

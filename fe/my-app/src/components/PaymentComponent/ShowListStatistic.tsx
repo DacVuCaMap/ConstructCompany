@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import postData from '@/ApiPattern/PostPattern';
 import PrintQLCN from '../PrintComponent/PrintQLCN';
+// import './ShowListStatisticss.css'
 type Props = {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>,
     data: any
@@ -103,14 +104,14 @@ export default function ShowListStatistic(props: Props) {
     }
     const [DCCNData, setDCCNData] = useState<any>();
     const [openPDFDCCN, setOpenPDFDCCN] = useState(false);
-    const closePDFView = () =>{
+    const closePDFView = () => {
         setOpenPDFDCCN(false);
         document.body.style.overflow = 'unset';
     }
-    const total=(key:string)=>{
-        let tot = items.reduce((total,item)=>{
+    const total = (key: string) => {
+        let tot = items.reduce((total, item) => {
             return total + item[key]
-        },0)
+        }, 0)
         return tot;
     }
     return (
@@ -120,9 +121,12 @@ export default function ShowListStatistic(props: Props) {
                     <PrintQLCN data={DCCNData.statistic} payments={DCCNData.payments} />
                 </div>
             </div>}
+            {formKyAdd && <div className="fixed overflow-auto pb-10 top-0 left-0 w-screen h-screen bg-white z-50 flex justify-center">
+                <AddStatistic order={props.data} endDay={new Date()} startDay={new Date()} />
+            </div>}
+
             {!offTabs &&
-                <div className='fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-90 z-51 '>
-                    {formKyAdd && <AddStatistic order={props.data} endDay={new Date()} startDay={new Date()} />}
+                <div className='fixed inset-0 top-0 flex justify-center bg-gray-900 bg-opacity-90 z-51 max-h-screen overflow-auto'>
                     {openAddPay &&
                         <div onClick={(e) => e.stopPropagation()} className='bg-white p-10 rounded-lg flex flex-col justify-center'>
                             <h2 className='text-gray-700 font-bold text-2xl border-b'>Thêm Thanh Toán</h2>
@@ -190,7 +194,7 @@ export default function ShowListStatistic(props: Props) {
             <div>
                 <h2 className='font-bold text-gray-700 text-2xl mb-4'>Danh sách Biên bản đối chiếu công nợ</h2>
                 <div className='space-x-4'>
-                    <button onClick={() => { setOffTabs(false); setFormKyAdd(true) }} type='button' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center'>Thêm Kỳ</button>
+                    <button onClick={() => { setFormKyAdd(true) }} type='button' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center'>Thêm Kỳ</button>
                     <button onClick={() => { setOffTabs(false); setAddPay(true) }} type='button' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center'>Thêm Thanh toán</button>
                 </div>
                 {loading ? <LoadingScene /> :
@@ -252,7 +256,7 @@ export default function ShowListStatistic(props: Props) {
                                     <td colSpan={2}></td>
                                 </tr>
                                 <tr className='font-bold h-14 text-center border-b'>
-                                    <td colSpan={3}>Tổng Thành Tiền: {formatNumberWithDot(props.data.totalAmount,2)}</td>
+                                    <td colSpan={3}>Tổng Thành Tiền: {formatNumberWithDot(props.data.totalAmount, 2)}</td>
                                 </tr>
                             </tfoot>
                         </table>
