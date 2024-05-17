@@ -19,7 +19,12 @@ export default function PaymentList({slug}:any) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getData('order', 'list', size, page,"cus"+slug);
+        let lastVal = "cus"+slug
+        if (search) {
+          console.log(search);
+          lastVal = search;
+        }
+        let result = await getData('order', 'list', size, page,lastVal);
         console.log("result", result)
         setData(result);
       } catch (error) {
@@ -32,7 +37,7 @@ export default function PaymentList({slug}:any) {
   
   return (
     <div className="flex flex-col">
-      <Link href={'/invoice/add-order-product'} className='bg-blue-500 hover:bg-blue-700 w-52 text-white font-bold py-2 px-4 rounded inline-flex items-center'>Tạo BBNT và XNKL <Plus/></Link>
+      <Link href={'/invoice/add-order-product'} className='bg-blue-500 hover:bg-blue-700 w-52 text-white font-bold py-2 px-4 rounded inline-flex items-center'>Tạo BBNT và XNKL<Plus/></Link>
       <PaymentDataTable columns={columnPayment} rows={data} slug={'order'} validValueSchema={undefined} componentEditData={undefined} />
     </div>
   )

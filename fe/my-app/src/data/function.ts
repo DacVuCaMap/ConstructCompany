@@ -57,56 +57,53 @@
 
 const vietnameseNumbers = {
   ones: ['', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'],
-  teens: ['mười', 'mười một', 'mười hai', 'mười ba', 'mười bốn', 'mười lăm', 'mười sáu', 'mười bảy', 'mười tám', 'mười chín'],
-  tens: ['', '', 'hai mươi', 'ba mươi', 'bốn mươi', 'năm mươi', 'sáu mươi', 'bảy mươi', 'tám mươi', 'chín mươi'],
-  hundreds: ['', 'một trăm', 'hai trăm', 'ba trăm', 'bốn trăm', 'năm trăm', 'sáu trăm', 'bảy trăm', 'tám trăm', 'chín trăm']
+  tens: ['', 'mười', 'hai mươi', 'ba mươi', 'bốn mươi', 'năm mươi', 'sáu mươi', 'bảy mươi', 'tám mươi', 'chín mươi'],
+  hundreds: ['', 'một trăm', 'hai trăm', 'ba trăm', 'bốn trăm', 'năm trăm', 'sáu trăm', 'bảy trăm', 'tám trăm', 'chín trăm'],
+  unit: ['', 'nghìn', 'triệu', 'tỷ']
 };
 
-export function numberToWords(number: number) {
+export function numberToWords(number:number) {
   number = Math.round(number);
   if (number === 0) return 'Không';
   const strNumber = number.toString();
   const parts = [];
   for (let i = 0; i < strNumber.length; i += 3) {
-    parts.push(strNumber.slice(Math.max(0, strNumber.length - i - 3), strNumber.length - i));
+      parts.push(strNumber.slice(Math.max(0, strNumber.length - i - 3), strNumber.length - i));
   }
-  const result = [];
+  console.log(parts);
+  let rsString = "";
   for (let i = parts.length - 1; i >= 0; i--) {
-    const part = parseInt(parts[i], 10);
-    if (part === 0) continue;
-    const ones = part % 10;
-    const tens = Math.floor(part / 10) % 10;
-    const hundreds = Math.floor(part / 100);
-    const partResult = [];
-    if (hundreds > 0) {
-      partResult.push(vietnameseNumbers.hundreds[hundreds]);
-    }
-    if (tens === 0 && ones > 0 && i > 0) {
-      partResult.push('Linh');
-    } else if (tens === 1) {
-      partResult.push(vietnameseNumbers.teens[ones]);
-    } else if (tens > 1) {
-      partResult.push(vietnameseNumbers.tens[tens]);
-      if (ones > 0) {
-        partResult.push(vietnameseNumbers.ones[ones]);
+      let tempString = "";
+      let num = parseInt(parts[i]);
+      //first word
+      let first = Math.floor(num / 100);
+      if (first > 0) {
+          tempString += vietnameseNumbers.hundreds[first] + " ";
+          num = num - first * 100;
       }
-    } else if (ones > 0) {
-      partResult.push(vietnameseNumbers.ones[ones]);
-    }
-    if (i === 0 && partResult.length > 0) {
-      result.push(partResult.join(' '));
-    } else if (i === 1) {
-      result.push(partResult.join(' ') + ' nghìn');
-    } else if (i === 2) {
-      result.push(partResult.join(' ') + ' triệu');
-    } else if (i === 3) {
-      result.push(partResult.join(' ') + ' tỷ');
-    }
-  }
-  const finalResult = result.join(' ');
-  return finalResult.charAt(0).toUpperCase() + finalResult.slice(1)
-}
+      else {
+          if (parts[i].length == 3) {
+              tempString += (Math.floor(num / 10) > 0 || Math.floor(num / 1) > 0) ? "không trăm " : "";
+          }
 
+      }
+      let second = Math.floor(num / 10);
+      if (second > 0) {
+          tempString += vietnameseNumbers.tens[second] + " ";
+          num = num - second * 10
+      }
+      else {
+          if (parts[i].length == 2) {
+              tempString += (Math.floor(num / 1) > 0) ? "linh " : "";
+          }
+      }
+      if (Math.floor(num / 1) > 0) {
+          tempString += vietnameseNumbers.ones[num] + " ";
+      }
+      rsString += tempString + vietnameseNumbers.unit[i] + " ";
+  }
+  return rsString.charAt(0).toUpperCase() + rsString.slice(1)
+}
 // Example usage:
 
 

@@ -265,7 +265,7 @@ export default function PrintTongDC(props: Props) {
                                     <p style={{ "textIndent": "30px" }}>  Sau khi đối chiếu sổ sách giữa {seller.companyName} và {customer.companyName} từ
                                         ngày {formatDateData(statistics[0].startDay)} đến ngày {formatDateData(statistics[statistics.length - 1].endDay)} {seller.companyName} còn 
                                         dư tiền tại {seller.companyName} số tiền là:  <strong>{formatNumberWithDot(order.totalAmount - total('totalPay'), 0)}</strong> </p>
-                                    <p className='text-center font-bold'><strong>(Bằng chữ: {numberToWords(order.totalAmount - total('totalPay'))})</strong></p>
+                                    <p className='text-center font-bold'><strong>(Bằng chữ: {numberToWords(order.totalAmount - total('totalPay'))} đồng)</strong></p>
                                     <p>Số liệu trên đây hoàn toàn là chính xác. Đây là số liệu có giá trị pháp lý làm cơ sở thanh toán giữa hai bên.
                                         <br />Biên bản được lập thành 04 bản, mỗi bên giữ 02 bản có giá trị như nhau .
                                     </p>

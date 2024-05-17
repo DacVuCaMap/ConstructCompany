@@ -278,7 +278,7 @@ const PrintStatistic = (props: Props) => {
                                             <td></td>
                                         </tr>
                                         <tr>
-                                            <td colSpan={11}><p className='text-center'>Bằng chữ: {numberToWords(HandleTotalAmount())} </p></td>
+                                            <td colSpan={11}><p className='text-center'>Bằng chữ: {numberToWords(HandleTotalAmount())} đồng</p></td>
                                         </tr>
                                     </tfoot>
                                 </table>
